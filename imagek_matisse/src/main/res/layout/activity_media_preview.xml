@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     android:background="?attr/Preview_bg">
 
-    <com.matisse.widget.PreviewViewPager
+    <com.mozhimen.imagek.matisse.widget.PreviewViewPager
         android:id="@+id/pager"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -23,7 +23,7 @@
         android:layout_margin="8dp"
         android:fitsSystemWindows="true">
 
-        <com.matisse.widget.CheckView
+        <com.mozhimen.imagek.matisse.widget.CheckView
             android:id="@+id/check_view"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

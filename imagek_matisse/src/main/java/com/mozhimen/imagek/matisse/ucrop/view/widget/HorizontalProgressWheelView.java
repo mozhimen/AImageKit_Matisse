@@ -13,7 +13,7 @@ import android.view.View;
 import androidx.annotation.ColorInt;
 import androidx.core.content.ContextCompat;
 
-import com.matisse.R;
+import com.mozhimen.imagek.matisse.R;
 
 /**
  * Created by Oleksii Shliama (https://github.com/shliama).

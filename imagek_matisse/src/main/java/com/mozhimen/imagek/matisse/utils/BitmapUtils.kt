@@ -1,6 +1,6 @@
 @file:JvmName("BitmapUtils")
 
-package com.matisse.utils
+package com.mozhimen.imagek.matisse.utils
 
 import android.content.Context
 import android.graphics.Bitmap

@@ -16,9 +16,9 @@ import androidx.annotation.ColorInt;
 import androidx.annotation.IntRange;
 import androidx.annotation.NonNull;
 
-import com.matisse.R;
-import com.matisse.ucrop.callback.OverlayViewChangeListener;
-import com.matisse.ucrop.util.RectUtils;
+import com.mozhimen.imagek.matisse.R;
+import com.mozhimen.imagek.matisse.ucrop.callback.OverlayViewChangeListener;
+import com.mozhimen.imagek.matisse.ucrop.util.RectUtils;
 
 /**
  * Created by Oleksii Shliama (https://github.com/shliama).

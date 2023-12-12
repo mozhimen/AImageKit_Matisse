@@ -1,6 +1,6 @@
 @file:JvmName("UIUtils")
 
-package com.matisse.utils
+package com.mozhimen.imagek.matisse.utils
 
 import android.content.Context
 import android.content.res.Resources
@@ -14,9 +14,9 @@ import android.view.WindowManager
 import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.FragmentActivity
-import com.matisse.R
-import com.matisse.entity.IncapableCause
-import com.matisse.widget.IncapableDialog
+import com.mozhimen.imagek.matisse.R
+import com.mozhimen.imagek.matisse.entity.IncapableCause
+import com.mozhimen.imagek.matisse.widget.IncapableDialog
 import kotlin.math.min
 import kotlin.math.roundToInt
 

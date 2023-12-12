@@ -1,6 +1,6 @@
-package com.matisse.entity
+package com.mozhimen.imagek.matisse.entity
 
-import com.matisse.ucrop.UCrop
+import com.mozhimen.imagek.matisse.ucrop.UCrop
 
 object ConstValue {
     const val EXTRA_RESULT_SELECTION = "extra_result_selection"

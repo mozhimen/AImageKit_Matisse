@@ -1,14 +1,14 @@
-package com.matisse.ui.activity
+package com.mozhimen.imagek.matisse.ui.activity
 
 import android.app.Activity
 import android.content.pm.ActivityInfo
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import com.matisse.R
-import com.matisse.entity.IncapableCause
-import com.matisse.internal.entity.SelectionSpec
-import com.matisse.utils.handleCause
-import com.matisse.utils.obtainAttrString
+import com.mozhimen.imagek.matisse.R
+import com.mozhimen.imagek.matisse.entity.IncapableCause
+import com.mozhimen.imagek.matisse.entity.SelectionSpec
+import com.mozhimen.imagek.matisse.utils.handleCause
+import com.mozhimen.imagek.matisse.utils.obtainAttrString
 
 abstract class BaseActivity : AppCompatActivity() {
 

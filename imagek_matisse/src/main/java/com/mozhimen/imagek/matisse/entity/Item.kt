@@ -1,11 +1,11 @@
-package com.matisse.entity
+package com.mozhimen.imagek.matisse.entity
 
 import android.content.ContentUris
 import android.database.Cursor
 import android.net.Uri
 import android.os.Parcelable
 import android.provider.MediaStore
-import com.matisse.MimeTypeManager
+import com.mozhimen.imagek.matisse.MimeTypeManager
 import kotlinx.android.parcel.IgnoredOnParcel
 import kotlinx.android.parcel.Parcelize
 

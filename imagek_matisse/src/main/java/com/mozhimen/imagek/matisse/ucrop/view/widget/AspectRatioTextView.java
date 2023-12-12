@@ -17,9 +17,9 @@ import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 
-import com.matisse.R;
-import com.matisse.ucrop.model.AspectRatio;
-import com.matisse.ucrop.view.CropImageView;
+import com.mozhimen.imagek.matisse.R;
+import com.mozhimen.imagek.matisse.ucrop.model.AspectRatio;
+import com.mozhimen.imagek.matisse.ucrop.view.CropImageView;
 
 import java.util.Locale;
 

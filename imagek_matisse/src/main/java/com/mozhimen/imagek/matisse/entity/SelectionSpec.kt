@@ -1,19 +1,17 @@
-package com.matisse.internal.entity
+package com.mozhimen.imagek.matisse.entity
 
 import android.content.Context
 import android.content.pm.ActivityInfo
 import android.view.View
 import androidx.annotation.StyleRes
-import com.matisse.MimeType
-import com.matisse.MimeTypeManager
-import com.matisse.R
+import com.mozhimen.imagek.matisse.MimeType
+import com.mozhimen.imagek.matisse.MimeTypeManager
+import com.mozhimen.imagek.matisse.R
 import com.mozhimen.imagek.matisse.engine.ImageEngine
-import com.matisse.entity.CaptureStrategy
-import com.matisse.entity.Item
-import com.matisse.filter.Filter
-import com.matisse.listener.OnCheckedListener
-import com.matisse.listener.OnSelectedListener
-import com.matisse.ui.activity.BaseActivity
+import com.mozhimen.imagek.matisse.filter.Filter
+import com.mozhimen.imagek.matisse.listener.OnCheckedListener
+import com.mozhimen.imagek.matisse.listener.OnSelectedListener
+import com.mozhimen.imagek.matisse.ui.activity.BaseActivity
 import java.io.File
 
 /**
@@ -76,7 +74,7 @@ class SelectionSpec {
         }
     }
 
-    private fun reset() {
+    fun reset() {
         mimeTypeSet = null
         mediaTypeExclusive = false
         themeId = R.style.Matisse_Default

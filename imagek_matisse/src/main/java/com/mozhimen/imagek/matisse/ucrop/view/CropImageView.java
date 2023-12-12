@@ -12,14 +12,14 @@ import androidx.annotation.IntRange;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.matisse.R;
-import com.matisse.ucrop.callback.BitmapCropCallback;
-import com.matisse.ucrop.callback.CropBoundsChangeListener;
-import com.matisse.ucrop.model.CropParameters;
-import com.matisse.ucrop.model.ImageState;
-import com.matisse.ucrop.task.BitmapCropTask;
-import com.matisse.ucrop.util.CubicEasing;
-import com.matisse.ucrop.util.RectUtils;
+import com.mozhimen.imagek.matisse.R;
+import com.mozhimen.imagek.matisse.ucrop.callback.BitmapCropCallback;
+import com.mozhimen.imagek.matisse.ucrop.callback.CropBoundsChangeListener;
+import com.mozhimen.imagek.matisse.ucrop.model.CropParameters;
+import com.mozhimen.imagek.matisse.ucrop.model.ImageState;
+import com.mozhimen.imagek.matisse.ucrop.task.BitmapCropTask;
+import com.mozhimen.imagek.matisse.ucrop.util.CubicEasing;
+import com.mozhimen.imagek.matisse.ucrop.util.RectUtils;
 
 import java.lang.ref.WeakReference;
 import java.util.Arrays;

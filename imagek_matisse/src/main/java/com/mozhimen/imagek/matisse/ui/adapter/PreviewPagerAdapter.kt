@@ -1,10 +1,10 @@
-package com.matisse.ui.adapter
+package com.mozhimen.imagek.matisse.ui.adapter
 
 import android.view.ViewGroup
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentStatePagerAdapter
-import com.matisse.entity.Item
-import com.matisse.ui.view.PicturePreviewItemFragment
+import com.mozhimen.imagek.matisse.entity.Item
+import com.mozhimen.imagek.matisse.ui.view.PicturePreviewItemFragment
 
 /**
  * Created by liubo on 2018/9/6.

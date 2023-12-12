@@ -1,4 +1,4 @@
-package com.matisse.widget
+package com.mozhimen.imagek.matisse.widget
 
 import android.content.Context
 import android.graphics.drawable.Drawable
@@ -9,10 +9,10 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.matisse.R
-import com.matisse.entity.Item
-import com.matisse.internal.entity.SelectionSpec
-import com.matisse.utils.setViewVisible
+import com.mozhimen.imagek.matisse.R
+import com.mozhimen.imagek.matisse.entity.Item
+import com.mozhimen.imagek.matisse.entity.SelectionSpec
+import com.mozhimen.imagek.matisse.utils.setViewVisible
 
 class MediaGrid : SquareFrameLayout, View.OnClickListener {
 

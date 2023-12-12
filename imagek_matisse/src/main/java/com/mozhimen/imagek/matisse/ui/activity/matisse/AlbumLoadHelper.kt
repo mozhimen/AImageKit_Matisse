@@ -1,9 +1,8 @@
-package com.matisse.ui.activity.matisse
+package com.mozhimen.imagek.matisse.ui.activity.matisse
 
 import android.os.Bundle
-import com.matisse.model.AlbumCallbacks
-import com.matisse.model.AlbumCollection
-import com.mozhimen.imagek.matisse.ui.activity.matisse.MatisseActivity
+import com.mozhimen.imagek.matisse.model.AlbumCallbacks
+import com.mozhimen.imagek.matisse.model.AlbumCollection
 
 class AlbumLoadHelper(
     private var activity: MatisseActivity, private var albumLoadCallback: AlbumCallbacks

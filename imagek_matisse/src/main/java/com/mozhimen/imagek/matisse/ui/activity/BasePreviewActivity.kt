@@ -1,4 +1,4 @@
-package com.matisse.ui.activity
+package com.mozhimen.imagek.matisse.ui.activity
 
 import android.app.Activity
 import android.content.Intent
@@ -8,18 +8,25 @@ import android.view.WindowManager
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.viewpager.widget.ViewPager
-import com.matisse.R
-import com.matisse.entity.ConstValue
-import com.matisse.entity.IncapableCause
-import com.matisse.entity.Item
-import com.matisse.model.SelectedItemCollection
-import com.matisse.ucrop.UCrop
-import com.matisse.ui.adapter.PreviewPagerAdapter
-import com.matisse.ui.view.PicturePreviewItemFragment
-import com.matisse.utils.*
-import com.matisse.widget.CheckRadioView
-import com.matisse.widget.CheckView
-import com.matisse.widget.PreviewViewPager
+import com.mozhimen.imagek.matisse.R
+import com.mozhimen.imagek.matisse.entity.ConstValue
+import com.mozhimen.imagek.matisse.entity.IncapableCause
+import com.mozhimen.imagek.matisse.entity.Item
+import com.mozhimen.imagek.matisse.model.SelectedItemCollection
+import com.mozhimen.imagek.matisse.ucrop.UCrop
+import com.mozhimen.imagek.matisse.ui.adapter.PreviewPagerAdapter
+import com.mozhimen.imagek.matisse.ui.view.PicturePreviewItemFragment
+import com.mozhimen.imagek.matisse.widget.CheckRadioView
+import com.mozhimen.imagek.matisse.widget.CheckView
+import com.mozhimen.imagek.matisse.widget.PreviewViewPager
+import com.mozhimen.imagek.matisse.utils.PhotoMetadataUtils
+import com.mozhimen.imagek.matisse.utils.Platform
+import com.mozhimen.imagek.matisse.utils.countOverMaxSize
+import com.mozhimen.imagek.matisse.utils.finishIntentFromCropSuccess
+import com.mozhimen.imagek.matisse.utils.finishIntentFromPreviewApply
+import com.mozhimen.imagek.matisse.utils.gotoImageCrop
+import com.mozhimen.imagek.matisse.utils.setOnClickListener
+import com.mozhimen.imagek.matisse.utils.setViewVisible
 
 /**
  * desc：BasePreviewActivity</br>

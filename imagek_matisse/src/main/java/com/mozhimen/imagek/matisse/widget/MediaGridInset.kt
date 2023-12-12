@@ -1,4 +1,4 @@
-package com.matisse.widget
+package com.mozhimen.imagek.matisse.widget
 
 import android.graphics.Rect
 import android.view.View

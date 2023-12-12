@@ -1,11 +1,11 @@
-package com.matisse
+package com.mozhimen.imagek.matisse
 
 import android.content.Context
 import android.net.Uri
 import android.text.TextUtils
 import android.webkit.MimeTypeMap
 import androidx.collection.ArraySet
-import com.matisse.utils.getRealFilePath
+import com.mozhimen.imagek.matisse.utils.getRealFilePath
 import java.util.*
 
 /**

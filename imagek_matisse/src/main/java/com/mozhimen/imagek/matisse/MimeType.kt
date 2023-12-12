@@ -1,4 +1,4 @@
-package com.matisse
+package com.mozhimen.imagek.matisse
 
 /**
  * Describe : MIME Type enumeration to restrict selectable media on the selection activity.

@@ -1,9 +1,9 @@
 @file:JvmName("ItemSelectUtils")
 
-package com.matisse.utils
+package com.mozhimen.imagek.matisse.utils
 
-import com.matisse.internal.entity.SelectionSpec
-import com.matisse.model.SelectedItemCollection
+import com.mozhimen.imagek.matisse.entity.SelectionSpec
+import com.mozhimen.imagek.matisse.model.SelectedItemCollection
 
 /**
  * 返回选中图片中，超过原图大小上限的图片数量

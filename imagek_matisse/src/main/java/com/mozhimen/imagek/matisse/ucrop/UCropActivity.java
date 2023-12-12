@@ -14,17 +14,17 @@ import android.widget.RelativeLayout;
 import androidx.annotation.IntDef;
 import androidx.annotation.NonNull;
 
-import com.matisse.R;
-import com.matisse.ucrop.callback.BitmapCropCallback;
-import com.matisse.ucrop.model.AspectRatio;
-import com.matisse.ucrop.util.FileUtils;
-import com.matisse.ucrop.view.CropImageView;
-import com.matisse.ucrop.view.GestureCropImageView;
-import com.matisse.ucrop.view.OverlayView;
-import com.matisse.ucrop.view.TransformImageView;
-import com.matisse.ucrop.view.UCropView;
-import com.matisse.ui.activity.BaseActivity;
-import com.matisse.utils.UIUtils;
+import com.mozhimen.imagek.matisse.R;
+import com.mozhimen.imagek.matisse.ucrop.callback.BitmapCropCallback;
+import com.mozhimen.imagek.matisse.ucrop.model.AspectRatio;
+import com.mozhimen.imagek.matisse.ucrop.util.FileUtils;
+import com.mozhimen.imagek.matisse.ucrop.view.CropImageView;
+import com.mozhimen.imagek.matisse.ucrop.view.GestureCropImageView;
+import com.mozhimen.imagek.matisse.ucrop.view.OverlayView;
+import com.mozhimen.imagek.matisse.ucrop.view.TransformImageView;
+import com.mozhimen.imagek.matisse.ucrop.view.UCropView;
+import com.mozhimen.imagek.matisse.ui.activity.BaseActivity;
+import com.mozhimen.imagek.matisse.utils.UIUtils;
 
 import java.io.FileInputStream;
 import java.lang.annotation.Retention;

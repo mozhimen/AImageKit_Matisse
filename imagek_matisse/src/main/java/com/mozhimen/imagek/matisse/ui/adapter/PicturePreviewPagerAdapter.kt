@@ -1,12 +1,12 @@
-package com.matisse.ui.adapter
+package com.mozhimen.imagek.matisse.ui.adapter
 
 import android.util.SparseArray
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.viewpager.widget.PagerAdapter
-import com.matisse.R
-import com.matisse.entity.Item
+import com.mozhimen.imagek.matisse.R
+import com.mozhimen.imagek.matisse.entity.Item
 
 class PicturePreviewPagerAdapter(listener: OnPrimaryItemSetListener?) : PagerAdapter() {
 

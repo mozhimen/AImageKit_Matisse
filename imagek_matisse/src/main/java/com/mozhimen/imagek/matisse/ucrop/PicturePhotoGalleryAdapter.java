@@ -28,12 +28,12 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.matisse.R;
-import com.matisse.ucrop.callback.BitmapLoadShowCallback;
-import com.matisse.ucrop.model.CutInfo;
-import com.matisse.ucrop.util.BitmapLoadUtils;
-import com.matisse.ucrop.util.FileUtils;
-import com.matisse.ucrop.util.VersionUtils;
+import com.mozhimen.imagek.matisse.R;
+import com.mozhimen.imagek.matisse.ucrop.callback.BitmapLoadShowCallback;
+import com.mozhimen.imagek.matisse.ucrop.model.CutInfo;
+import com.mozhimen.imagek.matisse.ucrop.util.BitmapLoadUtils;
+import com.mozhimen.imagek.matisse.ucrop.util.FileUtils;
+import com.mozhimen.imagek.matisse.ucrop.util.VersionUtils;
 
 import java.io.File;
 import java.util.List;

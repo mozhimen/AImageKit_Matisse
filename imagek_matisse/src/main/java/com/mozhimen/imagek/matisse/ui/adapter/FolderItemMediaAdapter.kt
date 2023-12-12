@@ -1,4 +1,4 @@
-package com.matisse.ui.adapter
+package com.mozhimen.imagek.matisse.ui.adapter
 
 import android.content.Context
 import android.graphics.drawable.Drawable
@@ -8,10 +8,10 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.matisse.R
+import com.mozhimen.imagek.matisse.R
 import com.mozhimen.imagek.matisse.entity.Album
-import com.matisse.internal.entity.SelectionSpec
-import com.matisse.widget.CheckRadioView
+import com.mozhimen.imagek.matisse.entity.SelectionSpec
+import com.mozhimen.imagek.matisse.widget.CheckRadioView
 
 class FolderItemMediaAdapter(var context: Context, var mCurrentPosition: Int) :
     RecyclerView.Adapter<FolderItemMediaAdapter.FolderViewHolder>() {

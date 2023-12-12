@@ -14,11 +14,11 @@ import androidx.annotation.IntRange;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.matisse.ucrop.callback.BitmapLoadCallback;
-import com.matisse.ucrop.model.ExifInfo;
-import com.matisse.ucrop.util.BitmapLoadUtils;
-import com.matisse.ucrop.util.FastBitmapDrawable;
-import com.matisse.ucrop.util.RectUtils;
+import com.mozhimen.imagek.matisse.ucrop.callback.BitmapLoadCallback;
+import com.mozhimen.imagek.matisse.ucrop.model.ExifInfo;
+import com.mozhimen.imagek.matisse.ucrop.util.BitmapLoadUtils;
+import com.mozhimen.imagek.matisse.ucrop.util.FastBitmapDrawable;
+import com.mozhimen.imagek.matisse.ucrop.util.RectUtils;
 
 /**
  * Created by Oleksii Shliama (https://github.com/shliama).

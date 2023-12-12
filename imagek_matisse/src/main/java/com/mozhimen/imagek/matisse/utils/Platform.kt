@@ -1,4 +1,4 @@
-package com.matisse.utils
+package com.mozhimen.imagek.matisse.utils
 
 import android.content.Context
 import android.content.pm.PackageManager

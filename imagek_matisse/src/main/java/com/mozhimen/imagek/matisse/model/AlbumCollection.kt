@@ -1,4 +1,4 @@
-package com.matisse.model
+package com.mozhimen.imagek.matisse.model
 
 import android.content.Context
 import android.database.Cursor

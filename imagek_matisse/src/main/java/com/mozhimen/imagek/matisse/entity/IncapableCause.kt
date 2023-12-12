@@ -1,11 +1,10 @@
-package com.matisse.entity
+package com.mozhimen.imagek.matisse.entity
 
 import android.content.Context
 import android.widget.Toast
 import androidx.annotation.IntDef
 import androidx.fragment.app.FragmentActivity
-import com.matisse.internal.entity.SelectionSpec
-import com.matisse.widget.IncapableDialog
+import com.mozhimen.imagek.matisse.widget.IncapableDialog
 
 class IncapableCause {
 

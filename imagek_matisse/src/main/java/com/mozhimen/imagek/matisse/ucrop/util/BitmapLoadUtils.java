@@ -16,10 +16,10 @@ import android.view.WindowManager;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
-import com.matisse.ucrop.callback.BitmapLoadCallback;
-import com.matisse.ucrop.callback.BitmapLoadShowCallback;
-import com.matisse.ucrop.task.BitmapLoadShowTask;
-import com.matisse.ucrop.task.BitmapLoadTask;
+import com.mozhimen.imagek.matisse.ucrop.callback.BitmapLoadCallback;
+import com.mozhimen.imagek.matisse.ucrop.callback.BitmapLoadShowCallback;
+import com.mozhimen.imagek.matisse.ucrop.task.BitmapLoadShowTask;
+import com.mozhimen.imagek.matisse.ucrop.task.BitmapLoadTask;
 
 import java.io.Closeable;
 import java.io.IOException;

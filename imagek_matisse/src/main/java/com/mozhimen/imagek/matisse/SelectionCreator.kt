@@ -1,4 +1,4 @@
-package com.matisse
+package com.mozhimen.imagek.matisse
 
 import android.app.Activity
 import android.content.Context
@@ -10,12 +10,12 @@ import androidx.annotation.IntDef
 import androidx.annotation.RequiresApi
 import androidx.annotation.StyleRes
 import com.mozhimen.imagek.matisse.engine.ImageEngine
-import com.matisse.entity.CaptureStrategy
-import com.matisse.filter.Filter
-import com.matisse.internal.entity.SelectionSpec
-import com.matisse.listener.OnCheckedListener
-import com.matisse.listener.OnSelectedListener
-import com.matisse.ui.activity.BaseActivity
+import com.mozhimen.imagek.matisse.entity.CaptureStrategy
+import com.mozhimen.imagek.matisse.filter.Filter
+import com.mozhimen.imagek.matisse.entity.SelectionSpec
+import com.mozhimen.imagek.matisse.listener.OnCheckedListener
+import com.mozhimen.imagek.matisse.listener.OnSelectedListener
+import com.mozhimen.imagek.matisse.ui.activity.BaseActivity
 import com.mozhimen.imagek.matisse.ui.activity.matisse.MatisseActivity
 import java.io.File
 

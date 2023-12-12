@@ -1,4 +1,4 @@
-package com.matisse.ui.view
+package com.mozhimen.imagek.matisse.ui.view
 
 import android.content.Context
 import android.database.Cursor
@@ -8,19 +8,19 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
-import com.matisse.R
-import com.matisse.databinding.FragmentMediaSelectionBinding
+import com.mozhimen.imagek.matisse.R
+import com.mozhimen.imagek.matisse.databinding.FragmentMediaSelectionBinding
 import com.mozhimen.imagek.matisse.entity.Album
-import com.matisse.entity.ConstValue
-import com.matisse.entity.Item
-import com.matisse.internal.entity.SelectionSpec
-import com.matisse.model.AlbumCallbacks
-import com.matisse.model.AlbumMediaCollection
-import com.matisse.model.SelectedItemCollection
-import com.matisse.ui.adapter.AlbumMediaAdapter
-import com.matisse.utils.MAX_SPAN_COUNT
-import com.matisse.utils.spanCount
-import com.matisse.widget.MediaGridInset
+import com.mozhimen.imagek.matisse.entity.ConstValue
+import com.mozhimen.imagek.matisse.entity.Item
+import com.mozhimen.imagek.matisse.entity.SelectionSpec
+import com.mozhimen.imagek.matisse.model.AlbumCallbacks
+import com.mozhimen.imagek.matisse.model.AlbumMediaCollection
+import com.mozhimen.imagek.matisse.model.SelectedItemCollection
+import com.mozhimen.imagek.matisse.ui.adapter.AlbumMediaAdapter
+import com.mozhimen.imagek.matisse.utils.MAX_SPAN_COUNT
+import com.mozhimen.imagek.matisse.utils.spanCount
+import com.mozhimen.imagek.matisse.widget.MediaGridInset
 import kotlin.math.max
 import kotlin.math.min
 

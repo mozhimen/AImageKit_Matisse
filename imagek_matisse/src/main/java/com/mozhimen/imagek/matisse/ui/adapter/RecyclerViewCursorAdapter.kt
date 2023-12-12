@@ -1,4 +1,4 @@
-package com.matisse.ui.adapter
+package com.mozhimen.imagek.matisse.ui.adapter
 
 import android.database.Cursor
 import android.provider.MediaStore

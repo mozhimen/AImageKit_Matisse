@@ -1,4 +1,4 @@
-package com.matisse.ui.view
+package com.mozhimen.imagek.matisse.ui.view
 
 import android.content.Intent
 import android.graphics.Point
@@ -10,14 +10,14 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import com.matisse.R
-import com.matisse.entity.Item
-import com.matisse.internal.entity.SelectionSpec
-import com.matisse.photoview.PhotoView
-import com.matisse.utils.PhotoMetadataUtils
-import com.matisse.widget.longimage.ImageSource
-import com.matisse.widget.longimage.ImageViewState
-import com.matisse.widget.longimage.SubsamplingScaleImageView
+import com.mozhimen.imagek.matisse.R
+import com.mozhimen.imagek.matisse.entity.Item
+import com.mozhimen.imagek.matisse.entity.SelectionSpec
+import com.mozhimen.imagek.matisse.photoview.PhotoView
+import com.mozhimen.imagek.matisse.utils.PhotoMetadataUtils
+import com.mozhimen.imagek.matisse.widget.longimage.ImageSource
+import com.mozhimen.imagek.matisse.widget.longimage.ImageViewState
+import com.mozhimen.imagek.matisse.widget.longimage.SubsamplingScaleImageView
 import it.sephiroth.android.library.imagezoom.ImageViewTouch
 
 /**

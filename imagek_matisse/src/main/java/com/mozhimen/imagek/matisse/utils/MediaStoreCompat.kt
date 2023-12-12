@@ -1,4 +1,4 @@
-package com.matisse.utils
+package com.mozhimen.imagek.matisse.utils
 
 import android.app.Activity
 import android.content.Context
@@ -8,7 +8,7 @@ import android.net.Uri
 import android.os.Build
 import android.provider.MediaStore
 import androidx.fragment.app.Fragment
-import com.matisse.entity.CaptureStrategy
+import com.mozhimen.imagek.matisse.entity.CaptureStrategy
 import java.lang.ref.WeakReference
 
 class MediaStoreCompat {

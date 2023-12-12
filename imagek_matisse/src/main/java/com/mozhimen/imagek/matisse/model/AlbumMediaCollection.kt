@@ -1,4 +1,4 @@
-package com.matisse.model
+package com.mozhimen.imagek.matisse.model
 
 import android.content.Context
 import android.database.Cursor
@@ -7,7 +7,7 @@ import androidx.fragment.app.FragmentActivity
 import androidx.loader.app.LoaderManager
 import androidx.loader.content.Loader
 import com.mozhimen.imagek.matisse.entity.Album
-import com.matisse.loader.AlbumMediaLoader
+import com.mozhimen.imagek.matisse.loader.AlbumMediaLoader
 import java.lang.ref.WeakReference
 
 class AlbumMediaCollection : LoaderManager.LoaderCallbacks<Cursor> {

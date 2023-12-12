@@ -1,4 +1,4 @@
-package com.matisse.ui.view
+package com.mozhimen.imagek.matisse.ui.view
 
 import android.content.Context
 import android.os.Bundle
@@ -8,11 +8,11 @@ import android.view.ViewGroup
 import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.matisse.R
+import com.mozhimen.imagek.matisse.R
 import com.mozhimen.imagek.matisse.entity.Album
-import com.matisse.entity.ConstValue
-import com.matisse.ui.adapter.FolderItemMediaAdapter
-import com.matisse.utils.getScreenHeight
+import com.mozhimen.imagek.matisse.entity.ConstValue
+import com.mozhimen.imagek.matisse.ui.adapter.FolderItemMediaAdapter
+import com.mozhimen.imagek.matisse.utils.getScreenHeight
 
 class FolderBottomSheet : BottomSheetDialogFragment() {
 

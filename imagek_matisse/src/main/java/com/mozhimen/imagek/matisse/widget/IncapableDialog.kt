@@ -1,9 +1,9 @@
-package com.matisse.widget
+package com.mozhimen.imagek.matisse.widget
 
 import android.os.Bundle
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.DialogFragment
-import com.matisse.R
+import com.mozhimen.imagek.matisse.R
 
 class IncapableDialog : DialogFragment() {
 

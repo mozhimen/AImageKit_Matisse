@@ -1,4 +1,4 @@
-package com.matisse.utils
+package com.mozhimen.imagek.matisse.utils
 
 import android.app.Activity
 import android.content.ContentResolver
@@ -8,11 +8,11 @@ import android.graphics.Point
 import android.media.ExifInterface
 import android.net.Uri
 import android.util.DisplayMetrics
-import com.matisse.MimeTypeManager
-import com.matisse.R
-import com.matisse.entity.IncapableCause
-import com.matisse.entity.Item
-import com.matisse.internal.entity.SelectionSpec
+import com.mozhimen.imagek.matisse.MimeTypeManager
+import com.mozhimen.imagek.matisse.R
+import com.mozhimen.imagek.matisse.entity.IncapableCause
+import com.mozhimen.imagek.matisse.entity.Item
+import com.mozhimen.imagek.matisse.entity.SelectionSpec
 import java.io.FileNotFoundException
 import java.io.IOException
 import java.io.InputStream

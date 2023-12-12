@@ -17,11 +17,11 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.content.ContextCompat;
 
-import com.matisse.ucrop.callback.BitmapLoadCallback;
-import com.matisse.ucrop.model.ExifInfo;
-import com.matisse.ucrop.util.BitmapLoadUtils;
-import com.matisse.ucrop.util.FileUtils;
-import com.matisse.ucrop.util.VersionUtils;
+import com.mozhimen.imagek.matisse.ucrop.callback.BitmapLoadCallback;
+import com.mozhimen.imagek.matisse.ucrop.model.ExifInfo;
+import com.mozhimen.imagek.matisse.ucrop.util.BitmapLoadUtils;
+import com.mozhimen.imagek.matisse.ucrop.util.FileUtils;
+import com.mozhimen.imagek.matisse.ucrop.util.VersionUtils;
 
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;

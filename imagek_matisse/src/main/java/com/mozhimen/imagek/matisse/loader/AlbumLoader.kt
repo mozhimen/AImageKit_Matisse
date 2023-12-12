@@ -8,10 +8,10 @@ import android.database.MergeCursor
 import android.net.Uri
 import android.provider.MediaStore
 import androidx.loader.content.CursorLoader
-import com.matisse.MimeTypeManager
+import com.mozhimen.imagek.matisse.MimeTypeManager
 import com.mozhimen.imagek.matisse.entity.Album
-import com.matisse.internal.entity.SelectionSpec
-import com.matisse.utils.Platform.beforeAndroidTen
+import com.mozhimen.imagek.matisse.entity.SelectionSpec
+import com.mozhimen.imagek.matisse.utils.Platform.beforeAndroidTen
 import java.util.*
 
 /**

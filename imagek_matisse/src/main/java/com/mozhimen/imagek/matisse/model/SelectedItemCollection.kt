@@ -1,18 +1,18 @@
-package com.matisse.model
+package com.mozhimen.imagek.matisse.model
 
 import android.content.Context
 import android.content.res.Resources
 import android.net.Uri
 import android.os.Bundle
-import com.matisse.R
-import com.matisse.entity.ConstValue.STATE_COLLECTION_TYPE
-import com.matisse.entity.ConstValue.STATE_SELECTION
-import com.matisse.entity.IncapableCause
-import com.matisse.entity.Item
-import com.matisse.internal.entity.SelectionSpec
-import com.matisse.utils.PhotoMetadataUtils
-import com.matisse.utils.getPath
-import com.matisse.widget.CheckView
+import com.mozhimen.imagek.matisse.R
+import com.mozhimen.imagek.matisse.entity.ConstValue.STATE_COLLECTION_TYPE
+import com.mozhimen.imagek.matisse.entity.ConstValue.STATE_SELECTION
+import com.mozhimen.imagek.matisse.entity.IncapableCause
+import com.mozhimen.imagek.matisse.entity.Item
+import com.mozhimen.imagek.matisse.entity.SelectionSpec
+import com.mozhimen.imagek.matisse.utils.PhotoMetadataUtils
+import com.mozhimen.imagek.matisse.utils.getPath
+import com.mozhimen.imagek.matisse.widget.CheckView
 import java.util.*
 import kotlin.collections.ArrayList
 

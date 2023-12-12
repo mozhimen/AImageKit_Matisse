@@ -4,9 +4,8 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import com.matisse.entity.ConstValue
-import com.matisse.entity.Item
-import com.matisse.ui.activity.BasePreviewActivity
+import com.mozhimen.imagek.matisse.entity.ConstValue
+import com.mozhimen.imagek.matisse.entity.Item
 
 /**
  * desc：图片选中预览</br>

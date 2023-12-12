@@ -1,6 +1,6 @@
 @file:JvmName("PathUtils")
 
-package com.matisse.utils
+package com.mozhimen.imagek.matisse.utils
 
 import android.content.ContentResolver
 import android.content.ContentUris

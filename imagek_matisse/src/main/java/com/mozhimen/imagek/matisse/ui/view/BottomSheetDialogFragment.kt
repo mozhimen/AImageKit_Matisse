@@ -1,4 +1,4 @@
-package com.matisse.ui.view
+package com.mozhimen.imagek.matisse.ui.view
 
 import android.os.Bundle
 import android.util.DisplayMetrics
@@ -6,7 +6,7 @@ import android.view.*
 import android.widget.FrameLayout
 import androidx.appcompat.app.AppCompatDialogFragment
 import com.google.android.material.bottomsheet.BottomSheetBehavior
-import com.matisse.R
+import com.mozhimen.imagek.matisse.R
 
 abstract class BottomSheetDialogFragment : AppCompatDialogFragment() {
 

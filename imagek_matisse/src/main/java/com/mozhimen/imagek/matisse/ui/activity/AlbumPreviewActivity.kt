@@ -2,12 +2,11 @@ package com.mozhimen.imagek.matisse.ui.activity
 
 import android.database.Cursor
 import com.mozhimen.imagek.matisse.entity.Album
-import com.matisse.entity.ConstValue
-import com.matisse.entity.Item
-import com.matisse.model.AlbumCallbacks
-import com.matisse.model.AlbumMediaCollection
-import com.matisse.ui.activity.BasePreviewActivity
-import com.matisse.ui.adapter.PreviewPagerAdapter
+import com.mozhimen.imagek.matisse.entity.ConstValue
+import com.mozhimen.imagek.matisse.entity.Item
+import com.mozhimen.imagek.matisse.model.AlbumCallbacks
+import com.mozhimen.imagek.matisse.model.AlbumMediaCollection
+import com.mozhimen.imagek.matisse.ui.adapter.PreviewPagerAdapter
 
 /**
  * Created by liubo on 2018/9/11.

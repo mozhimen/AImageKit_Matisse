@@ -1,4 +1,4 @@
-package com.matisse.ui.adapter
+package com.mozhimen.imagek.matisse.ui.adapter
 
 import android.content.Context
 import android.database.Cursor
@@ -10,15 +10,15 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.matisse.R
+import com.mozhimen.imagek.matisse.R
 import com.mozhimen.imagek.matisse.entity.Album
-import com.matisse.entity.Item
-import com.matisse.internal.entity.SelectionSpec
-import com.matisse.model.SelectedItemCollection
-import com.matisse.utils.handleCause
-import com.matisse.utils.setTextDrawable
-import com.matisse.widget.CheckView
-import com.matisse.widget.MediaGrid
+import com.mozhimen.imagek.matisse.entity.Item
+import com.mozhimen.imagek.matisse.entity.SelectionSpec
+import com.mozhimen.imagek.matisse.model.SelectedItemCollection
+import com.mozhimen.imagek.matisse.utils.handleCause
+import com.mozhimen.imagek.matisse.utils.setTextDrawable
+import com.mozhimen.imagek.matisse.widget.CheckView
+import com.mozhimen.imagek.matisse.widget.MediaGrid
 
 class AlbumMediaAdapter(
     private var context: Context, private var selectedCollection: SelectedItemCollection,

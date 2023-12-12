@@ -17,10 +17,10 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import com.matisse.R;
-import com.matisse.ucrop.PictureMultiCuttingActivity;
-import com.matisse.ucrop.model.AspectRatio;
-import com.matisse.ucrop.model.CutInfo;
+import com.mozhimen.imagek.matisse.R;
+import com.mozhimen.imagek.matisse.ucrop.PictureMultiCuttingActivity;
+import com.mozhimen.imagek.matisse.ucrop.model.AspectRatio;
+import com.mozhimen.imagek.matisse.ucrop.model.CutInfo;
 
 import java.util.ArrayList;
 import java.util.Arrays;

@@ -1,12 +1,12 @@
-package com.matisse.ui.activity.matisse
+package com.mozhimen.imagek.matisse.ui.activity.matisse
 
 import android.content.Context
 import android.database.Cursor
 import android.net.Uri
 import android.os.Environment
-import com.matisse.R
+import com.mozhimen.imagek.matisse.R
 import com.mozhimen.imagek.matisse.entity.Album
-import com.matisse.ui.view.FolderBottomSheet
+import com.mozhimen.imagek.matisse.ui.view.FolderBottomSheet
 
 class AlbumFolderSheetHelper(
     private var context: Context, private var sheetCallback: FolderBottomSheet.BottomSheetCallback

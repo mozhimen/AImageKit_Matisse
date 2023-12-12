@@ -1,16 +1,16 @@
 @file:JvmName("IntentUtils")
 
-package com.matisse.utils
+package com.mozhimen.imagek.matisse.utils
 
 import android.app.Activity
 import android.content.Intent
 import android.net.Uri
-import com.matisse.entity.ConstValue
-import com.matisse.entity.Item
-import com.matisse.internal.entity.SelectionSpec
-import com.matisse.model.SelectedItemCollection
-import com.matisse.ucrop.UCrop
-import com.matisse.utils.Platform.aboveAndroidTen
+import com.mozhimen.imagek.matisse.entity.ConstValue
+import com.mozhimen.imagek.matisse.entity.Item
+import com.mozhimen.imagek.matisse.entity.SelectionSpec
+import com.mozhimen.imagek.matisse.model.SelectedItemCollection
+import com.mozhimen.imagek.matisse.ucrop.UCrop
+import com.mozhimen.imagek.matisse.utils.Platform.aboveAndroidTen
 import java.io.File
 
 /**

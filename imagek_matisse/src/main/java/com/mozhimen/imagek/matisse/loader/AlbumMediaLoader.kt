@@ -1,4 +1,4 @@
-package com.matisse.loader
+package com.mozhimen.imagek.matisse.loader
 
 import android.content.Context
 import android.database.Cursor
@@ -7,9 +7,9 @@ import android.database.MergeCursor
 import android.provider.MediaStore
 import androidx.loader.content.CursorLoader
 import com.mozhimen.imagek.matisse.entity.Album
-import com.matisse.entity.Item
-import com.matisse.internal.entity.SelectionSpec
-import com.matisse.utils.MediaStoreCompat
+import com.mozhimen.imagek.matisse.entity.Item
+import com.mozhimen.imagek.matisse.entity.SelectionSpec
+import com.mozhimen.imagek.matisse.utils.MediaStoreCompat
 
 /**
  * Load images and videos into a single cursor.

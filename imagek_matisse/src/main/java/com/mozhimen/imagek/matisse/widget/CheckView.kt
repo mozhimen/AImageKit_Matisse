@@ -1,4 +1,4 @@
-package com.matisse.widget
+package com.mozhimen.imagek.matisse.widget
 
 import android.content.Context
 import android.content.res.TypedArray
@@ -9,7 +9,7 @@ import android.util.AttributeSet
 import android.view.View
 import androidx.core.content.ContextCompat
 import androidx.core.content.res.ResourcesCompat
-import com.matisse.R
+import com.mozhimen.imagek.matisse.R
 
 /**
  * Created by liubo on 2018/9/4.
@@ -112,7 +112,7 @@ class CheckView : View {
         invalidate()
     }
 
-    override fun onDraw(canvas: Canvas?) {
+    override fun onDraw(canvas: Canvas) {
         super.onDraw(canvas)
 
         // draw outer and inner shadow

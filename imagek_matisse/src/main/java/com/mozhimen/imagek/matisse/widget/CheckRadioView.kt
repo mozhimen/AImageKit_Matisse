@@ -1,4 +1,4 @@
-package com.matisse.widget
+package com.mozhimen.imagek.matisse.widget
 
 import android.content.Context
 import android.content.res.TypedArray
@@ -8,7 +8,7 @@ import android.graphics.drawable.Drawable
 import android.util.AttributeSet
 import androidx.appcompat.widget.AppCompatImageView
 import androidx.core.content.res.ResourcesCompat
-import com.matisse.R
+import com.mozhimen.imagek.matisse.R
 
 class CheckRadioView : AppCompatImageView {
 

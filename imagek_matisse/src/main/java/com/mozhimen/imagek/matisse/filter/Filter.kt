@@ -1,10 +1,10 @@
-package com.matisse.filter
+package com.mozhimen.imagek.matisse.filter
 
 import android.content.Context
-import com.matisse.MimeType
-import com.matisse.MimeTypeManager
-import com.matisse.entity.IncapableCause
-import com.matisse.entity.Item
+import com.mozhimen.imagek.matisse.MimeType
+import com.mozhimen.imagek.matisse.MimeTypeManager
+import com.mozhimen.imagek.matisse.entity.IncapableCause
+import com.mozhimen.imagek.matisse.entity.Item
 
 /**
  * Describe : Filter for choosing a {@link Item}. You can add multiple Filters through

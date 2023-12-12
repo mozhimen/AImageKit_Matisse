@@ -12,7 +12,7 @@ import android.util.Log;
 
 import androidx.annotation.NonNull;
 
-import com.matisse.ucrop.callback.BitmapLoadShowCallback;
+import com.mozhimen.imagek.matisse.ucrop.callback.BitmapLoadShowCallback;
 import com.matisse.ucrop.model.ExifInfo;
 import com.matisse.ucrop.util.BitmapLoadUtils;
 

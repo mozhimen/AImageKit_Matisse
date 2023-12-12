@@ -1,4 +1,4 @@
-package com.matisse.widget
+package com.mozhimen.imagek.matisse.widget
 
 import android.content.Context
 import android.util.AttributeSet

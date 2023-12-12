@@ -1,11 +1,11 @@
 @file:JvmName("Callback")
 
-package com.matisse.ucrop.callback
+package com.mozhimen.imagek.matisse.ucrop.callback
 
 import android.graphics.Bitmap
 import android.graphics.RectF
 import android.net.Uri
-import com.matisse.ucrop.model.ExifInfo
+import com.mozhimen.imagek.matisse.ucrop.model.ExifInfo
 
 interface BitmapCropCallback {
 
