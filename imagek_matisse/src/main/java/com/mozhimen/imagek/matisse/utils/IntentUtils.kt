@@ -5,10 +5,10 @@ package com.mozhimen.imagek.matisse.utils
 import android.app.Activity
 import android.content.Intent
 import android.net.Uri
-import com.mozhimen.imagek.matisse.entity.ConstValue
-import com.mozhimen.imagek.matisse.entity.Item
-import com.mozhimen.imagek.matisse.entity.SelectionSpec
-import com.mozhimen.imagek.matisse.model.SelectedItemCollection
+import com.mozhimen.imagek.matisse.cons.ConstValue
+import com.mozhimen.imagek.matisse.mos.Item
+import com.mozhimen.imagek.matisse.mos.SelectionSpec
+import com.mozhimen.imagek.matisse.mos.SelectedItemCollection
 import com.mozhimen.imagek.matisse.ucrop.UCrop
 import com.mozhimen.imagek.matisse.utils.Platform.aboveAndroidTen
 import java.io.File

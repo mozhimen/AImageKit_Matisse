@@ -5,13 +5,13 @@
 
     <!-- Padding for both views can be different -->
 
-    <com.matisse.ucrop.view.GestureCropImageView
+    <com.mozhimen.imagek.matisse.ucrop.widgets.GestureCropImageView
         android:id="@+id/image_view_crop"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:padding="@dimen/ucrop_padding_crop_frame" />
 
-    <com.matisse.ucrop.view.OverlayView
+    <com.mozhimen.imagek.matisse.ucrop.widgets.OverlayView
         android:id="@+id/view_overlay"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

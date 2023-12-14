@@ -8,11 +8,12 @@ import android.graphics.Point
 import android.media.ExifInterface
 import android.net.Uri
 import android.util.DisplayMetrics
-import com.mozhimen.imagek.matisse.MimeTypeManager
+import com.mozhimen.imagek.matisse.helpers.MimeTypeManager
 import com.mozhimen.imagek.matisse.R
-import com.mozhimen.imagek.matisse.entity.IncapableCause
-import com.mozhimen.imagek.matisse.entity.Item
-import com.mozhimen.imagek.matisse.entity.SelectionSpec
+import com.mozhimen.imagek.matisse.helpers.ExifInterfaceCompat
+import com.mozhimen.imagek.matisse.mos.IncapableCause
+import com.mozhimen.imagek.matisse.mos.Item
+import com.mozhimen.imagek.matisse.mos.SelectionSpec
 import java.io.FileNotFoundException
 import java.io.IOException
 import java.io.InputStream

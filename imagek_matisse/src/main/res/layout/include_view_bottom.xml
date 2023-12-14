@@ -38,7 +38,7 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:showIn="@layout/activity_matisse">
 
-        <com.mozhimen.imagek.matisse.widget.CheckRadioView
+        <com.mozhimen.imagek.matisse.widgets.CheckRadioView
             android:id="@+id/original"
             android:layout_width="16dp"
             android:layout_height="16dp"

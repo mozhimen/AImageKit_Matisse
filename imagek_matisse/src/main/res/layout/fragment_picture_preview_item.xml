@@ -4,12 +4,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <com.matisse.photoview.PhotoView
+    <com.mozhimen.imagek.matisse.widgets.photoview.PhotoView
         android:id="@+id/preview_image"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
-    <com.matisse.widget.longimage.SubsamplingScaleImageView
+    <com.mozhimen.imagek.matisse.widgets.longimage.SubsamplingScaleImageView
         android:id="@+id/longImg"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />

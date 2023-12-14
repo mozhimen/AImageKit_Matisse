@@ -12,7 +12,7 @@
         style="@style/ucrop_TextViewWidgetText"
         android:text="100°" />
 
-    <com.matisse.ucrop.view.widget.HorizontalProgressWheelView
+    <com.mozhimen.imagek.matisse.ucrop.widgets.HorizontalProgressWheelView
         android:id="@+id/rotate_scroll_wheel"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

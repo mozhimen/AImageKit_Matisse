@@ -2,8 +2,8 @@
 
 package com.mozhimen.imagek.matisse.utils
 
-import com.mozhimen.imagek.matisse.entity.SelectionSpec
-import com.mozhimen.imagek.matisse.model.SelectedItemCollection
+import com.mozhimen.imagek.matisse.mos.SelectionSpec
+import com.mozhimen.imagek.matisse.mos.SelectedItemCollection
 
 /**
  * 返回选中图片中，超过原图大小上限的图片数量

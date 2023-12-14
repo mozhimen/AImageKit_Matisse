@@ -15,8 +15,9 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.FragmentActivity
 import com.mozhimen.imagek.matisse.R
-import com.mozhimen.imagek.matisse.entity.IncapableCause
-import com.mozhimen.imagek.matisse.widget.IncapableDialog
+import com.mozhimen.imagek.matisse.annors.AForm
+import com.mozhimen.imagek.matisse.mos.IncapableCause
+import com.mozhimen.imagek.matisse.widgets.IncapableDialog
 import kotlin.math.min
 import kotlin.math.roundToInt
 
@@ -32,7 +33,7 @@ fun handleCause(context: Context, cause: IncapableCause?) {
     }
 
     when (cause?.form) {
-        IncapableCause.DIALOG -> {
+        AForm.DIALOG -> {
             val incapableDialog = IncapableDialog.newInstance(cause.title, cause.message)
             incapableDialog.show(
                 (context as FragmentActivity).supportFragmentManager,
@@ -40,7 +41,7 @@ fun handleCause(context: Context, cause: IncapableCause?) {
             )
         }
 
-        IncapableCause.TOAST -> {
+        AForm.TOAST -> {
             Toast.makeText(context, cause.message, Toast.LENGTH_SHORT).show()
         }
     }

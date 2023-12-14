@@ -18,8 +18,8 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.mozhimen.imagek.matisse.R;
-import com.mozhimen.imagek.matisse.ucrop.UCropActivity;
-import com.mozhimen.imagek.matisse.ucrop.model.AspectRatio;
+import com.mozhimen.imagek.matisse.ucrop.mos.AspectRatio;
+import com.mozhimen.imagek.matisse.ucrop.uis.UCropActivity;
 
 import java.util.ArrayList;
 import java.util.Arrays;

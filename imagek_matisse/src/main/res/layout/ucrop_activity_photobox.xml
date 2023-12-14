@@ -16,7 +16,7 @@
         android:layout_height="match_parent"
         android:background="@color/ucrop_color_default_crop_frame">
 
-        <com.matisse.ucrop.view.UCropView
+        <com.mozhimen.imagek.matisse.ucrop.widgets.UCropView
             android:id="@+id/ucrop"
             android:layout_width="match_parent"
             android:layout_height="match_parent"

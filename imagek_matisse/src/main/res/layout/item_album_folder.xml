@@ -36,7 +36,7 @@
         app:layout_constraintStart_toEndOf="@+id/iv_bucket_cover"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <com.mozhimen.imagek.matisse.widget.CheckRadioView
+    <com.mozhimen.imagek.matisse.widgets.CheckRadioView
         android:id="@+id/rb_selected"
         android:layout_width="20dp"
         android:layout_height="20dp"

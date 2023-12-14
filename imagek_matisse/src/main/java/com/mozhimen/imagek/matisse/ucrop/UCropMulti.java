@@ -18,9 +18,9 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.mozhimen.imagek.matisse.R;
-import com.mozhimen.imagek.matisse.ucrop.PictureMultiCuttingActivity;
-import com.mozhimen.imagek.matisse.ucrop.model.AspectRatio;
-import com.mozhimen.imagek.matisse.ucrop.model.CutInfo;
+import com.mozhimen.imagek.matisse.ucrop.mos.AspectRatio;
+import com.mozhimen.imagek.matisse.ucrop.mos.CutInfo;
+import com.mozhimen.imagek.matisse.ucrop.uis.PictureMultiCuttingActivity;
 
 import java.util.ArrayList;
 import java.util.Arrays;

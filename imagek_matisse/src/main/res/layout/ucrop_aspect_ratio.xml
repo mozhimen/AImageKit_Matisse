@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout style="@style/ucrop_WrapperIconState">
 
-    <com.matisse.ucrop.view.widget.AspectRatioTextView style="@style/ucrop_TextViewCropAspectRatio" />
+    <com.mozhimen.imagek.matisse.ucrop.widgets.AspectRatioTextView style="@style/ucrop_TextViewCropAspectRatio" />
 
 </FrameLayout>
