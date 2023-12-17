@@ -1,12 +1,11 @@
 package com.mozhimen.imagek.matisse.helpers
 
 import android.app.Activity
-import android.content.Context
 import android.content.Intent
 import android.content.pm.ActivityInfo.*
 import android.view.View
 import androidx.annotation.StyleRes
-import com.mozhimen.imagek.matisse.Matisse
+import com.mozhimen.imagek.matisse.ImageKMatisse
 import com.mozhimen.imagek.matisse.annors.AScreenOrientation
 import com.mozhimen.imagek.matisse.commons.IImageEngine
 import com.mozhimen.imagek.matisse.mos.CaptureStrategy
@@ -28,7 +27,7 @@ import java.io.File
  * @param mimeTypes MIME type set to select.
  */
 class SelectionCreator(
-    private val matisse: Matisse, mimeTypes: Set<EMimeType>, mediaTypeExclusive: Boolean
+    private val matisse: ImageKMatisse, mimeTypes: Set<EMimeType>, mediaTypeExclusive: Boolean
 ) {
     private val selectionSpec: SelectionSpec = SelectionSpec.getCleanInstance()
 
@@ -234,7 +233,7 @@ class SelectionCreator(
     /**
      * Set listener for callback immediately when user select or unselect something.
      *
-     * It's a redundant API with [Matisse.obtainResult],
+     * It's a redundant API with [ImageKMatisse.obtainResult],
      * we only suggest you to use this API when you need to do something immediately.
      *
      * @param listener [IOnSelectedListener]

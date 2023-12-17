@@ -12,7 +12,7 @@ import java.lang.ref.WeakReference
 /**
  * Entry for Matisse's media selection.
  */
-class Matisse {
+class ImageKMatisse {
 
     companion object {
 
@@ -24,8 +24,8 @@ class Matisse {
          * @param activity Activity instance.
          * @return Matisse instance.
          */
-        fun from(activity: Activity?): Matisse {
-            return Matisse(activity)
+        fun from(activity: Activity?): ImageKMatisse {
+            return ImageKMatisse(activity)
         }
 
         /**
@@ -37,8 +37,8 @@ class Matisse {
          * @param fragment Fragment instance.
          * @return Matisse instance.
          */
-        fun from(fragment: Fragment): Matisse {
-            return Matisse(fragment)
+        fun from(fragment: Fragment): ImageKMatisse {
+            return ImageKMatisse(fragment)
         }
 
         /**

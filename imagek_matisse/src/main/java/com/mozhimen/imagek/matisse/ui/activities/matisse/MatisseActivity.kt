@@ -13,7 +13,7 @@ import android.view.View
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.constraintlayout.widget.ConstraintLayout
-import com.mozhimen.imagek.matisse.Matisse
+import com.mozhimen.imagek.matisse.ImageKMatisse
 import com.mozhimen.imagek.matisse.R
 import com.mozhimen.imagek.matisse.annors.AForm
 import com.mozhimen.imagek.matisse.mos.Album
@@ -146,7 +146,7 @@ class MatisseActivity : BaseActivity(),
         when (requestCode) {
             ConstValue.REQUEST_CODE_PREVIEW -> {
                 if (resultCode != Activity.RESULT_OK) return
-                val cropPath = Matisse.obtainCropResult(data)
+                val cropPath = ImageKMatisse.obtainCropResult(data)
 
                 // 裁剪带回数据，则认为图片经过裁剪流程
                 if (cropPath != null) finishIntentFromCrop(activity, cropPath)
