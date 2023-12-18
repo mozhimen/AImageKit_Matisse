@@ -16,7 +16,7 @@ import com.mozhimen.imagek.matisse.commons.IOnSelectedListener
 import com.mozhimen.imagek.matisse.cons.EMimeType
 import com.mozhimen.imagek.matisse.bases.BaseActivity
 import com.mozhimen.imagek.matisse.commons.INoticeEventListener
-import com.mozhimen.imagek.matisse.ui.activities.matisse.MatisseActivity
+import com.mozhimen.imagek.matisse.ui.activities.MatisseActivity
 import java.io.File
 
 /**

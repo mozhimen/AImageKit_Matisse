@@ -60,7 +60,7 @@ class CheckView : View {
         }
 
         val ta: TypedArray =
-            context.theme.obtainStyledAttributes(intArrayOf(R.attr.Item_checkCircle_borderColor))
+            context.theme.obtainStyledAttributes(intArrayOf(R.attr.ItemCheckView_BorderColor))
         val defaultColor = ResourcesCompat.getColor(
             context.resources, R.color.item_checkCircle_borderColor, context.theme
         )
@@ -194,7 +194,7 @@ class CheckView : View {
             backgroundPaint?.isAntiAlias = true
             backgroundPaint?.style = Paint.Style.FILL
             val ta: TypedArray =
-                context.theme.obtainStyledAttributes(intArrayOf(R.attr.Item_checkCircle_bgColor))
+                context.theme.obtainStyledAttributes(intArrayOf(R.attr.ItemCheckView_BackgroundColor))
             val defaultColor = ResourcesCompat.getColor(
                 context.resources, R.color.selector_base_text, context.theme
             )

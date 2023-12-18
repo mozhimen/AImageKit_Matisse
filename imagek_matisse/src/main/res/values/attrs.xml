@@ -1,106 +1,68 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <!--//////////////////////////////////////////////////////////////////////-->
-    <!--Navigation-->
+    <!--NavigationBar-->
     <!--//////////////////////////////////////////////////////////////////////-->
-    <attr name="Navigation_height" format="dimension" />
-    <attr name="Navigation_bg" format="reference|color" />
-    <attr name="Navigation_backRes" format="reference" />
+    <attr name="Navigation_Height" format="dimension" />
+    <attr name="Navigation_Background" format="reference|color" />
+    <attr name="Navigation_ResBack" format="reference" />
+    <attr name="Navigation_TextBack" format="reference" />
+    <attr name="Navigation_TextColorBack" format="reference|color" />
+    <attr name="Navigation_TextSizeBack" format="dimension" />
+    <attr name="Navigation_TextSure" format="reference" />
+    <attr name="Navigation_TextColorSure" format="reference|color" />
+    <attr name="Navigation_TextSizeSure" format="dimension" />
 
     <!--//////////////////////////////////////////////////////////////////////-->
     <!--Preview-->
     <!--//////////////////////////////////////////////////////////////////////-->
-    <attr name="Preview_bg" format="reference|color" />
-    <attr name="Preview_Back_text" format="reference" />
-    <attr name="Preview_Confirm_text" format="reference" />
+    <attr name="Preview_Background" format="reference|color" />
+    <attr name="Preview_TextBack" format="reference" />
+    <attr name="Preview_TextConfirm" format="reference" />
 
     <!--//////////////////////////////////////////////////////////////////////-->
-    <!--BottomToolbar-->
+    <!--BottomBar-->
     <!--//////////////////////////////////////////////////////////////////////-->
-    <attr name="BottomToolbar_bg" format="reference|color" />
-    <attr name="BottomToolbar_height" format="dimension" />
+    <attr name="BottomBar_Height" format="dimension" />
+    <attr name="BottomBar_Background" format="reference|color" />
+    <attr name="BottomBarPreview_Text" format="reference" />
+    <attr name="BottomBarPreview_TextColor" format="reference|color" />
+    <attr name="BottomBarPreview_TextSize" format="dimension" />
+    <attr name="BottomBarAlbum_Text" format="reference" />
+    <attr name="BottomBarAlbum_TextColor" format="reference|color" />
+    <attr name="BottomBarAlbum_TextSize" format="dimension" />
+    <attr name="BottomBarOriginal_Text" format="reference" />
+    <attr name="BottomBarOriginal_TextColor" format="reference|color" />
+    <attr name="BottomBarOriginal_TextSize" format="dimension" />
 
     <!--//////////////////////////////////////////////////////////////////////-->
-    <!--Media-->
+    <!--EmptyBar-->
     <!--//////////////////////////////////////////////////////////////////////-->
-    <attr name="Media_Back_text" format="reference" />
-    <attr name="Media_Sure_text" format="reference" />
-    <attr name="Media_Preview_text" format="reference" />
-    <attr name="Media_Original_text" format="reference" />
-    <attr name="Media_Album_text" format="reference" />
-    <attr name="Media_Empty_text" format="reference" />
-    <attr name="Media_Camera_text" format="reference" />
-
-    <attr name="Media_Back_textColor" format="reference|color" />
-    <attr name="Media_Sure_textColor" format="reference|color" />
-    <attr name="Media_Preview_textColor" format="reference|color" />
-    <attr name="Media_Album_textColor" format="reference|color" />
-    <attr name="Media_Original_textColor" format="reference|color" />
-    <attr name="Media_Camera_textColor" format="reference|color" />
-    <attr name="Media_Album_Item_textColor" format="reference|color" />
-
-    <attr name="Media_Back_textSize" format="dimension" />
-    <attr name="Media_Sure_textSize" format="dimension" />
-    <attr name="Media_Preview_textSize" format="dimension" />
-    <attr name="Media_Album_textSize" format="dimension" />
-    <attr name="Media_Original_textSize" format="dimension" />
-    <attr name="Media_Camera_textSize" format="dimension" />
-    <attr name="Media_Album_Item_textSize" format="dimension" />
-
-    <attr name="Media_Empty_textColor" format="reference|color" />
-    <attr name="Media_Empty_textSize" format="dimension" />
-    <attr name="Media_Empty_resource" format="reference" />
+    <attr name="EmptyBar_Text" format="reference" />
+    <attr name="EmptyBar_TextColor" format="reference|color" />
+    <attr name="EmptyBar_TextSize" format="dimension" />
+    <attr name="EmptyBar_Res" format="reference" />
 
     <!--//////////////////////////////////////////////////////////////////////-->
     <!--Item-->
     <!--//////////////////////////////////////////////////////////////////////-->
+    <attr name="ItemPhoto_Text" format="reference" />
+    <attr name="ItemPhoto_TextColor" format="reference|color" />
+    <attr name="ItemPhoto_TextSize" format="dimension" />
 
-    <attr name="Item_checkCircle_bgColor" format="reference|color" />
-    <attr name="Item_checkCircle_borderColor" format="reference|color" />
-    <attr name="Item_checkCircle_numColor" format="reference|color" />
-    <attr name="Item_checkRadio" format="reference|color" />
+    <attr name="ItemAlbum_TextColor" format="reference|color" />
+    <attr name="ItemAlbum_TextSize" format="dimension" />
 
-    <attr name="Item_placeholder" format="reference|color" />
+    <attr name="ItemCheckView_BackgroundColor" format="reference|color" />
+    <attr name="ItemCheckView_BorderColor" format="reference|color" />
+    <attr name="ItemCheckView_NumColor" format="reference|color" />
+    <attr name="ItemCheckView_Theme" format="reference|color" />
+
+    <attr name="ItemImage_ResPlaceholder" format="reference|color" />
 
     <!--//////////////////////////////////////////////////////////////////////-->
     <!--Page-->
     <!--//////////////////////////////////////////////////////////////////////-->
 
-    <attr name="Page_background" format="reference|color" />
-
-    <!--//////////////////////////////////////////////////////////////////////-->
-    <!--ucrop-->
-    <!--//////////////////////////////////////////////////////////////////////-->
-
-    <declare-styleable name="ucrop_UCropView">
-
-        <!--Crop image view-->
-        <attr name="ucrop_aspect_ratio_x" format="float" />
-        <attr name="ucrop_aspect_ratio_y" format="float" />
-
-        <!--Overlay view-->
-        <attr name="ucrop_show_oval_crop_frame" format="boolean" />
-        <attr name="ucrop_circle_dimmed_layer" format="boolean" />
-        <attr name="ucrop_dimmed_color" format="color" />
-
-        <attr name="ucrop_grid_stroke_size" format="dimension" />
-        <attr name="ucrop_grid_color" format="color" />
-        <attr name="ucrop_grid_row_count" format="integer" />
-        <attr name="ucrop_grid_column_count" format="integer" />
-        <attr name="ucrop_show_grid" format="boolean" />
-
-        <attr name="ucrop_frame_stroke_size" format="dimension" />
-        <attr name="ucrop_frame_color" format="color" />
-        <attr name="ucrop_show_frame" format="boolean" />
-
-    </declare-styleable>
-
-    <declare-styleable name="ucrop_AspectRatioTextView">
-
-        <attr name="ucrop_artv_ratio_title" format="string" />
-
-        <attr name="ucrop_artv_ratio_x" format="float" />
-        <attr name="ucrop_artv_ratio_y" format="float" />
-
-    </declare-styleable>
+    <attr name="Page_Background" format="reference|color" />
 </resources>

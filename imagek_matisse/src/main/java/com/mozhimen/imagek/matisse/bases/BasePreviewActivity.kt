@@ -1,4 +1,4 @@
-package com.mozhimen.imagek.matisse.ui.activities
+package com.mozhimen.imagek.matisse.bases
 
 import android.app.Activity
 import android.content.Intent
@@ -10,8 +10,7 @@ import android.widget.TextView
 import androidx.viewpager.widget.ViewPager
 import com.mozhimen.imagek.matisse.R
 import com.mozhimen.imagek.matisse.annors.AForm
-import com.mozhimen.imagek.matisse.bases.BaseActivity
-import com.mozhimen.imagek.matisse.cons.ConstValue
+import com.mozhimen.imagek.matisse.cons.Constants
 import com.mozhimen.imagek.matisse.mos.IncapableCause
 import com.mozhimen.imagek.matisse.mos.Item
 import com.mozhimen.imagek.matisse.mos.SelectedItemCollection
@@ -44,51 +43,45 @@ open class BasePreviewActivity : BaseActivity(), View.OnClickListener,
     var previousPos = -1
     private var originalEnable = false
 
+    ////////////////////////////////////////////////////////////////////////////////////////////
     private lateinit var button_preview: TextView
-    lateinit var check_view: CheckView
     private lateinit var button_apply: TextView
     private lateinit var tv_size: TextView
     private lateinit var original_layout: LinearLayout
-    var pager: PreviewViewPager? = null
     private var original: CheckRadioView? = null
+
+    lateinit var check_view: CheckView
+    var pager: PreviewViewPager? = null
+
+    ////////////////////////////////////////////////////////////////////////////////////////////
 
     override fun configActivity() {
         super.configActivity()
         initView()
-        spec?.statusBarFuture?.invoke(this, null)
+        selectionSpec?.statusBarFuture?.invoke(this, null)
 
         if (Platform.hasKitKat19()) {
             window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
         }
 
         selectedCollection = SelectedItemCollection(this)
-        originalEnable = if (instanceState == null) {
-            selectedCollection.onCreate(intent.getBundleExtra(ConstValue.EXTRA_DEFAULT_BUNDLE))
-            intent.getBooleanExtra(ConstValue.EXTRA_RESULT_ORIGINAL_ENABLE, false)
+        originalEnable = if (savedInstanceState == null) {
+            selectedCollection.onCreate(intent.getBundleExtra(Constants.EXTRA_DEFAULT_BUNDLE))
+            intent.getBooleanExtra(Constants.EXTRA_RESULT_ORIGINAL_ENABLE, false)
         } else {
-            selectedCollection.onCreate(instanceState)
-            instanceState!!.getBoolean(ConstValue.CHECK_STATE)
+            selectedCollection.onCreate(savedInstanceState)
+            savedInstanceState!!.getBoolean(Constants.CHECK_STATE)
         }
-    }
-
-    private fun initView() {
-        button_preview = findViewById(R.id.button_preview)
-        pager = findViewById(R.id.pager)
-        check_view = findViewById(R.id.check_view)
-        button_apply = findViewById(R.id.button_apply)
-        original_layout = findViewById(R.id.original_layout)
-        original = findViewById(R.id.original)
-        tv_size = findViewById(R.id.tv_size)
     }
 
     override fun getResourceLayoutId() = R.layout.activity_media_preview
 
     override fun setViewData() {
-        button_preview.setText(getAttrString(R.attr.Preview_Back_text, R.string.button_back))
+        button_preview.setText(getAttrString(R.attr.Preview_TextBack, R.string.button_back))
 
         adapter = PreviewPagerAdapter(supportFragmentManager, null)
         pager?.adapter = adapter
-        check_view.setCountable(spec?.isCountable() == true)
+        check_view.setCountable(selectionSpec?.isCountable() == true)
         updateApplyButton()
     }
 
@@ -99,71 +92,13 @@ open class BasePreviewActivity : BaseActivity(), View.OnClickListener,
 
     override fun onSaveInstanceState(outState: Bundle) {
         selectedCollection.onSaveInstanceState(outState)
-        outState.putBoolean(ConstValue.CHECK_STATE, originalEnable)
+        outState.putBoolean(Constants.CHECK_STATE, originalEnable)
         super.onSaveInstanceState(outState)
     }
 
     override fun onBackPressed() {
         finishIntentFromPreviewApply(activity, false, selectedCollection, originalEnable)
         super.onBackPressed()
-    }
-
-    private fun updateApplyButton() {
-        val selectedCount = selectedCollection.count()
-
-        setApplyText(selectedCount)
-
-        if (spec?.originalable == true) {
-            setViewVisible(true, original_layout)
-            updateOriginalState()
-        } else {
-            setViewVisible(false, original_layout)
-        }
-    }
-
-    private fun setApplyText(selectedCount: Int) {
-        button_apply.apply {
-            when (selectedCount) {
-                0 -> {
-                    text = getString(
-                        getAttrString(R.attr.Preview_Confirm_text, R.string.button_sure_default)
-                    )
-                    isEnabled = false
-                }
-                1 -> {
-                    isEnabled = true
-
-                    text = if (spec?.singleSelectionModeEnabled() == true) {
-                        getString(R.string.button_sure_default)
-                    } else {
-                        getString(
-                            getAttrString(
-                                R.attr.Preview_Confirm_text, R.string.button_sure_default
-                            )
-                        ).plus("(").plus(selectedCount.toString()).plus(")")
-                    }
-                }
-                else -> {
-                    isEnabled = true
-                    text = getString(
-                        getAttrString(R.attr.Preview_Confirm_text, R.string.button_sure_default),
-                        "($selectedCount)"
-                    )
-                }
-            }
-        }
-    }
-
-    private fun updateOriginalState() {
-        original?.setChecked(originalEnable)
-        if (countOverMaxSize(selectedCollection) > 0 || originalEnable) {
-            handleCauseTips(
-                getString(R.string.error_over_original_size, spec?.originalMaxSize),
-                AForm.DIALOG
-            )
-            original?.setChecked(false)
-            originalEnable = false
-        }
     }
 
     override fun onPageScrollStateChanged(state: Int) {
@@ -183,7 +118,7 @@ open class BasePreviewActivity : BaseActivity(), View.OnClickListener,
                     previousPos
                 ) as PicturePreviewItemFragment).resetView()
                 val item = adapter.getMediaItem(position)
-                if (spec?.isCountable() == true) {
+                if (selectionSpec?.isCountable() == true) {
                     val checkedNum = selectedCollection.checkedNumOf(item)
                     setCheckedNum(checkedNum)
                     if (checkedNum > 0) {
@@ -206,37 +141,14 @@ open class BasePreviewActivity : BaseActivity(), View.OnClickListener,
         previousPos = position
     }
 
-    fun updateSize(item: Item?) {
-        item?.apply {
-            tv_size.apply {
-                if (isGif()) {
-                    setViewVisible(true, this)
-                    text = String.format(
-                        getString(R.string.picture_size), PhotoMetadataUtils.getSizeInMB(size)
-                    )
-                } else {
-                    setViewVisible(false, this)
-                }
-            }
-
-            original_layout?.apply {
-                if (isVideo()) {
-                    setViewVisible(false, this)
-                } else if (spec?.originalable == true) {
-                    setViewVisible(true, this)
-                }
-            }
-        }
-    }
-
     override fun onClick(v: View?) {
         when (v) {
             button_preview -> onBackPressed()
             button_apply -> {
-                if (spec?.openCrop() == true) {
+                if (selectionSpec?.openCrop() == true) {
                     val item = selectedCollection.items()[0]
 
-                    if (spec?.isSupportCrop(item) == true) {
+                    if (selectionSpec?.isSupportCrop(item) == true) {
                         item.getContentUri().apply {
                             gotoImageCrop(this@BasePreviewActivity, arrayListOf(this))
                         }
@@ -255,12 +167,12 @@ open class BasePreviewActivity : BaseActivity(), View.OnClickListener,
                 if (count <= 0) {
                     originalEnable = !originalEnable
                     original?.setChecked(originalEnable)
-                    spec?.onCheckedListener?.onCheck(originalEnable)
+                    selectionSpec?.onCheckedListener?.onCheck(originalEnable)
                     return
                 }
 
                 handleCauseTips(
-                    getString(R.string.error_over_original_count, count, spec?.originalMaxSize),
+                    getString(R.string.error_over_original_count, count, selectionSpec?.originalMaxSize),
                     AForm.DIALOG
                 )
             }
@@ -269,7 +181,7 @@ open class BasePreviewActivity : BaseActivity(), View.OnClickListener,
                 val item = adapter?.getMediaItem(pager?.currentItem ?: 0)
                 if (selectedCollection.isSelected(item)) {
                     selectedCollection.remove(item)
-                    if (spec?.isCountable() == true) {
+                    if (selectionSpec?.isCountable() == true) {
                         check_view.setCheckedNum(CheckView.UNCHECKED)
                     } else {
                         check_view.setChecked(false)
@@ -277,7 +189,7 @@ open class BasePreviewActivity : BaseActivity(), View.OnClickListener,
                 } else {
                     if (assertAddSelection(item)) {
                         selectedCollection.add(item)
-                        if (spec?.isCountable() == true) {
+                        if (selectionSpec?.isCountable() == true) {
                             check_view.setCheckedNum(selectedCollection.checkedNumOf(item))
                         } else {
                             check_view.setChecked(true)
@@ -287,7 +199,7 @@ open class BasePreviewActivity : BaseActivity(), View.OnClickListener,
 
                 updateApplyButton()
 
-                spec?.onSelectedListener?.onSelected(
+                selectionSpec?.onSelectedListener?.onSelected(
                     selectedCollection.asListOfUri(), selectedCollection.asListOfString()
                 )
             }
@@ -299,12 +211,107 @@ open class BasePreviewActivity : BaseActivity(), View.OnClickListener,
         if (resultCode != Activity.RESULT_OK) return
 
         when (requestCode) {
-            ConstValue.REQUEST_CODE_CROP -> {
+            Constants.REQUEST_CODE_CROP -> {
                 data?.run {
                     val resultUri = UCrop.getOutput(data) ?: return@run
                     finishIntentFromCropSuccess(activity, resultUri)
                 }
             }
+        }
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////
+
+    fun updateSize(item: Item?) {
+        item?.apply {
+            tv_size.apply {
+                if (isGif()) {
+                    setViewVisible(true, this)
+                    text = String.format(
+                        getString(R.string.picture_size), PhotoMetadataUtils.getSizeInMB(size)
+                    )
+                } else {
+                    setViewVisible(false, this)
+                }
+            }
+
+            original_layout?.apply {
+                if (isVideo()) {
+                    setViewVisible(false, this)
+                } else if (selectionSpec?.originalable == true) {
+                    setViewVisible(true, this)
+                }
+            }
+        }
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////////////////
+
+    private fun initView() {
+        button_preview = findViewById(R.id.button_preview)
+        pager = findViewById(R.id.pager)
+        check_view = findViewById(R.id.check_view)
+        button_apply = findViewById(R.id.button_apply)
+        original_layout = findViewById(R.id.original_layout)
+        original = findViewById(R.id.original)
+        tv_size = findViewById(R.id.tv_size)
+    }
+
+    private fun updateApplyButton() {
+        val selectedCount = selectedCollection.count()
+
+        setApplyText(selectedCount)
+
+        if (selectionSpec?.originalable == true) {
+            setViewVisible(true, original_layout)
+            updateOriginalState()
+        } else {
+            setViewVisible(false, original_layout)
+        }
+    }
+
+    private fun setApplyText(selectedCount: Int) {
+        button_apply.apply {
+            when (selectedCount) {
+                0 -> {
+                    text = getString(
+                        getAttrString(R.attr.Preview_TextConfirm, R.string.button_sure_default)
+                    )
+                    isEnabled = false
+                }
+                1 -> {
+                    isEnabled = true
+
+                    text = if (selectionSpec?.singleSelectionModeEnabled() == true) {
+                        getString(R.string.button_sure_default)
+                    } else {
+                        getString(
+                            getAttrString(
+                                R.attr.Preview_TextConfirm, R.string.button_sure_default
+                            )
+                        ).plus("(").plus(selectedCount.toString()).plus(")")
+                    }
+                }
+                else -> {
+                    isEnabled = true
+                    text = getString(
+                        getAttrString(R.attr.Preview_TextConfirm, R.string.button_sure_default),
+                        "($selectedCount)"
+                    )
+                }
+            }
+        }
+    }
+
+    private fun updateOriginalState() {
+        original?.setChecked(originalEnable)
+        if (countOverMaxSize(selectedCollection) > 0 || originalEnable) {
+            handleCauseTips(
+                getString(R.string.error_over_original_size, selectionSpec?.originalMaxSize),
+                AForm.DIALOG
+            )
+            original?.setChecked(false)
+            originalEnable = false
         }
     }
 

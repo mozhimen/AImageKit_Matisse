@@ -23,8 +23,7 @@ class CheckRadioView : AppCompatImageView {
     }
 
     private fun init() {
-        val ta: TypedArray = context?.theme
-            ?.obtainStyledAttributes(intArrayOf(R.attr.Item_checkRadio)) ?: return
+        val ta: TypedArray = context?.theme?.obtainStyledAttributes(intArrayOf(R.attr.ItemCheckView_Theme)) ?: return
         val selectedColor = ta.getColor(
             0, ResourcesCompat.getColor(
                 resources, R.color.selector_base_text, context.theme

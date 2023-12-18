@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/bottom_toolbar"
     android:layout_width="match_parent"
-    android:layout_height="?attr/BottomToolbar_height"
-    android:background="?attr/BottomToolbar_bg"
+    android:layout_height="?attr/BottomBar_Height"
+    android:background="?attr/BottomBar_Background"
     android:elevation="2dp"
     tools:layout_height="45dp">
 
@@ -17,9 +17,9 @@
         android:foreground="?selectableItemBackground"
         android:gravity="start"
         android:padding="16dp"
-        android:text="?attr/Media_Preview_text"
-        android:textColor="?attr/Media_Preview_textColor"
-        android:textSize="?attr/Media_Preview_textSize"
+        android:text="?attr/BottomBarPreview_Text"
+        android:textColor="?attr/BottomBarPreview_TextColor"
+        android:textSize="?attr/BottomBarPreview_TextSize"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/original_layout"
         app:layout_constraintStart_toStartOf="parent"
@@ -52,9 +52,9 @@
             android:layout_gravity="center_vertical"
             android:enabled="true"
             android:padding="4dp"
-            android:text="?attr/Media_Original_text"
-            android:textColor="?attr/Media_Original_textColor"
-            android:textSize="?attr/Media_Original_textSize" />
+            android:text="?attr/BottomBarOriginal_Text"
+            android:textColor="?attr/BottomBarOriginal_TextColor"
+            android:textSize="?attr/BottomBarOriginal_TextSize" />
 
         <TextView
             android:id="@+id/tv_size"
@@ -77,9 +77,9 @@
         android:foreground="?selectableItemBackground"
         android:gravity="end"
         android:padding="16dp"
-        android:text="?attr/Media_Album_text"
-        android:textColor="?attr/Media_Album_textColor"
-        android:textSize="?attr/Media_Album_textSize"
+        android:text="?attr/BottomBarAlbum_Text"
+        android:textColor="?attr/BottomBarAlbum_TextColor"
+        android:textSize="?attr/BottomBarAlbum_TextSize"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/original_layout"

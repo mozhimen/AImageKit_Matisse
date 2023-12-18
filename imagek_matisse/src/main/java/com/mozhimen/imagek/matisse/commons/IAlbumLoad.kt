@@ -1,4 +1,4 @@
-package com.mozhimen.imagek.matisse.ui.activities.matisse
+package com.mozhimen.imagek.matisse.commons
 
 import android.database.Cursor
 

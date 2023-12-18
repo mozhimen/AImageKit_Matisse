@@ -1,0 +1,22 @@
+package com.mozhimen.imagek.matisse.commons
+
+import com.mozhimen.imagek.matisse.mos.Album
+import com.mozhimen.imagek.matisse.ui.adapters.FolderItemMediaAdapter
+
+/**
+ * @ClassName IFolderBottomSheetListener
+ * @Description TODO
+ * @Author Mozhimen & Kolin Zhao
+ * @Date 2023/12/18
+ * @Version 1.0
+ */
+interface IFolderBottomSheetListener {
+    fun initData(adapter: FolderItemMediaAdapter)
+
+    /**
+     * 点击回调
+     * @param album 当前选中的相册
+     * @param position 当前选中的位置
+     */
+    fun onItemClick(album: Album, position: Int)
+}

@@ -1,19 +1,22 @@
-package com.mozhimen.imagek.matisse.mos
+package com.mozhimen.imagek.matisse.helpers
 
 import android.content.Context
 import android.content.res.Resources
 import android.net.Uri
 import android.os.Bundle
 import com.mozhimen.imagek.matisse.R
-import com.mozhimen.imagek.matisse.cons.ConstValue.STATE_COLLECTION_TYPE
-import com.mozhimen.imagek.matisse.cons.ConstValue.STATE_SELECTION
+import com.mozhimen.imagek.matisse.cons.Constants.STATE_COLLECTION_TYPE
+import com.mozhimen.imagek.matisse.cons.Constants.STATE_SELECTION
+import com.mozhimen.imagek.matisse.mos.IncapableCause
+import com.mozhimen.imagek.matisse.mos.Item
+import com.mozhimen.imagek.matisse.mos.SelectionSpec
 import com.mozhimen.imagek.matisse.utils.PhotoMetadataUtils
 import com.mozhimen.imagek.matisse.utils.getPath
 import com.mozhimen.imagek.matisse.widgets.CheckView
 import java.util.*
 import kotlin.collections.ArrayList
 
-class SelectedItemCollection(private var context: Context) {
+class MediaSelectionProxy(private var _context: Context) {
 
     companion object {
         /**
@@ -37,12 +40,15 @@ class SelectedItemCollection(private var context: Context) {
         const val COLLECTION_MIXED = COLLECTION_IMAGE or COLLECTION_VIDEO
     }
 
+    /////////////////////////////////////////////////////////////////
+
     private lateinit var items: LinkedHashSet<Item>
     private var imageItems: LinkedHashSet<Item>? = null
     private var videoItems: LinkedHashSet<Item>? = null
     private var collectionType = COLLECTION_UNDEFINED
     private val spec: SelectionSpec = SelectionSpec.getInstance()
 
+    /////////////////////////////////////////////////////////////////
 
     fun onCreate(bundle: Bundle?) {
         if (bundle == null) {
@@ -52,16 +58,6 @@ class SelectedItemCollection(private var context: Context) {
             items = LinkedHashSet(saved!!)
             initImageOrVideoItems()
             collectionType = bundle.getInt(STATE_COLLECTION_TYPE, COLLECTION_UNDEFINED)
-        }
-    }
-
-    /**
-     * 根据混合选择模式，初始化图片与视频集合
-     */
-    private fun initImageOrVideoItems() {
-        if (spec.isMediaTypeExclusive()) return
-        items.forEach {
-            addImageOrVideoItem(it)
         }
     }
 
@@ -78,14 +74,6 @@ class SelectedItemCollection(private var context: Context) {
 
     fun setDefaultSelection(uris: List<Item>) {
         items.addAll(uris)
-    }
-
-    private fun resetType() {
-        if (items.size == 0) {
-            collectionType = COLLECTION_UNDEFINED
-        } else {
-            if (collectionType == COLLECTION_MIXED) refineCollectionType()
-        }
     }
 
     fun overwrite(items: ArrayList<Item>, collectionType: Int) {
@@ -108,7 +96,7 @@ class SelectedItemCollection(private var context: Context) {
     fun asListOfString(): List<String> {
         val paths = ArrayList<String>()
         items.forEach {
-            val path = getPath(context, it.getContentUri())
+            val path = getPath(_context, it.getContentUri())
             if (path != null) paths.add(path)
         }
 
@@ -121,31 +109,19 @@ class SelectedItemCollection(private var context: Context) {
             val maxSelectableTips = currentMaxSelectableTips(item)
 
             val cause = try {
-                context.getString(maxSelectableTips, maxSelectable)
+                _context.getString(maxSelectableTips, maxSelectable)
             } catch (e: Resources.NotFoundException) {
-                context.getString(maxSelectableTips, maxSelectable)
+                _context.getString(maxSelectableTips, maxSelectable)
             } catch (e: NoClassDefFoundError) {
-                context.getString(maxSelectableTips, maxSelectable)
+                _context.getString(maxSelectableTips, maxSelectable)
             }
 
             return IncapableCause(cause)
         } else if (typeConflict(item)) {
-            return IncapableCause(context.getString(R.string.error_type_conflict))
+            return IncapableCause(_context.getString(R.string.error_type_conflict))
         }
 
-        return PhotoMetadataUtils.isAcceptable(context, item)
-    }
-
-    private fun currentMaxSelectableTips(item: Item?): Int {
-        if (!spec.isMediaTypeExclusive()) {
-            if (item?.isImage() == true) {
-                return R.string.error_over_count_of_image
-            } else if (item?.isVideo() == true) {
-                return R.string.error_over_count_of_video
-            }
-        }
-
-        return R.string.error_over_count
+        return PhotoMetadataUtils.isAcceptable(_context, item)
     }
 
     fun maxSelectableReached(item: Item?): Boolean {
@@ -157,19 +133,6 @@ class SelectedItemCollection(private var context: Context) {
             }
         }
         return spec.maxSelectable == items.size
-    }
-
-    // depends
-    private fun currentMaxSelectable(item: Item?): Int {
-        if (!spec.isMediaTypeExclusive()) {
-            if (item?.isImage() == true) {
-                return spec.maxImageSelectable
-            } else if (item?.isVideo() == true) {
-                return spec.maxVideoSelectable
-            }
-        }
-
-        return spec.maxSelectable
     }
 
     fun getCollectionType() = collectionType
@@ -191,33 +154,6 @@ class SelectedItemCollection(private var context: Context) {
         val index = ArrayList(items).indexOf(item)
         return if (index == -1) CheckView.UNCHECKED else index + 1
     }
-
-    /**
-     * 根据item集合数据设置collectionType
-     */
-    private fun refineCollectionType() {
-        val hasImage = imageItems != null && imageItems?.size ?: 0 > 0
-        val hasVideo = videoItems != null && videoItems?.size ?: 0 > 0
-
-        collectionType = if (hasImage && hasVideo) {
-            COLLECTION_MIXED
-        } else if (hasImage) {
-            COLLECTION_IMAGE
-        } else if (hasVideo) {
-            COLLECTION_VIDEO
-        } else {
-            COLLECTION_UNDEFINED
-        }
-    }
-
-    /**
-     * Determine whether there will be conflict media types. A user can only select images and videos at the same time
-     * while [SelectionSpec.mediaTypeExclusive] is set to false.
-     */
-    private fun typeConflict(item: Item?) =
-        spec.isMediaTypeExclusive()
-                && ((item?.isImage() == true && (collectionType == COLLECTION_VIDEO || collectionType == COLLECTION_MIXED))
-                || (item?.isVideo() == true && (collectionType == COLLECTION_IMAGE || collectionType == COLLECTION_MIXED)))
 
     fun add(item: Item?): Boolean {
         if (typeConflict(item)) {
@@ -250,6 +186,93 @@ class SelectedItemCollection(private var context: Context) {
         return added
     }
 
+    fun remove(item: Item?): Boolean {
+        if (item == null) return false
+        val removed = items.remove(item)
+        removeImageOrVideoItem(item)
+        if (removed) resetType()
+        return removed
+    }
+
+    fun removeAll() {
+        items.clear()
+        imageItems?.clear()
+        videoItems?.clear()
+        resetType()
+    }
+
+    /////////////////////////////////////////////////////////////////
+
+    /**
+     * 根据混合选择模式，初始化图片与视频集合
+     */
+    private fun initImageOrVideoItems() {
+        if (spec.isMediaTypeExclusive()) return
+        items.forEach {
+            addImageOrVideoItem(it)
+        }
+    }
+
+    private fun resetType() {
+        if (items.size == 0) {
+            collectionType = COLLECTION_UNDEFINED
+        } else {
+            if (collectionType == COLLECTION_MIXED) refineCollectionType()
+        }
+    }
+
+    private fun currentMaxSelectableTips(item: Item?): Int {
+        if (!spec.isMediaTypeExclusive()) {
+            if (item?.isImage() == true) {
+                return R.string.error_over_count_of_image
+            } else if (item?.isVideo() == true) {
+                return R.string.error_over_count_of_video
+            }
+        }
+
+        return R.string.error_over_count
+    }
+
+    // depends
+    private fun currentMaxSelectable(item: Item?): Int {
+        if (!spec.isMediaTypeExclusive()) {
+            if (item?.isImage() == true) {
+                return spec.maxImageSelectable
+            } else if (item?.isVideo() == true) {
+                return spec.maxVideoSelectable
+            }
+        }
+
+        return spec.maxSelectable
+    }
+
+    /**
+     * 根据item集合数据设置collectionType
+     */
+    private fun refineCollectionType() {
+        val hasImage = imageItems != null && imageItems?.size ?: 0 > 0
+        val hasVideo = videoItems != null && videoItems?.size ?: 0 > 0
+
+        collectionType = if (hasImage && hasVideo) {
+            COLLECTION_MIXED
+        } else if (hasImage) {
+            COLLECTION_IMAGE
+        } else if (hasVideo) {
+            COLLECTION_VIDEO
+        } else {
+            COLLECTION_UNDEFINED
+        }
+    }
+
+    /**
+     * Determine whether there will be conflict media types. A user can only select images and videos at the same time
+     * while [SelectionSpec.mediaTypeExclusive] is set to false.
+     */
+    private fun typeConflict(item: Item?) =
+        spec.isMediaTypeExclusive()
+                && ((item?.isImage() == true && (collectionType == COLLECTION_VIDEO || collectionType == COLLECTION_MIXED))
+                || (item?.isVideo() == true && (collectionType == COLLECTION_IMAGE || collectionType == COLLECTION_MIXED)))
+
     private fun addImageOrVideoItem(item: Item) {
         if (item.isImage()) {
             if (imageItems == null)
@@ -270,20 +293,5 @@ class SelectedItemCollection(private var context: Context) {
         } else if (item.isVideo()) {
             videoItems?.remove(item)
         }
-    }
-
-    fun remove(item: Item?): Boolean {
-        if (item == null) return false
-        val removed = items.remove(item)
-        removeImageOrVideoItem(item)
-        if (removed) resetType()
-        return removed
-    }
-
-    fun removeAll() {
-        items.clear()
-        imageItems?.clear()
-        videoItems?.clear()
-        resetType()
     }
 }

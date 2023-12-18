@@ -1,11 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/bottom_toolbar"
     android:layout_width="match_parent"
-    android:layout_height="?attr/Navigation_height"
-    android:background="?attr/Navigation_bg"
-    android:elevation="2dp">
+    android:layout_height="?attr/Navigation_Height"
+    android:background="?attr/Navigation_Background"
+    android:elevation="2dp"
+    tools:background="@color/black"
+    tools:layout_height="wrap_content">
 
     <TextView
         android:id="@+id/button_back"
@@ -13,14 +16,29 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="start"
-        android:drawableStart="?attr/Navigation_backRes"
+        android:drawableStart="?attr/Navigation_ResBack"
         android:drawablePadding="5dp"
         android:foreground="?selectableItemBackground"
         android:gravity="center_vertical"
         android:padding="16dp"
-        android:text="?attr/Media_Back_text"
-        android:textColor="?attr/Media_Back_textColor"
-        android:textSize="?attr/Media_Back_textSize"
+        android:text="?attr/Navigation_TextBack"
+        android:textColor="?attr/Navigation_TextColorBack"
+        android:textSize="?attr/Navigation_TextSizeBack"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/title"
+        style="@style/singleLineText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:foreground="?selectableItemBackground"
+        android:gravity="center"
+        android:text="?attr/Navigation_TextBack"
+        android:textColor="?attr/Navigation_TextColorBack"
+        android:textSize="?attr/Navigation_TextSizeBack"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -33,9 +51,9 @@
         android:layout_gravity="end"
         android:foreground="?selectableItemBackground"
         android:padding="16dp"
-        android:text="?attr/Media_Sure_text"
-        android:textColor="?attr/Media_Sure_textColor"
-        android:textSize="?attr/Media_Sure_textSize"
+        android:text="?attr/Navigation_TextSure"
+        android:textColor="?attr/Navigation_TextColorSure"
+        android:textSize="?attr/Navigation_TextSizeSure"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

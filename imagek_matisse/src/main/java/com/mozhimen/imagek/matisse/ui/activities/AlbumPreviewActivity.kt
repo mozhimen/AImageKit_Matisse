@@ -1,8 +1,9 @@
 package com.mozhimen.imagek.matisse.ui.activities
 
 import android.database.Cursor
+import com.mozhimen.imagek.matisse.bases.BasePreviewActivity
 import com.mozhimen.imagek.matisse.mos.Album
-import com.mozhimen.imagek.matisse.cons.ConstValue
+import com.mozhimen.imagek.matisse.cons.Constants
 import com.mozhimen.imagek.matisse.mos.Item
 import com.mozhimen.imagek.matisse.commons.IAlbum
 import com.mozhimen.imagek.matisse.mos.AlbumMediaCollection
@@ -19,11 +20,11 @@ class AlbumPreviewActivity : BasePreviewActivity(), IAlbum {
     override fun setViewData() {
         super.setViewData()
         collection.onCreate(this, this)
-        val album = intent.getParcelableExtra<Album>(ConstValue.EXTRA_ALBUM) ?: return
+        val album = intent.getParcelableExtra<Album>(Constants.EXTRA_ALBUM) ?: return
         collection.load(album)
-        val item = intent.getParcelableExtra<Item>(ConstValue.EXTRA_ITEM)
+        val item = intent.getParcelableExtra<Item>(Constants.EXTRA_ITEM)
         check_view?.apply {
-            if (spec?.isCountable() == true) {
+            if (selectionSpec?.isCountable() == true) {
                 setCheckedNum(selectedCollection.checkedNumOf(item))
             } else {
                 setChecked(selectedCollection.isSelected(item))
@@ -49,7 +50,7 @@ class AlbumPreviewActivity : BasePreviewActivity(), IAlbum {
         adapter.notifyDataSetChanged()
         if (!isAlreadySetPosition) {
             isAlreadySetPosition = true
-            val selected = intent.getParcelableExtra<Item>(ConstValue.EXTRA_ITEM) ?: return
+            val selected = intent.getParcelableExtra<Item>(Constants.EXTRA_ITEM) ?: return
             val selectedIndex = items.indexOf(selected)
             pager?.setCurrentItem(selectedIndex, false)
             previousPos = selectedIndex

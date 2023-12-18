@@ -14,12 +14,14 @@ import com.mozhimen.imagek.matisse.utils.obtainAttrString
 abstract class BaseActivity : AppCompatActivity() {
 
     lateinit var activity: Activity
-    var spec: SelectionSpec? = null
-    var instanceState: Bundle? = null
+    var selectionSpec: SelectionSpec? = null
+    var savedInstanceState: Bundle? = null
+
+    //////////////////////////////////////////////////////////////////////////////////
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        spec = SelectionSpec.getInstance()
-        setTheme(spec?.themeId ?: R.style.Matisse_Default)
+        selectionSpec = SelectionSpec.getInstance()
+        setTheme(selectionSpec?.themeId ?: R.style.Matisse_Default)
         super.onCreate(savedInstanceState)
         if (safeCancelActivity()) return
         activity = this
@@ -30,8 +32,48 @@ abstract class BaseActivity : AppCompatActivity() {
         initListener()
     }
 
+    //////////////////////////////////////////////////////////////////////////////////
+
+    abstract fun setViewData()
+
+    abstract fun initListener()
+
+    abstract fun getResourceLayoutId(): Int
+
+    //////////////////////////////////////////////////////////////////////////////////
+
+    /**
+     * 处理状态栏(状态栏颜色、状态栏字体颜色、是否隐藏等操作)
+     *
+     * 空实现，供外部重写
+     */
+    open fun configActivity() {
+        if (selectionSpec?.needOrientationRestriction() == true) {
+            requestedOrientation = selectionSpec?.orientation ?: ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED
+        }
+    }
+
+    //////////////////////////////////////////////////////////////////////////////////
+
+    /**
+     * 获取主题配置中的属性值
+     * @param attr 主题配置属性key
+     * @param defaultRes 默认值
+     */
+    fun getAttrString(attr: Int, defaultRes: Int): Int =
+        obtainAttrString(this, attr, defaultRes)
+
+    /**
+     * 抽离提示方法
+     */
+    fun handleCauseTips(message: String = "", @AForm form: Int = AForm.TOAST, title: String = "", dismissLoading: Boolean = true) {
+        handleCause(activity, IncapableCause(form, title, message, dismissLoading))
+    }
+
+    //////////////////////////////////////////////////////////////////////////////////
+
     private fun safeCancelActivity(): Boolean {
-        if (spec?.hasInited == false) {
+        if (selectionSpec?.hasInited == false) {
             setResult(Activity.RESULT_CANCELED)
             finish()
             return true
@@ -40,43 +82,7 @@ abstract class BaseActivity : AppCompatActivity() {
         return false
     }
 
-    /**
-     * 处理状态栏(状态栏颜色、状态栏字体颜色、是否隐藏等操作)
-     *
-     * 空实现，供外部重写
-     */
-    open fun configActivity() {
-        if (spec?.needOrientationRestriction() == true) {
-            requestedOrientation = spec?.orientation ?: ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED
-        }
-    }
-
-    abstract fun getResourceLayoutId(): Int
-
     private fun configSaveInstanceState(savedInstanceState: Bundle?) {
-        instanceState = savedInstanceState
+        this.savedInstanceState = savedInstanceState
     }
-
-    abstract fun setViewData()
-
-    abstract fun initListener()
-
-    /**
-     * 获取主题配置中的属性值
-     * @param attr 主题配置属性key
-     * @param defaultRes 默认值
-     */
-    fun getAttrString(attr: Int, defaultRes: Int) = obtainAttrString(this, attr, defaultRes)
-
-    /**
-     * 抽离提示方法
-     */
-    fun handleCauseTips(
-        message: String = "", @AForm form: Int = AForm.TOAST,
-        title: String = "", dismissLoading: Boolean = true
-    ) {
-        handleCause(activity, IncapableCause(form, title, message, dismissLoading))
-    }
-
-
 }

@@ -21,8 +21,13 @@ dependencyResolutionManagement {
 rootProject.name = "AImageKit_Matisse"
 include ':app'
 include ':imagek_matisse'
+//SwiftKit
 include ':SwiftKit'
 project(':SwiftKit').projectDir = new File("C:\\Users\\${System.getenv().get("USERNAME")}\\Documents\\GitHub\\SwiftKit")
 include ':SwiftKit:basick'
 include ':SwiftKit:uicorek'
+//AManifestKit_XXPermission
+include(':AManifestKit_XXPermission')
+project(':AManifestKit_XXPermission').projectDir = new File("D:\\WorkSpace\\GitHub\\AManifestKit_XXPermission")
+include(':AManifestKit_XXPermission:manifestK_xxpermission')
 

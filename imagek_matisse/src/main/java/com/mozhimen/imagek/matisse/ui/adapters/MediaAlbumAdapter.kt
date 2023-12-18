@@ -14,14 +14,14 @@ import com.mozhimen.imagek.matisse.R
 import com.mozhimen.imagek.matisse.mos.Album
 import com.mozhimen.imagek.matisse.mos.Item
 import com.mozhimen.imagek.matisse.mos.SelectionSpec
-import com.mozhimen.imagek.matisse.mos.SelectedItemCollection
+import com.mozhimen.imagek.matisse.helpers.MediaSelectionProxy
 import com.mozhimen.imagek.matisse.utils.handleCause
 import com.mozhimen.imagek.matisse.utils.setTextDrawable
 import com.mozhimen.imagek.matisse.widgets.CheckView
 import com.mozhimen.imagek.matisse.widgets.MediaGrid
 
-class AlbumMediaAdapter(
-    private var context: Context, private var selectedCollection: SelectedItemCollection,
+class MediaAlbumAdapter(
+    private var context: Context, private var selectedCollection: MediaSelectionProxy,
     private var recyclerView: RecyclerView
 ) : RecyclerViewCursorAdapter<RecyclerView.ViewHolder>(null), MediaGrid.OnMediaGridClickListener {
 
@@ -33,7 +33,7 @@ class AlbumMediaAdapter(
     private var layoutInflater: LayoutInflater
 
     init {
-        val ta = context.theme.obtainStyledAttributes(intArrayOf(R.attr.Item_placeholder))
+        val ta = context.theme.obtainStyledAttributes(intArrayOf(R.attr.ItemImage_ResPlaceholder))
         placeholder = ta.getDrawable(0)
         ta.recycle()
 
@@ -67,7 +67,7 @@ class AlbumMediaAdapter(
         holder.apply {
             when (this) {
                 is CaptureViewHolder ->
-                    setTextDrawable(itemView.context, hint, R.attr.Media_Camera_textColor)
+                    setTextDrawable(itemView.context, hint, R.attr.ItemPhoto_TextColor)
                 is MediaViewHolder -> {
                     val item = Item.valueOf(cursor, position)
                     mediaGrid.preBindMedia(
@@ -78,7 +78,7 @@ class AlbumMediaAdapter(
                     )
                     item?.let {
                         mediaGrid.bindMedia(it)
-                        mediaGrid.listener = this@AlbumMediaAdapter
+                        mediaGrid.listener = this@MediaAlbumAdapter
                         setCheckStatus(it, mediaGrid)
                     }
                 }

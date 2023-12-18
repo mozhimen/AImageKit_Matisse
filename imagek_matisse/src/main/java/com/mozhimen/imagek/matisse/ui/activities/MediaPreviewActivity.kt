@@ -4,7 +4,8 @@ import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import com.mozhimen.imagek.matisse.cons.ConstValue
+import com.mozhimen.imagek.matisse.bases.BasePreviewActivity
+import com.mozhimen.imagek.matisse.cons.Constants
 import com.mozhimen.imagek.matisse.mos.Item
 
 /**
@@ -13,26 +14,25 @@ import com.mozhimen.imagek.matisse.mos.Item
  * author：Leo </br>
  * since V 1.0.0 </br>
  */
-class SelectedPreviewActivity : BasePreviewActivity() {
+class MediaPreviewActivity : BasePreviewActivity() {
 
     companion object {
         fun instance(context: Context, bundle: Bundle, mOriginalEnable: Boolean) {
-            val intent = Intent(context, SelectedPreviewActivity::class.java)
-            intent.putExtra(ConstValue.EXTRA_DEFAULT_BUNDLE, bundle)
-                .putExtra(ConstValue.EXTRA_RESULT_ORIGINAL_ENABLE, mOriginalEnable)
-            (context as Activity).startActivityForResult(intent, ConstValue.REQUEST_CODE_PREVIEW)
+            val intent = Intent(context, MediaPreviewActivity::class.java)
+            intent.putExtra(Constants.EXTRA_DEFAULT_BUNDLE, bundle).putExtra(Constants.EXTRA_RESULT_ORIGINAL_ENABLE, mOriginalEnable)
+            (context as Activity).startActivityForResult(intent, Constants.REQUEST_CODE_PREVIEW)
         }
     }
 
     override fun setViewData() {
         super.setViewData()
-        val bundle = intent.getBundleExtra(ConstValue.EXTRA_DEFAULT_BUNDLE)
-        val selected = bundle?.getParcelableArrayList<Item>(ConstValue.STATE_SELECTION)
+        val bundle = intent.getBundleExtra(Constants.EXTRA_DEFAULT_BUNDLE)
+        val selected = bundle?.getParcelableArrayList<Item>(Constants.STATE_SELECTION)
         selected?.apply {
             adapter?.addAll(this)
             adapter?.notifyDataSetChanged()
             check_view?.apply {
-                if (spec?.isCountable() == true) {
+                if (selectionSpec?.isCountable() == true) {
                     setCheckedNum(1)
                 } else {
                     setChecked(true)

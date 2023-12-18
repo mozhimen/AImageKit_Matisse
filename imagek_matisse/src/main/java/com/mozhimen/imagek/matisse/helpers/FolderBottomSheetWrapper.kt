@@ -1,15 +1,16 @@
-package com.mozhimen.imagek.matisse.ui.activities.matisse
+package com.mozhimen.imagek.matisse.helpers
 
 import android.content.Context
 import android.database.Cursor
 import android.net.Uri
 import android.os.Environment
 import com.mozhimen.imagek.matisse.R
+import com.mozhimen.imagek.matisse.commons.IFolderBottomSheetListener
 import com.mozhimen.imagek.matisse.mos.Album
 import com.mozhimen.imagek.matisse.ui.fragments.FolderBottomSheet
 
-class AlbumFolderSheetHelper(
-    private var context: Context, private var sheetCallback: FolderBottomSheet.BottomSheetCallback
+class FolderBottomSheetWrapper(
+    private var context: Context, private var _folderBottomSheetListener: IFolderBottomSheetListener
 ) {
     private var albumFolderCursor: Cursor? = null
     private var albumFolderList: ArrayList<Album>? = null
@@ -21,7 +22,7 @@ class AlbumFolderSheetHelper(
             context, lastFolderCheckedPosition, "Folder"
         )
 
-        bottomSheet?.callback = sheetCallback
+        bottomSheet?.folderBottomSheetListener = _folderBottomSheetListener
     }
 
     fun readAlbumFromCursor(): ArrayList<Album>? {

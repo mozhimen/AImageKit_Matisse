@@ -5,10 +5,10 @@ package com.mozhimen.imagek.matisse.utils
 import android.app.Activity
 import android.content.Intent
 import android.net.Uri
-import com.mozhimen.imagek.matisse.cons.ConstValue
+import com.mozhimen.imagek.matisse.cons.Constants
 import com.mozhimen.imagek.matisse.mos.Item
 import com.mozhimen.imagek.matisse.mos.SelectionSpec
-import com.mozhimen.imagek.matisse.mos.SelectedItemCollection
+import com.mozhimen.imagek.matisse.helpers.MediaSelectionProxy
 import com.mozhimen.imagek.matisse.ucrop.UCrop
 import com.mozhimen.imagek.matisse.utils.Platform.aboveAndroidTen
 import java.io.File
@@ -90,9 +90,9 @@ private fun finishIntentToMain(
     selectedId: ArrayList<String>, originalEnable: Boolean
 ) {
     Intent().apply {
-        putParcelableArrayListExtra(ConstValue.EXTRA_RESULT_SELECTION, selectedUris)
-        putStringArrayListExtra(ConstValue.EXTRA_RESULT_SELECTION_ID, selectedId)
-        putExtra(ConstValue.EXTRA_RESULT_ORIGINAL_ENABLE, originalEnable)
+        putParcelableArrayListExtra(Constants.EXTRA_RESULT_SELECTION, selectedUris)
+        putStringArrayListExtra(Constants.EXTRA_RESULT_SELECTION_ID, selectedId)
+        putExtra(Constants.EXTRA_RESULT_ORIGINAL_ENABLE, originalEnable)
         activity.setResult(Activity.RESULT_OK, this)
     }
     activity.finish()
@@ -105,7 +105,7 @@ private fun finishIntentToMain(
 fun finishIntentFromCrop(activity: Activity, cropUri: Uri?) {
     cropUri?.run {
         Intent().apply {
-            putParcelableArrayListExtra(ConstValue.EXTRA_RESULT_SELECTION, arrayListOf(cropUri))
+            putParcelableArrayListExtra(Constants.EXTRA_RESULT_SELECTION, arrayListOf(cropUri))
             activity.setResult(Activity.RESULT_OK, this)
             activity.finish()
         }
@@ -117,12 +117,12 @@ fun finishIntentFromCrop(activity: Activity, cropUri: Uri?) {
  */
 fun finishIntentFromPreviewApply(
     activity: Activity, apply: Boolean,
-    selectedCollection: SelectedItemCollection, originalEnable: Boolean
+    selectedCollection: MediaSelectionProxy, originalEnable: Boolean
 ) {
     Intent().apply {
-        putExtra(ConstValue.EXTRA_RESULT_BUNDLE, selectedCollection.getDataWithBundle())
-        putExtra(ConstValue.EXTRA_RESULT_APPLY, apply)
-        putExtra(ConstValue.EXTRA_RESULT_ORIGINAL_ENABLE, originalEnable)
+        putExtra(Constants.EXTRA_RESULT_BUNDLE, selectedCollection.getDataWithBundle())
+        putExtra(Constants.EXTRA_RESULT_APPLY, apply)
+        putExtra(Constants.EXTRA_RESULT_ORIGINAL_ENABLE, originalEnable)
         activity.setResult(Activity.RESULT_OK, this)
     }
     if (apply) activity.finish()
@@ -133,7 +133,7 @@ fun finishIntentFromPreviewApply(
  */
 fun finishIntentFromCropSuccess(activity: Activity, cropResultUri: Uri) {
     Intent().apply {
-        putExtra(ConstValue.EXTRA_RESULT_CROP_BACK_BUNDLE, cropResultUri)
+        putExtra(Constants.EXTRA_RESULT_CROP_BACK_BUNDLE, cropResultUri)
         activity.setResult(Activity.RESULT_OK, this)
     }
     activity.finish()
@@ -145,13 +145,13 @@ fun finishIntentFromCropSuccess(activity: Activity, cropResultUri: Uri) {
  */
 fun handlePreviewIntent(
     activity: Activity, data: Intent?, originalEnable: Boolean,
-    isApplyData: Boolean, selectedCollection: SelectedItemCollection
+    isApplyData: Boolean, selectedCollection: MediaSelectionProxy
 ) {
     data?.apply {
-        val resultBundle = getBundleExtra(ConstValue.EXTRA_RESULT_BUNDLE)
+        val resultBundle = getBundleExtra(Constants.EXTRA_RESULT_BUNDLE)
         resultBundle?.apply {
-            val collectionType = getInt(ConstValue.STATE_COLLECTION_TYPE)
-            val selected: ArrayList<Item>? = getParcelableArrayList(ConstValue.STATE_SELECTION)
+            val collectionType = getInt(Constants.STATE_COLLECTION_TYPE)
+            val selected: ArrayList<Item>? = getParcelableArrayList(Constants.STATE_SELECTION)
             selected?.apply {
                 if (isApplyData) {
                     // 从预览界面确认提交过来

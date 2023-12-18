@@ -86,7 +86,7 @@ public class UCropActivity extends BaseActivity implements View.OnClickListener 
     public void configActivity() {
         super.configActivity();
         try {
-            getSpec().getStatusBarFuture().invoke(this, findViewById(R.id.toolbar));
+            getSelectionSpec().getStatusBarFuture().invoke(this, findViewById(R.id.toolbar));
         } catch (Exception e) {
             e.printStackTrace();
         }

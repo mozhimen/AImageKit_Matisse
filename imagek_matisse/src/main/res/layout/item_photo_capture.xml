@@ -13,7 +13,7 @@
         android:drawablePadding="8dp"
         android:gravity="center"
         android:text="@string/photo_grid_capture"
-        android:textColor="?attr/Media_Camera_textColor"
-        android:textSize="?attr/Media_Camera_textSize" />
+        android:textColor="?attr/ItemPhoto_TextColor"
+        android:textSize="?attr/ItemPhoto_TextSize" />
 
 </com.mozhimen.imagek.matisse.widgets.SquareFrameLayout>

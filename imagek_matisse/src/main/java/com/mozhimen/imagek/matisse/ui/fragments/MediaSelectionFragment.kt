@@ -11,48 +11,47 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.mozhimen.imagek.matisse.R
 import com.mozhimen.imagek.matisse.databinding.FragmentMediaSelectionBinding
 import com.mozhimen.imagek.matisse.mos.Album
-import com.mozhimen.imagek.matisse.cons.ConstValue
+import com.mozhimen.imagek.matisse.cons.Constants
 import com.mozhimen.imagek.matisse.mos.Item
 import com.mozhimen.imagek.matisse.mos.SelectionSpec
 import com.mozhimen.imagek.matisse.commons.IAlbum
 import com.mozhimen.imagek.matisse.mos.AlbumMediaCollection
-import com.mozhimen.imagek.matisse.mos.SelectedItemCollection
-import com.mozhimen.imagek.matisse.ui.adapters.AlbumMediaAdapter
+import com.mozhimen.imagek.matisse.helpers.MediaSelectionProxy
+import com.mozhimen.imagek.matisse.ui.adapters.MediaAlbumAdapter
 import com.mozhimen.imagek.matisse.utils.MAX_SPAN_COUNT
 import com.mozhimen.imagek.matisse.utils.spanCount
 import com.mozhimen.imagek.matisse.widgets.MediaGridInset
 import kotlin.math.max
 import kotlin.math.min
 
-class MediaSelectionFragment : Fragment(), IAlbum, AlbumMediaAdapter.CheckStateListener,
-    AlbumMediaAdapter.OnMediaClickListener {
+class MediaSelectionFragment : Fragment(), IAlbum, MediaAlbumAdapter.CheckStateListener, MediaAlbumAdapter.OnMediaClickListener {
 
     private val albumMediaCollection = AlbumMediaCollection()
-    private lateinit var adapter: AlbumMediaAdapter
+    private lateinit var adapter: MediaAlbumAdapter
     private lateinit var album: Album
-    private lateinit var selectionProvider: SelectionProvider
-    private lateinit var checkStateListener: AlbumMediaAdapter.CheckStateListener
-    private lateinit var onMediaClickListener: AlbumMediaAdapter.OnMediaClickListener
+    private lateinit var selectionProvider: IMediaSelectionProvider
+    private lateinit var checkStateListener: MediaAlbumAdapter.CheckStateListener
+    private lateinit var onMediaClickListener: MediaAlbumAdapter.OnMediaClickListener
 
     companion object {
         fun newInstance(album: Album): MediaSelectionFragment {
             val fragment = MediaSelectionFragment()
-            fragment.arguments = Bundle().apply { putParcelable(ConstValue.EXTRA_ALBUM, album) }
+            fragment.arguments = Bundle().apply { putParcelable(Constants.EXTRA_ALBUM, album) }
             return fragment
         }
     }
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        if (context is SelectionProvider) {
+        if (context is IMediaSelectionProvider) {
             selectionProvider = context
         } else {
             throw IllegalStateException("Context must implement SelectionProvider.")
         }
 
-        if (context is AlbumMediaAdapter.CheckStateListener) checkStateListener = context
+        if (context is MediaAlbumAdapter.CheckStateListener) checkStateListener = context
 
-        if (context is AlbumMediaAdapter.OnMediaClickListener) onMediaClickListener = context
+        if (context is MediaAlbumAdapter.OnMediaClickListener) onMediaClickListener = context
     }
 
     private var mBinding: FragmentMediaSelectionBinding? = null
@@ -69,8 +68,8 @@ class MediaSelectionFragment : Fragment(), IAlbum, AlbumMediaAdapter.CheckStateL
         super.onActivityCreated(savedInstanceState)
         val recyclerview = mBinding?.recyclerview
         recyclerview ?: return
-        album = arguments?.getParcelable(ConstValue.EXTRA_ALBUM)!!
-        adapter = AlbumMediaAdapter(
+        album = arguments?.getParcelable(Constants.EXTRA_ALBUM)!!
+        adapter = MediaAlbumAdapter(
             requireContext(), selectionProvider.provideSelectedItemCollection(), recyclerview
         )
         adapter.checkStateListener = this
@@ -122,7 +121,7 @@ class MediaSelectionFragment : Fragment(), IAlbum, AlbumMediaAdapter.CheckStateL
         albumMediaCollection.onDestroy()
     }
 
-    interface SelectionProvider {
-        fun provideSelectedItemCollection(): SelectedItemCollection
+    interface IMediaSelectionProvider {
+        fun provideSelectedItemCollection(): MediaSelectionProxy
     }
 }

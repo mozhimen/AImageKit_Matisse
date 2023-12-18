@@ -1,10 +1,11 @@
-package com.mozhimen.imagek.matisse.ui.activities.matisse
+package com.mozhimen.imagek.matisse.helpers
 
 import android.os.Bundle
 import com.mozhimen.imagek.matisse.commons.IAlbum
 import com.mozhimen.imagek.matisse.mos.AlbumCollection
+import com.mozhimen.imagek.matisse.ui.activities.MatisseActivity
 
-class AlbumLoadHelper(
+class AlbumLoadWrapper(
     private var activity: MatisseActivity, private var albumLoadCallback: IAlbum
 ) {
 
@@ -18,7 +19,7 @@ class AlbumLoadHelper(
     fun loadAlbumData() {
         albumCollection?.apply {
             onCreate(activity, albumLoadCallback)
-            activity.instanceState?.apply {
+            activity.savedInstanceState?.apply {
                 albumCollection?.onRestoreInstanceState(this)
             }
             loadAlbums()
