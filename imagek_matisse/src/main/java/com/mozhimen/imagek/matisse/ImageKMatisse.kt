@@ -115,7 +115,7 @@ class ImageKMatisse {
      * @see SelectionCreator
      */
     fun choose(mimeTypes: Set<EMimeType>): SelectionCreator {
-        return this.choose(mimeTypes, true)
+        return choose(mimeTypes, true)
     }
 
     /**

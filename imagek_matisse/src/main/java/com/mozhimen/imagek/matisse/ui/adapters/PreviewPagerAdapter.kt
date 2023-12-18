@@ -3,7 +3,7 @@ package com.mozhimen.imagek.matisse.ui.adapters
 import android.view.ViewGroup
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentStatePagerAdapter
-import com.mozhimen.imagek.matisse.mos.Item
+import com.mozhimen.imagek.matisse.mos.MediaItem
 import com.mozhimen.imagek.matisse.ui.fragments.PicturePreviewItemFragment
 
 /**
@@ -12,7 +12,7 @@ import com.mozhimen.imagek.matisse.ui.fragments.PicturePreviewItemFragment
 class PreviewPagerAdapter(manager: FragmentManager, listener: OnPrimaryItemSetListener?) :
     FragmentStatePagerAdapter(manager) {
 
-    var items: ArrayList<Item> = ArrayList()
+    var items: ArrayList<MediaItem> = ArrayList()
     var kListener: OnPrimaryItemSetListener? = null
 
     init {
@@ -28,7 +28,7 @@ class PreviewPagerAdapter(manager: FragmentManager, listener: OnPrimaryItemSetLi
         kListener?.onPrimaryItemSet(position)
     }
 
-    fun getMediaItem(position: Int): Item? {
+    fun getMediaItem(position: Int): MediaItem? {
         if (count > position) {
             return items[position]
         }
@@ -36,7 +36,7 @@ class PreviewPagerAdapter(manager: FragmentManager, listener: OnPrimaryItemSetLi
         return null
     }
 
-    fun addAll(items: List<Item>) {
+    fun addAll(items: List<MediaItem>) {
         this.items.addAll(items)
     }
 

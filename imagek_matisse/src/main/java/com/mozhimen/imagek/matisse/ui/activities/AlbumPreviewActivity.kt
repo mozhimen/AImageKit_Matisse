@@ -4,15 +4,15 @@ import android.database.Cursor
 import com.mozhimen.imagek.matisse.bases.BasePreviewActivity
 import com.mozhimen.imagek.matisse.mos.Album
 import com.mozhimen.imagek.matisse.cons.Constants
-import com.mozhimen.imagek.matisse.mos.Item
-import com.mozhimen.imagek.matisse.commons.IAlbum
+import com.mozhimen.imagek.matisse.mos.MediaItem
+import com.mozhimen.imagek.matisse.commons.IAlbumListener
 import com.mozhimen.imagek.matisse.mos.AlbumMediaCollection
 import com.mozhimen.imagek.matisse.ui.adapters.PreviewPagerAdapter
 
 /**
  * Created by liubo on 2018/9/11.
  */
-class AlbumPreviewActivity : BasePreviewActivity(), IAlbum {
+class AlbumPreviewActivity : BasePreviewActivity(), IAlbumListener {
 
     private var collection = AlbumMediaCollection()
     private var isAlreadySetPosition = false
@@ -22,7 +22,7 @@ class AlbumPreviewActivity : BasePreviewActivity(), IAlbum {
         collection.onCreate(this, this)
         val album = intent.getParcelableExtra<Album>(Constants.EXTRA_ALBUM) ?: return
         collection.load(album)
-        val item = intent.getParcelableExtra<Item>(Constants.EXTRA_ITEM)
+        val item = intent.getParcelableExtra<MediaItem>(Constants.EXTRA_ITEM)
         check_view?.apply {
             if (selectionSpec?.isCountable() == true) {
                 setCheckedNum(selectedCollection.checkedNumOf(item))
@@ -39,9 +39,9 @@ class AlbumPreviewActivity : BasePreviewActivity(), IAlbum {
     }
 
     override fun onAlbumLoad(cursor: Cursor) {
-        val items = ArrayList<Item>()
+        val items = ArrayList<MediaItem>()
         while (cursor.moveToNext()) {
-            Item.valueOf(cursor)?.run { items.add(this) }
+            MediaItem.valueOf(cursor)?.run { items.add(this) }
         }
 
         if (items.isEmpty()) return
@@ -50,7 +50,7 @@ class AlbumPreviewActivity : BasePreviewActivity(), IAlbum {
         adapter.notifyDataSetChanged()
         if (!isAlreadySetPosition) {
             isAlreadySetPosition = true
-            val selected = intent.getParcelableExtra<Item>(Constants.EXTRA_ITEM) ?: return
+            val selected = intent.getParcelableExtra<MediaItem>(Constants.EXTRA_ITEM) ?: return
             val selectedIndex = items.indexOf(selected)
             pager?.setCurrentItem(selectedIndex, false)
             previousPos = selectedIndex

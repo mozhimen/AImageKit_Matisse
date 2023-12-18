@@ -12,7 +12,7 @@ import com.mozhimen.imagek.matisse.R
 import com.mozhimen.imagek.matisse.annors.AForm
 import com.mozhimen.imagek.matisse.cons.Constants
 import com.mozhimen.imagek.matisse.mos.IncapableCause
-import com.mozhimen.imagek.matisse.mos.Item
+import com.mozhimen.imagek.matisse.mos.MediaItem
 import com.mozhimen.imagek.matisse.mos.SelectedItemCollection
 import com.mozhimen.imagek.matisse.ucrop.UCrop
 import com.mozhimen.imagek.matisse.ui.adapters.PreviewPagerAdapter
@@ -58,7 +58,7 @@ open class BasePreviewActivity : BaseActivity(), View.OnClickListener,
     override fun configActivity() {
         super.configActivity()
         initView()
-        selectionSpec?.statusBarFuture?.invoke(this, null)
+        selectionSpec?.onLoadStatusBarListener?.invoke(this, null)
 
         if (Platform.hasKitKat19()) {
             window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
@@ -222,7 +222,7 @@ open class BasePreviewActivity : BaseActivity(), View.OnClickListener,
 
     ////////////////////////////////////////////////////////////////////////////////////////////
 
-    fun updateSize(item: Item?) {
+    fun updateSize(item: MediaItem?) {
         item?.apply {
             tv_size.apply {
                 if (isGif()) {
@@ -315,7 +315,7 @@ open class BasePreviewActivity : BaseActivity(), View.OnClickListener,
         }
     }
 
-    private fun assertAddSelection(item: Item?): Boolean {
+    private fun assertAddSelection(item: MediaItem?): Boolean {
         val cause = selectedCollection.isAcceptable(item)
         IncapableCause.handleCause(this, cause)
         return cause == null

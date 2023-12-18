@@ -6,7 +6,7 @@ import android.os.Bundle
 import androidx.fragment.app.FragmentActivity
 import androidx.loader.app.LoaderManager
 import androidx.loader.content.Loader
-import com.mozhimen.imagek.matisse.commons.IAlbum
+import com.mozhimen.imagek.matisse.commons.IAlbumListener
 import com.mozhimen.imagek.matisse.helpers.loader.AlbumLoader
 import java.lang.ref.WeakReference
 
@@ -18,7 +18,7 @@ class AlbumCollection : LoaderManager.LoaderCallbacks<Cursor> {
 
     private var context: WeakReference<Context>? = null
     private var loaderManager: LoaderManager? = null
-    private var callbacks: IAlbum? = null
+    private var callbacks: IAlbumListener? = null
     private var currentSelection = 0
     private var loadFinished = false
 
@@ -44,7 +44,7 @@ class AlbumCollection : LoaderManager.LoaderCallbacks<Cursor> {
         callbacks?.onAlbumReset()
     }
 
-    fun onCreate(activity: FragmentActivity, callbacks: IAlbum) {
+    fun onCreate(activity: FragmentActivity, callbacks: IAlbumListener) {
         context = WeakReference(activity)
         loaderManager = LoaderManager.getInstance(activity)
         this.callbacks = callbacks

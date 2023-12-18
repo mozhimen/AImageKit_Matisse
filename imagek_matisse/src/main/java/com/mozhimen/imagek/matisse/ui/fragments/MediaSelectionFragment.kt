@@ -12,9 +12,9 @@ import com.mozhimen.imagek.matisse.R
 import com.mozhimen.imagek.matisse.databinding.FragmentMediaSelectionBinding
 import com.mozhimen.imagek.matisse.mos.Album
 import com.mozhimen.imagek.matisse.cons.Constants
-import com.mozhimen.imagek.matisse.mos.Item
+import com.mozhimen.imagek.matisse.mos.MediaItem
 import com.mozhimen.imagek.matisse.mos.SelectionSpec
-import com.mozhimen.imagek.matisse.commons.IAlbum
+import com.mozhimen.imagek.matisse.commons.IAlbumListener
 import com.mozhimen.imagek.matisse.mos.AlbumMediaCollection
 import com.mozhimen.imagek.matisse.helpers.MediaSelectionProxy
 import com.mozhimen.imagek.matisse.ui.adapters.MediaAlbumAdapter
@@ -24,7 +24,7 @@ import com.mozhimen.imagek.matisse.widgets.MediaGridInset
 import kotlin.math.max
 import kotlin.math.min
 
-class MediaSelectionFragment : Fragment(), IAlbum, MediaAlbumAdapter.CheckStateListener, MediaAlbumAdapter.OnMediaClickListener {
+class MediaSelectionFragment : Fragment(), IAlbumListener, MediaAlbumAdapter.CheckStateListener, MediaAlbumAdapter.OnMediaClickListener {
 
     private val albumMediaCollection = AlbumMediaCollection()
     private lateinit var adapter: MediaAlbumAdapter
@@ -96,7 +96,7 @@ class MediaSelectionFragment : Fragment(), IAlbum, MediaAlbumAdapter.CheckStateL
         adapter.notifyDataSetChanged()
     }
 
-    override fun onMediaClick(album: Album?, item: Item, adapterPosition: Int) {
+    override fun onMediaClick(album: Album?, item: MediaItem, adapterPosition: Int) {
         onMediaClickListener.onMediaClick(this.album, item, adapterPosition)
     }
 

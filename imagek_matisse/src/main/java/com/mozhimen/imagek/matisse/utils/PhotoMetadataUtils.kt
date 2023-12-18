@@ -12,7 +12,7 @@ import com.mozhimen.imagek.matisse.helpers.MimeTypeManager
 import com.mozhimen.imagek.matisse.R
 import com.mozhimen.imagek.matisse.helpers.ExifInterfaceCompat
 import com.mozhimen.imagek.matisse.mos.IncapableCause
-import com.mozhimen.imagek.matisse.mos.Item
+import com.mozhimen.imagek.matisse.mos.MediaItem
 import com.mozhimen.imagek.matisse.mos.SelectionSpec
 import java.io.FileNotFoundException
 import java.io.IOException
@@ -33,19 +33,19 @@ object PhotoMetadataUtils {
     /**
      * 遍历外部自定义过滤器
      */
-    fun isAcceptable(context: Context, item: Item?): IncapableCause? {
+    fun isAcceptable(context: Context, item: MediaItem?): IncapableCause? {
         if (!isSelectableType(context, item))
             return IncapableCause(context.getString(R.string.error_file_type))
 
-        if (SelectionSpec.getInstance().filters != null) {
-            SelectionSpec.getInstance().filters?.forEach {
+        if (SelectionSpec.getInstance().mediaFilters != null) {
+            SelectionSpec.getInstance().mediaFilters?.forEach {
                 return it.filter(context, item)
             }
         }
         return null
     }
 
-    private fun isSelectableType(context: Context?, item: Item?): Boolean {
+    private fun isSelectableType(context: Context?, item: MediaItem?): Boolean {
         val mimeTypeSet = SelectionSpec.getInstance().mimeTypeSet
 
         if (context == null || mimeTypeSet == null) return false

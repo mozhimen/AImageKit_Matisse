@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.mozhimen.imagek.matisse.R
 import com.mozhimen.imagek.matisse.mos.Album
-import com.mozhimen.imagek.matisse.mos.Item
+import com.mozhimen.imagek.matisse.mos.MediaItem
 import com.mozhimen.imagek.matisse.mos.SelectionSpec
 import com.mozhimen.imagek.matisse.helpers.MediaSelectionProxy
 import com.mozhimen.imagek.matisse.utils.handleCause
@@ -69,7 +69,7 @@ class MediaAlbumAdapter(
                 is CaptureViewHolder ->
                     setTextDrawable(itemView.context, hint, R.attr.ItemPhoto_TextColor)
                 is MediaViewHolder -> {
-                    val item = Item.valueOf(cursor, position)
+                    val item = MediaItem.valueOf(cursor, position)
                     mediaGrid.preBindMedia(
                         MediaGrid.PreBindInfo(
                             getImageResize(mediaGrid.context), placeholder,
@@ -87,7 +87,7 @@ class MediaAlbumAdapter(
     }
 
     override fun getItemViewType(position: Int, cursor: Cursor) =
-        if (Item.valueOf(cursor)?.isCapture() == true) VIEW_TYPE_CAPTURE else VIEW_TYPE_MEDIA
+        if (MediaItem.valueOf(cursor)?.isCapture() == true) VIEW_TYPE_CAPTURE else VIEW_TYPE_MEDIA
 
     private fun getImageResize(context: Context): Int {
         if (imageResize != 0) return imageResize
@@ -107,7 +107,7 @@ class MediaAlbumAdapter(
     /**
      * 初始化选择框选中状态
      */
-    private fun setCheckStatus(item: Item, mediaGrid: MediaGrid) {
+    private fun setCheckStatus(item: MediaItem, mediaGrid: MediaGrid) {
         // 初始化时 添加上次选中的图片
         setLastChooseItems(item)
         if (selectionSpec.isCountable()) {
@@ -126,7 +126,7 @@ class MediaAlbumAdapter(
     }
 
     override fun onThumbnailClicked(
-        thumbnail: ImageView, item: Item, holder: RecyclerView.ViewHolder
+        thumbnail: ImageView, item: MediaItem, holder: RecyclerView.ViewHolder
     ) {
         onMediaClickListener?.onMediaClick(null, item, holder.adapterPosition)
     }
@@ -147,7 +147,7 @@ class MediaAlbumAdapter(
      *          b.取消选中：仅刷新选中的item
      */
     override fun onCheckViewClicked(
-        checkView: CheckView, item: Item, holder: RecyclerView.ViewHolder
+        checkView: CheckView, item: MediaItem, holder: RecyclerView.ViewHolder
     ) {
         if (selectionSpec.isSingleChoose()) {
             notifySingleChooseData(item)
@@ -159,7 +159,7 @@ class MediaAlbumAdapter(
     /**
      * 单选刷新数据
      */
-    private fun notifySingleChooseData(item: Item) {
+    private fun notifySingleChooseData(item: MediaItem) {
         if (selectedCollection.isSelected(item)) {
             selectedCollection.remove(item)
             notifyItemChanged(item.positionInList)
@@ -190,7 +190,7 @@ class MediaAlbumAdapter(
      *          a.选中：仅刷新选中的item
      *          b.取消选中：仅刷新选中的item
      */
-    private fun notifyMultiChooseData(item: Item) {
+    private fun notifyMultiChooseData(item: MediaItem) {
         if (selectionSpec.isCountable()) {
             if (notifyMultiCountableItem(item)) return
         } else {
@@ -209,7 +209,7 @@ class MediaAlbumAdapter(
     /**
      * @return 是否拦截 true=拦截  false=不拦截
      */
-    private fun notifyMultiCountableItem(item: Item): Boolean {
+    private fun notifyMultiCountableItem(item: MediaItem): Boolean {
         val checkedNum = selectedCollection.checkedNumOf(item)
         if (checkedNum == CheckView.UNCHECKED) {
             if (!addItem(item)) return true
@@ -231,13 +231,13 @@ class MediaAlbumAdapter(
         checkStateListener?.onSelectUpdate()
     }
 
-    private fun addItem(item: Item): Boolean {
+    private fun addItem(item: MediaItem): Boolean {
         if (!assertAddSelection(context, item)) return false
         selectedCollection.add(item)
         return true
     }
 
-    private fun assertAddSelection(context: Context, item: Item): Boolean {
+    private fun assertAddSelection(context: Context, item: MediaItem): Boolean {
         val cause = selectedCollection.isAcceptable(item)
         handleCause(context, cause)
         return cause == null
@@ -246,7 +246,7 @@ class MediaAlbumAdapter(
     /**
      * 初始化外部传入上次选中的图片
      */
-    private fun setLastChooseItems(item: Item) {
+    private fun setLastChooseItems(item: MediaItem) {
         if (selectionSpec.lastChoosePictureIdsOrUris == null) return
 
         selectionSpec.lastChoosePictureIdsOrUris?.forEachIndexed { index, s ->
@@ -262,7 +262,7 @@ class MediaAlbumAdapter(
     }
 
     interface OnMediaClickListener {
-        fun onMediaClick(album: Album?, item: Item, adapterPosition: Int)
+        fun onMediaClick(album: Album?, item: MediaItem, adapterPosition: Int)
     }
 
     interface OnPhotoCapture {

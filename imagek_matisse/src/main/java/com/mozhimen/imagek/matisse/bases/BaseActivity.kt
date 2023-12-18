@@ -21,7 +21,7 @@ abstract class BaseActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         selectionSpec = SelectionSpec.getInstance()
-        setTheme(selectionSpec?.themeId ?: R.style.Matisse_Default)
+        setTheme(selectionSpec?.themeRes ?: R.style.Matisse_Default)
         super.onCreate(savedInstanceState)
         if (safeCancelActivity()) return
         activity = this

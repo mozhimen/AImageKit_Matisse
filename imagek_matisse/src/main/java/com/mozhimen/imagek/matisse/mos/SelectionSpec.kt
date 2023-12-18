@@ -6,9 +6,9 @@ import com.mozhimen.imagek.matisse.cons.EMimeType
 import com.mozhimen.imagek.matisse.helpers.MimeTypeManager
 import com.mozhimen.imagek.matisse.R
 import com.mozhimen.imagek.matisse.commons.IImageEngine
-import com.mozhimen.imagek.matisse.bases.BaseFilter
-import com.mozhimen.imagek.matisse.commons.INoticeEventListener
-import com.mozhimen.imagek.matisse.commons.IStatusBarFuture
+import com.mozhimen.imagek.matisse.bases.BaseMediaFilter
+import com.mozhimen.imagek.matisse.commons.IOnNoticeEventListener
+import com.mozhimen.imagek.matisse.commons.IOnLoadStatusBarListener
 import com.mozhimen.imagek.matisse.commons.IOnCheckedListener
 import com.mozhimen.imagek.matisse.commons.IOnSelectedListener
 import java.io.File
@@ -20,7 +20,7 @@ import java.io.File
 class SelectionSpec {
     var mimeTypeSet: Set<EMimeType>? = null
     var mediaTypeExclusive = false                      // 设置单种/多种媒体资源选择 默认支持多种
-    var filters: MutableList<BaseFilter>? = null
+    var mediaFilters: MutableList<BaseMediaFilter>? = null
     var maxSelectable = 1
     var maxImageSelectable = 0
     var maxVideoSelectable = 0
@@ -31,7 +31,7 @@ class SelectionSpec {
     var spanCount = 3
     var captureStrategy: CaptureStrategy? = null
     @StyleRes
-    var themeId = R.style.Matisse_Default
+    var themeRes = R.style.Matisse_Default
     var orientation = 0
     var originalable = false
     var originalMaxSize = 0
@@ -42,8 +42,8 @@ class SelectionSpec {
     var isCircleCrop = false                        // 裁剪框的形状
     var cropCacheFolder: File? = null               // 裁剪后文件保存路径
     var hasInited = false                           // 是否初始化完成
-    var noticeEvent: INoticeEventListener? = null// 库内提示具体回调
-    var statusBarFuture: IStatusBarFuture? = null// 状态栏处理回调
+    var onNoticeEventListener: IOnNoticeEventListener? = null// 库内提示具体回调
+    var onLoadStatusBarListener: IOnLoadStatusBarListener? = null// 状态栏处理回调
     var lastChoosePictureIdsOrUris: ArrayList<String>? = null   // 上次选中的图片Id
 
     class InstanceHolder {
@@ -64,13 +64,13 @@ class SelectionSpec {
     fun reset() {
         mimeTypeSet = null
         mediaTypeExclusive = false
-        themeId = R.style.Matisse_Default
+        themeRes = R.style.Matisse_Default
         orientation = 0
         countable = false
         maxSelectable = 1
         maxImageSelectable = 0
         maxVideoSelectable = 0
-        filters = null
+        mediaFilters = null
         capture = false
         captureStrategy = null
         spanCount = 3
@@ -82,8 +82,8 @@ class SelectionSpec {
         isCircleCrop = false
         originalable = false// return original setting
         originalMaxSize = Integer.MAX_VALUE
-        noticeEvent = null
-        statusBarFuture = null
+        onNoticeEventListener = null
+        onLoadStatusBarListener = null
         lastChoosePictureIdsOrUris = null
     }
 
@@ -97,7 +97,7 @@ class SelectionSpec {
     // 是否可裁剪
     fun openCrop() = isCrop && isSingleChoose()
 
-    fun isSupportCrop(item: Item?) = item != null && item.isImage() && !item.isGif()
+    fun isSupportCrop(item: MediaItem?) = item != null && item.isImage() && !item.isGif()
 
     // 是否单一资源选择方式
     fun isMediaTypeExclusive() =

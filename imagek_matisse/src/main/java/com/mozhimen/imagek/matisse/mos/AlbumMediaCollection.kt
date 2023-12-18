@@ -6,7 +6,7 @@ import android.os.Bundle
 import androidx.fragment.app.FragmentActivity
 import androidx.loader.app.LoaderManager
 import androidx.loader.content.Loader
-import com.mozhimen.imagek.matisse.commons.IAlbum
+import com.mozhimen.imagek.matisse.commons.IAlbumListener
 import com.mozhimen.imagek.matisse.helpers.loader.AlbumMediaLoader
 import java.lang.ref.WeakReference
 
@@ -18,19 +18,19 @@ class AlbumMediaCollection : LoaderManager.LoaderCallbacks<Cursor> {
         const val ARGS_ENABLE_CAPTURE = "args_enable_capture"
     }
 
-    private var context: WeakReference<Context>? = null
-    private var loaderManager: LoaderManager? = null
-    private var callbacks: IAlbum? = null
+    private var _contextRef: WeakReference<Context>? = null
+    private var _loaderManager: LoaderManager? = null
+    private var callbacks: IAlbumListener? = null
 
 
-    fun onCreate(context: FragmentActivity, callbacks: IAlbum) {
-        this.context = WeakReference(context)
-        loaderManager = LoaderManager.getInstance(context)
+    fun onCreate(context: FragmentActivity, callbacks: IAlbumListener) {
+        this._contextRef = WeakReference(context)
+        _loaderManager = LoaderManager.getInstance(context)
         this.callbacks = callbacks
     }
 
     fun onDestroy() {
-        loaderManager?.destroyLoader(LOADER_ID)
+        _loaderManager?.destroyLoader(LOADER_ID)
         if (callbacks != null) callbacks = null
     }
 
@@ -42,11 +42,11 @@ class AlbumMediaCollection : LoaderManager.LoaderCallbacks<Cursor> {
         val args = Bundle()
         args.putParcelable(ARGS_ALBUM, target)
         args.putBoolean(ARGS_ENABLE_CAPTURE, enableCapture)
-        loaderManager?.initLoader(LOADER_ID, args, this)
+        _loaderManager?.initLoader(LOADER_ID, args, this)
     }
 
     override fun onCreateLoader(id: Int, args: Bundle?): Loader<Cursor> {
-        val content = context?.get()
+        val content = _contextRef?.get()
 
         val album = args?.getParcelable<Album>(ARGS_ALBUM)
         return AlbumMediaLoader.newInstance(
@@ -56,13 +56,13 @@ class AlbumMediaCollection : LoaderManager.LoaderCallbacks<Cursor> {
     }
 
     override fun onLoadFinished(loader: Loader<Cursor>, data: Cursor?) {
-        if (context?.get() == null) return
+        if (_contextRef?.get() == null) return
 
         callbacks?.onAlbumLoad(data!!)
     }
 
     override fun onLoaderReset(loader: Loader<Cursor>) {
-        if (context?.get() == null) return
+        if (_contextRef?.get() == null) return
 
         callbacks?.onAlbumReset()
     }

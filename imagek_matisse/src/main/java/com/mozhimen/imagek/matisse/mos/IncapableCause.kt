@@ -4,17 +4,15 @@ import android.content.Context
 import android.widget.Toast
 import androidx.fragment.app.FragmentActivity
 import com.mozhimen.imagek.matisse.annors.AForm
-import com.mozhimen.imagek.matisse.commons.INoticeEventListener
+import com.mozhimen.imagek.matisse.commons.IOnNoticeEventListener
 import com.mozhimen.imagek.matisse.widgets.IncapableDialog
 
 class IncapableCause {
 
     companion object {
         fun handleCause(context: Context, cause: IncapableCause?) {
-            if (cause?.noticeEvent != null) {
-                cause.noticeEvent?.invoke(
-                    context, cause.form, cause.title ?: "", cause.message ?: ""
-                )
+            if (cause?.onNoticeEventListener != null) {
+                cause.onNoticeEventListener?.invoke(context, cause.form, cause.title ?: "", cause.message ?: "")
                 return
             }
 
@@ -42,7 +40,9 @@ class IncapableCause {
     var title: String? = null
     var message: String? = null
     var dismissLoading: Boolean? = null
-    var noticeEvent: INoticeEventListener? = null
+    var onNoticeEventListener: IOnNoticeEventListener? = null
+
+    ////////////////////////////////////////////////////////////////////////////////////
 
     constructor(message: String) : this(AForm.TOAST, message)
     constructor(@AForm form: Int, message: String) : this(form, "", message)
@@ -52,7 +52,6 @@ class IncapableCause {
         this.title = title
         this.message = message
         this.dismissLoading = dismissLoading
-
-        this.noticeEvent = SelectionSpec.getInstance().noticeEvent
+        this.onNoticeEventListener = SelectionSpec.getInstance().onNoticeEventListener
     }
 }

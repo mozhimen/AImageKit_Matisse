@@ -6,7 +6,7 @@ import android.content.Intent
 import android.os.Bundle
 import com.mozhimen.imagek.matisse.bases.BasePreviewActivity
 import com.mozhimen.imagek.matisse.cons.Constants
-import com.mozhimen.imagek.matisse.mos.Item
+import com.mozhimen.imagek.matisse.mos.MediaItem
 
 /**
  * desc：图片选中预览</br>
@@ -27,7 +27,7 @@ class MediaPreviewActivity : BasePreviewActivity() {
     override fun setViewData() {
         super.setViewData()
         val bundle = intent.getBundleExtra(Constants.EXTRA_DEFAULT_BUNDLE)
-        val selected = bundle?.getParcelableArrayList<Item>(Constants.STATE_SELECTION)
+        val selected = bundle?.getParcelableArrayList<MediaItem>(Constants.STATE_SELECTION)
         selected?.apply {
             adapter?.addAll(this)
             adapter?.notifyDataSetChanged()

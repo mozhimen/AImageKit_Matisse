@@ -4,14 +4,14 @@ import android.content.Context
 import com.mozhimen.imagek.matisse.cons.EMimeType
 import com.mozhimen.imagek.matisse.helpers.MimeTypeManager
 import com.mozhimen.imagek.matisse.mos.IncapableCause
-import com.mozhimen.imagek.matisse.mos.Item
+import com.mozhimen.imagek.matisse.mos.MediaItem
 
 /**
  * Describe : Filter for choosing a {@link Item}. You can add multiple Filters through
  * {@link SelectionCreator #addFilter(Filter)}.
  * Created by Leo on 2018/9/4 on 16:12.
  */
-abstract class BaseFilter {
+abstract class BaseMediaFilter {
     companion object {
 
         // Convenient constant for a minimum value
@@ -32,10 +32,10 @@ abstract class BaseFilter {
      *
      * @return null if selectable, {@link IncapableCause} if not selectable.
      */
-    abstract fun filter(context: Context, item: Item?): IncapableCause?
+    abstract fun filter(context: Context, item: MediaItem?): IncapableCause?
 
     // Whether an {@link Item} need filtering
-    open fun needFiltering(context: Context, item: Item?): Boolean {
+    open fun needFiltering(context: Context, item: MediaItem?): Boolean {
         constraintTypes().forEach {
             if (MimeTypeManager.checkType(context, item?.getContentUri(), it.getValue())
             ) return true

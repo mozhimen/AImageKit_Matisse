@@ -10,13 +10,13 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.mozhimen.imagek.matisse.R
-import com.mozhimen.imagek.matisse.mos.Item
+import com.mozhimen.imagek.matisse.mos.MediaItem
 import com.mozhimen.imagek.matisse.mos.SelectionSpec
 import com.mozhimen.imagek.matisse.utils.setViewVisible
 
 class MediaGrid : SquareFrameLayout, View.OnClickListener {
 
-    private lateinit var media: Item
+    private lateinit var media: MediaItem
     private lateinit var preBindInfo: PreBindInfo
     lateinit var listener: OnMediaGridClickListener
     private var media_thumbnail: ImageView
@@ -52,7 +52,7 @@ class MediaGrid : SquareFrameLayout, View.OnClickListener {
         preBindInfo = info
     }
 
-    fun bindMedia(item: Item) {
+    fun bindMedia(item: MediaItem) {
         media = item
         setGifTag()
         initCheckView()
@@ -100,8 +100,8 @@ class MediaGrid : SquareFrameLayout, View.OnClickListener {
     }
 
     interface OnMediaGridClickListener {
-        fun onThumbnailClicked(thumbnail: ImageView, item: Item, holder: RecyclerView.ViewHolder)
-        fun onCheckViewClicked(checkView: CheckView, item: Item, holder: RecyclerView.ViewHolder)
+        fun onThumbnailClicked(thumbnail: ImageView, item: MediaItem, holder: RecyclerView.ViewHolder)
+        fun onCheckViewClicked(checkView: CheckView, item: MediaItem, holder: RecyclerView.ViewHolder)
     }
 
     class PreBindInfo(

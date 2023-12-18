@@ -6,7 +6,7 @@ import android.app.Activity
 import android.content.Intent
 import android.net.Uri
 import com.mozhimen.imagek.matisse.cons.Constants
-import com.mozhimen.imagek.matisse.mos.Item
+import com.mozhimen.imagek.matisse.mos.MediaItem
 import com.mozhimen.imagek.matisse.mos.SelectionSpec
 import com.mozhimen.imagek.matisse.helpers.MediaSelectionProxy
 import com.mozhimen.imagek.matisse.ucrop.UCrop
@@ -64,7 +64,7 @@ fun startCrop(activity: Activity, originalPath: Uri) {
  * @param selectedItems 选中的资源Item
  */
 fun handleIntentFromPreview(
-    activity: Activity, originalEnable: Boolean, selectedItems: List<Item>?
+    activity: Activity, originalEnable: Boolean, selectedItems: List<MediaItem>?
 ) {
     if (selectedItems == null) return
 
@@ -151,7 +151,7 @@ fun handlePreviewIntent(
         val resultBundle = getBundleExtra(Constants.EXTRA_RESULT_BUNDLE)
         resultBundle?.apply {
             val collectionType = getInt(Constants.STATE_COLLECTION_TYPE)
-            val selected: ArrayList<Item>? = getParcelableArrayList(Constants.STATE_SELECTION)
+            val selected: ArrayList<MediaItem>? = getParcelableArrayList(Constants.STATE_SELECTION)
             selected?.apply {
                 if (isApplyData) {
                     // 从预览界面确认提交过来

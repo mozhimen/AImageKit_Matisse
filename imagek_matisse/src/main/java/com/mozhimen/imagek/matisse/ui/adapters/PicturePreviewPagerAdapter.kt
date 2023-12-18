@@ -6,7 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.viewpager.widget.PagerAdapter
 import com.mozhimen.imagek.matisse.R
-import com.mozhimen.imagek.matisse.mos.Item
+import com.mozhimen.imagek.matisse.mos.MediaItem
 
 class PicturePreviewPagerAdapter(listener: OnPrimaryItemSetListener?) : PagerAdapter() {
 
@@ -27,7 +27,7 @@ class PicturePreviewPagerAdapter(listener: OnPrimaryItemSetListener?) : PagerAda
         }
     }
 
-    var items: ArrayList<Item> = ArrayList()
+    var items: ArrayList<MediaItem> = ArrayList()
     var kListener: OnPrimaryItemSetListener? = null
 
     init {
@@ -64,7 +64,7 @@ class PicturePreviewPagerAdapter(listener: OnPrimaryItemSetListener?) : PagerAda
         kListener?.onPrimaryItemSet(position)
     }
 
-    fun getMediaItem(position: Int): Item? {
+    fun getMediaItem(position: Int): MediaItem? {
         if (count > position) {
             return items[position]
         }
@@ -72,7 +72,7 @@ class PicturePreviewPagerAdapter(listener: OnPrimaryItemSetListener?) : PagerAda
         return null
     }
 
-    fun addAll(items: List<Item>) {
+    fun addAll(items: List<MediaItem>) {
         this.items.addAll(items)
     }
 

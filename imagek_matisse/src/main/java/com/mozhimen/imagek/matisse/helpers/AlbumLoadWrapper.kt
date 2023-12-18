@@ -1,12 +1,12 @@
 package com.mozhimen.imagek.matisse.helpers
 
 import android.os.Bundle
-import com.mozhimen.imagek.matisse.commons.IAlbum
+import com.mozhimen.imagek.matisse.commons.IAlbumListener
 import com.mozhimen.imagek.matisse.mos.AlbumCollection
 import com.mozhimen.imagek.matisse.ui.activities.MatisseActivity
 
 class AlbumLoadWrapper(
-    private var activity: MatisseActivity, private var albumLoadCallback: IAlbum
+    private var activity: MatisseActivity, private var albumLoadCallback: IAlbumListener
 ) {
 
     private var albumCollection: AlbumCollection? = null

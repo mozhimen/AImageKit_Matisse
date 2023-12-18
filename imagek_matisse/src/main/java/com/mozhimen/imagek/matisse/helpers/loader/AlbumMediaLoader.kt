@@ -7,7 +7,7 @@ import android.database.MergeCursor
 import android.provider.MediaStore
 import androidx.loader.content.CursorLoader
 import com.mozhimen.imagek.matisse.mos.Album
-import com.mozhimen.imagek.matisse.mos.Item
+import com.mozhimen.imagek.matisse.mos.MediaItem
 import com.mozhimen.imagek.matisse.mos.SelectionSpec
 import com.mozhimen.imagek.matisse.helpers.MediaStoreCompat
 
@@ -128,7 +128,7 @@ class AlbumMediaLoader(
             return result
         }
         val dummy = MatrixCursor(PROJECTION)
-        dummy.addRow(arrayOf(Item.ITEM_ID_CAPTURE, Item.ITEM_DISPLAY_NAME_CAPTURE, "", 0, 0))
+        dummy.addRow(arrayOf(MediaItem.ITEM_ID_CAPTURE, MediaItem.ITEM_DISPLAY_NAME_CAPTURE, "", 0, 0))
         return MergeCursor(arrayOf(dummy, result!!))
     }
 

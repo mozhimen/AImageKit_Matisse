@@ -9,13 +9,13 @@ import com.mozhimen.imagek.matisse.ImageKMatisse
 import com.mozhimen.imagek.matisse.annors.AScreenOrientation
 import com.mozhimen.imagek.matisse.commons.IImageEngine
 import com.mozhimen.imagek.matisse.mos.CaptureStrategy
-import com.mozhimen.imagek.matisse.bases.BaseFilter
+import com.mozhimen.imagek.matisse.bases.BaseMediaFilter
 import com.mozhimen.imagek.matisse.mos.SelectionSpec
 import com.mozhimen.imagek.matisse.commons.IOnCheckedListener
 import com.mozhimen.imagek.matisse.commons.IOnSelectedListener
 import com.mozhimen.imagek.matisse.cons.EMimeType
 import com.mozhimen.imagek.matisse.bases.BaseActivity
-import com.mozhimen.imagek.matisse.commons.INoticeEventListener
+import com.mozhimen.imagek.matisse.commons.IOnNoticeEventListener
 import com.mozhimen.imagek.matisse.ui.activities.MatisseActivity
 import java.io.File
 
@@ -23,21 +23,25 @@ import java.io.File
  * Fluent API for building media select specification.
  * Constructs a new specification builder on the context.
  *
- * @param matisse   a requester context wrapper.
+ * @param _imageKMatisse   a requester context wrapper.
  * @param mimeTypes MIME type set to select.
  */
 class SelectionCreator(
-    private val matisse: ImageKMatisse, mimeTypes: Set<EMimeType>, mediaTypeExclusive: Boolean
+    private val _imageKMatisse: ImageKMatisse, mimeTypes: Set<EMimeType>, mediaTypeExclusive: Boolean
 ) {
-    private val selectionSpec: SelectionSpec = SelectionSpec.getCleanInstance()
+    private val _selectionSpec: SelectionSpec = SelectionSpec.getCleanInstance()
+
+    /////////////////////////////////////////////////////////////////////////////////
 
     init {
-        selectionSpec.run {
+        _selectionSpec.run {
             this.mimeTypeSet = mimeTypes
             this.mediaTypeExclusive = mediaTypeExclusive
             this.orientation = SCREEN_ORIENTATION_UNSPECIFIED
         }
     }
+
+    /////////////////////////////////////////////////////////////////////////////////
 
     /**
      * Theme for media selecting Activity.
@@ -45,10 +49,10 @@ class SelectionCreator(
      * There are two built-in themes:
      * you can define a custom theme derived from the above ones or other themes.
      *
-     * @param themeId theme resource id. Default value is R.style.Matisse_Zhihu.
+     * @param themeRes theme resource id. Default value is R.style.Matisse_Zhihu.
      * @return [SelectionCreator] for fluent API.
      */
-    fun theme(@StyleRes themeId: Int) = this.apply { selectionSpec.themeId = themeId }
+    fun setThemeRes(@StyleRes themeRes: Int) = this.apply { _selectionSpec.themeRes = themeRes }
 
     /**
      * Show a auto-increased number or a check mark when user select media.
@@ -58,7 +62,7 @@ class SelectionCreator(
      * value is false.
      * @return [SelectionCreator] for fluent API.
      */
-    fun countable(countable: Boolean) = this.apply { selectionSpec.countable = countable }
+    fun setCountable(countable: Boolean) = this.apply { _selectionSpec.countable = countable }
 
     /**
      * 单一选择下
@@ -70,13 +74,13 @@ class SelectionCreator(
      * @param maxSelectable Maximum selectable count. Default value is 1.
      * @return [SelectionCreator] for fluent API.
      */
-    fun maxSelectable(maxSelectable: Int) = this.apply {
-        if (!selectionSpec.mediaTypeExclusive) return this
+    fun setMaxSelectable(maxSelectable: Int) = this.apply {
+        if (!_selectionSpec.mediaTypeExclusive) return this
         require(maxSelectable >= 1) { "maxSelectable must be greater than or equal to one" }
-        check(!(selectionSpec.maxImageSelectable > 0 || selectionSpec.maxVideoSelectable > 0)) {
+        check(!(_selectionSpec.maxImageSelectable > 0 || _selectionSpec.maxVideoSelectable > 0)) {
             "already set maxImageSelectable and maxVideoSelectable"
         }
-        selectionSpec.maxSelectable = maxSelectable
+        _selectionSpec.maxSelectable = maxSelectable
     }
 
     /**
@@ -87,26 +91,28 @@ class SelectionCreator(
      * @param maxVideoSelectable Maximum selectable count for video.
      * @return
      */
-    fun maxSelectablePerMediaType(maxImageSelectable: Int, maxVideoSelectable: Int) = this.apply {
-        if (selectionSpec.mediaTypeExclusive) return this
+    fun setMaxSelectablePerMediaType(maxImageSelectable: Int, maxVideoSelectable: Int) = this.apply {
+        if (_selectionSpec.mediaTypeExclusive) return this
         require(!(maxImageSelectable < 1 || maxVideoSelectable < 1)) {
             "mediaTypeExclusive must be false and max selectable must be greater than or equal to one"
         }
-        selectionSpec.maxSelectable = -1
-        selectionSpec.maxImageSelectable = maxImageSelectable
-        selectionSpec.maxVideoSelectable = maxVideoSelectable
+        _selectionSpec.maxSelectable = -1
+        _selectionSpec.maxImageSelectable = maxImageSelectable
+        _selectionSpec.maxVideoSelectable = maxVideoSelectable
     }
 
     /**
      * Add filter to filter each selecting item.
      *
-     * @param filter [BaseFilter]
+     * @param mediaFilter [BaseMediaFilter]
      * @return [SelectionCreator] for fluent API.
      */
-    fun addFilter(filter: BaseFilter) = apply {
-        if (selectionSpec.filters == null) selectionSpec.filters = mutableListOf()
-        selectionSpec.filters?.add(filter)
+    fun addMediaFilter(mediaFilter: BaseMediaFilter) = apply {
+        if (_selectionSpec.mediaFilters == null) _selectionSpec.mediaFilters = mutableListOf()
+        _selectionSpec.mediaFilters?.add(mediaFilter)
     }
+
+    /////////////////////////////////////////////////////////////////////////////////
 
     /**
      * Determines whether the photo capturing is enabled or not on the media grid view.
@@ -115,7 +121,7 @@ class SelectionCreator(
      * @param enable Whether to enable capturing or not. Default value is false;
      * @return [SelectionCreator] for fluent API.
      */
-    fun capture(enable: Boolean) = this.apply { selectionSpec.capture = enable }
+    fun setIsCapture(enable: Boolean) = this.apply { _selectionSpec.capture = enable }
 
     /**
      * Show a original photo check options.Let users decide whether use original photo after select
@@ -123,7 +129,7 @@ class SelectionCreator(
      * @param enable Whether to enable original photo or not
      * @return [SelectionCreator] for fluent API.
      */
-    fun originalEnable(enable: Boolean) = this.apply { selectionSpec.originalable = enable }
+    fun setOriginalCheckEnable(enable: Boolean) = this.apply { _selectionSpec.originalable = enable }
 
     /**
      * Maximum original size,the unit is MB. Only useful when {link@originalEnable} set true
@@ -131,7 +137,7 @@ class SelectionCreator(
      * @param size Maximum original size. Default value is Integer.MAX_VALUE
      * @return [SelectionCreator] for fluent API.
      */
-    fun maxOriginalSize(size: Int) = this.apply { selectionSpec.originalMaxSize = size }
+    fun setOriginalMaxSize(size: Int) = this.apply { _selectionSpec.originalMaxSize = size }
 
     /**
      * 为保存照片的位置提供捕获策略，包括内部和外部存储，以及[androidx.core.content.FileProvider]的权限。
@@ -141,9 +147,11 @@ class SelectionCreator(
      * @param captureStrategy [CaptureStrategy], needed only when capturing is enabled.
      * @return [SelectionCreator] for fluent API.
      */
-    fun captureStrategy(captureStrategy: CaptureStrategy) = this.apply {
-        selectionSpec.captureStrategy = captureStrategy
+    fun setCaptureStrategy(captureStrategy: CaptureStrategy) = this.apply {
+        _selectionSpec.captureStrategy = captureStrategy
     }
+
+    /////////////////////////////////////////////////////////////////////////////////
 
     /**
      * Set the desired orientation of this activity.
@@ -154,8 +162,8 @@ class SelectionCreator(
      * @return [SelectionCreator] for fluent API.
      * @see Activity.setRequestedOrientation
      */
-    fun restrictOrientation(@AScreenOrientation orientation: Int) = this.apply {
-        selectionSpec.orientation = orientation
+    fun setOrientation(@AScreenOrientation orientation: Int) = this.apply {
+        _selectionSpec.orientation = orientation
     }
 
     /**
@@ -166,9 +174,9 @@ class SelectionCreator(
      * @param spanCount Requested span count.
      * @return [SelectionCreator] for fluent API.
      */
-    fun spanCount(spanCount: Int) = this.apply {
-        if (selectionSpec.gridExpectedSize > 0) return this
-        selectionSpec.spanCount = spanCount
+    fun setSpanCount(spanCount: Int) = this.apply {
+        if (_selectionSpec.gridExpectedSize > 0) return this
+        _selectionSpec.spanCount = spanCount
     }
 
     /**
@@ -180,7 +188,7 @@ class SelectionCreator(
      * @param sizePx Expected media grid size in pixel.
      * @return [SelectionCreator] for fluent API.
      */
-    fun gridExpectedSize(sizePx: Int) = this.apply { selectionSpec.gridExpectedSize = sizePx }
+    fun setExpectedGridSize(sizePx: Int) = this.apply { _selectionSpec.gridExpectedSize = sizePx }
 
     /**
      * Photo thumbnail's scale compared to the View's size. It should be a float value in (0.0,1.0].
@@ -188,9 +196,9 @@ class SelectionCreator(
      * @param scale Thumbnail's scale in (0.0, 1.0]. Default value is 0.5.
      * @return [SelectionCreator] for fluent API.
      */
-    fun thumbnailScale(scale: Float) = this.apply {
+    fun setThumbnailScale(scale: Float) = this.apply {
         require(!(scale <= 0f || scale > 1f)) { "Thumbnail scale must be between (0.0, 1.0]" }
-        selectionSpec.thumbnailScale = scale
+        _selectionSpec.thumbnailScale = scale
     }
 
     /**
@@ -201,9 +209,9 @@ class SelectionCreator(
      * @param imageEngine [IImageEngine]
      * @return [SelectionCreator] for fluent API.
      */
-    fun imageEngine(imageEngine: IImageEngine) = this.apply {
-        selectionSpec.imageEngine = imageEngine
-        selectionSpec.imageEngine?.init(matisse.activity?.applicationContext!!)
+    fun setImageEngine(imageEngine: IImageEngine) = this.apply {
+        _selectionSpec.imageEngine = imageEngine
+        _selectionSpec.imageEngine?.init(_imageKMatisse.activity?.applicationContext!!)
     }
 
     /**
@@ -213,21 +221,21 @@ class SelectionCreator(
      * @param crop Whether to support crop or not. Default value is false;
      * @return [SelectionCreator] for fluent API.
      */
-    fun isCrop(crop: Boolean) = this.apply { selectionSpec.isCrop = crop }
+    fun setIsCrop(crop: Boolean) = this.apply { _selectionSpec.isCrop = crop }
 
     /**
      * isCircleCrop
      * default is RECTANGLE CROP
      */
-    fun isCircleCrop(isCircle: Boolean) = this.apply {
-        selectionSpec.isCircleCrop = isCircle
+    fun setIsCircleCrop(isCircle: Boolean) = this.apply {
+        _selectionSpec.isCircleCrop = isCircle
     }
 
     /**
      * provide file to save image after crop
      */
-    fun cropCacheFolder(cropCacheFolder: File) = this.apply {
-        selectionSpec.cropCacheFolder = cropCacheFolder
+    fun setCropCacheFolder(cropCacheFolder: File) = this.apply {
+        _selectionSpec.cropCacheFolder = cropCacheFolder
     }
 
     /**
@@ -240,7 +248,7 @@ class SelectionCreator(
      * @return [SelectionCreator] for fluent API.
      */
     fun setOnSelectedListener(listener: IOnSelectedListener?) = this.apply {
-        selectionSpec.onSelectedListener = listener
+        _selectionSpec.onSelectedListener = listener
     }
 
     /**
@@ -250,24 +258,24 @@ class SelectionCreator(
      * @return [SelectionCreator] for fluent API.
      */
     fun setOnCheckedListener(listener: IOnCheckedListener?) = this.apply {
-        selectionSpec.onCheckedListener = listener
+        _selectionSpec.onCheckedListener = listener
     }
 
     /**
      * set notice type for matisse
      */
-    fun setNoticeConsumer(
-        noticeConsumer: INoticeEventListener?
+    fun setOnNoticeEventListener(
+        listener: IOnNoticeEventListener?
     ) = this.apply {
-        selectionSpec.noticeEvent = noticeConsumer
+        _selectionSpec.onNoticeEventListener = listener
     }
 
     /**
      * set Status Bar
      */
-    fun setStatusBarFuture(statusBarFunction: ((params: BaseActivity, view: View?) -> Unit)?) =
+    fun setOnLoadStatusBarListener(statusBarFunction: ((params: BaseActivity, view: View?) -> Unit)?) =
         this.apply {
-            selectionSpec.statusBarFuture = statusBarFunction
+            _selectionSpec.onLoadStatusBarListener = statusBarFunction
         }
 
     /**
@@ -277,7 +285,7 @@ class SelectionCreator(
      * 注：暂时无法保持预选中图片的顺序
      */
     fun setLastChoosePicturesIdOrUri(list: ArrayList<String>?) = this.apply {
-        selectionSpec.lastChoosePictureIdsOrUris = list
+        _selectionSpec.lastChoosePictureIdsOrUris = list
     }
 
     /**
@@ -286,11 +294,11 @@ class SelectionCreator(
      * @param requestCode Identity of the request Activity or Fragment.
      */
     fun forResult(requestCode: Int) {
-        val activity = matisse.activity ?: return
+        val activity = _imageKMatisse.activity ?: return
 
         val intent = Intent(activity, MatisseActivity::class.java)
 
-        val fragment = matisse.fragment
+        val fragment = _imageKMatisse.fragment
         if (fragment != null) {
             fragment.startActivityForResult(intent, requestCode)
         } else {

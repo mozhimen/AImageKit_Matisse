@@ -8,7 +8,7 @@ import com.mozhimen.imagek.matisse.R
 import com.mozhimen.imagek.matisse.cons.Constants.STATE_COLLECTION_TYPE
 import com.mozhimen.imagek.matisse.cons.Constants.STATE_SELECTION
 import com.mozhimen.imagek.matisse.mos.IncapableCause
-import com.mozhimen.imagek.matisse.mos.Item
+import com.mozhimen.imagek.matisse.mos.MediaItem
 import com.mozhimen.imagek.matisse.mos.SelectionSpec
 import com.mozhimen.imagek.matisse.utils.PhotoMetadataUtils
 import com.mozhimen.imagek.matisse.utils.getPath
@@ -42,9 +42,9 @@ class MediaSelectionProxy(private var _context: Context) {
 
     /////////////////////////////////////////////////////////////////
 
-    private lateinit var items: LinkedHashSet<Item>
-    private var imageItems: LinkedHashSet<Item>? = null
-    private var videoItems: LinkedHashSet<Item>? = null
+    private lateinit var items: LinkedHashSet<MediaItem>
+    private var imageItems: LinkedHashSet<MediaItem>? = null
+    private var videoItems: LinkedHashSet<MediaItem>? = null
     private var collectionType = COLLECTION_UNDEFINED
     private val spec: SelectionSpec = SelectionSpec.getInstance()
 
@@ -54,7 +54,7 @@ class MediaSelectionProxy(private var _context: Context) {
         if (bundle == null) {
             items = linkedSetOf()
         } else {
-            val saved = bundle.getParcelableArrayList<Item>(STATE_SELECTION)
+            val saved = bundle.getParcelableArrayList<MediaItem>(STATE_SELECTION)
             items = LinkedHashSet(saved!!)
             initImageOrVideoItems()
             collectionType = bundle.getInt(STATE_COLLECTION_TYPE, COLLECTION_UNDEFINED)
@@ -72,11 +72,11 @@ class MediaSelectionProxy(private var _context: Context) {
         this
     }
 
-    fun setDefaultSelection(uris: List<Item>) {
+    fun setDefaultSelection(uris: List<MediaItem>) {
         items.addAll(uris)
     }
 
-    fun overwrite(items: ArrayList<Item>, collectionType: Int) {
+    fun overwrite(items: ArrayList<MediaItem>, collectionType: Int) {
         this.collectionType = if (items.size == 0) COLLECTION_UNDEFINED else collectionType
 
         this.items.clear()
@@ -103,7 +103,7 @@ class MediaSelectionProxy(private var _context: Context) {
         return paths
     }
 
-    fun isAcceptable(item: Item?): IncapableCause? {
+    fun isAcceptable(item: MediaItem?): IncapableCause? {
         if (maxSelectableReached(item)) {
             val maxSelectable = currentMaxSelectable(item)
             val maxSelectableTips = currentMaxSelectableTips(item)
@@ -124,7 +124,7 @@ class MediaSelectionProxy(private var _context: Context) {
         return PhotoMetadataUtils.isAcceptable(_context, item)
     }
 
-    fun maxSelectableReached(item: Item?): Boolean {
+    fun maxSelectableReached(item: MediaItem?): Boolean {
         if (!spec.isMediaTypeExclusive()) {
             if (item?.isImage() == true) {
                 return spec.maxImageSelectable == imageItems?.size
@@ -139,7 +139,7 @@ class MediaSelectionProxy(private var _context: Context) {
 
     fun isEmpty() = items.isEmpty()
 
-    fun isSelected(item: Item?) = items.contains(item)
+    fun isSelected(item: MediaItem?) = items.contains(item)
 
     fun count() = items.size
 
@@ -150,12 +150,12 @@ class MediaSelectionProxy(private var _context: Context) {
      * 此处取的是item在选中集合中的序号，
      * 所以不需区分混合选择或单独选择
      */
-    fun checkedNumOf(item: Item?): Int {
+    fun checkedNumOf(item: MediaItem?): Int {
         val index = ArrayList(items).indexOf(item)
         return if (index == -1) CheckView.UNCHECKED else index + 1
     }
 
-    fun add(item: Item?): Boolean {
+    fun add(item: MediaItem?): Boolean {
         if (typeConflict(item)) {
             throw IllegalArgumentException("Can't select images and videos at the same time.")
         }
@@ -186,7 +186,7 @@ class MediaSelectionProxy(private var _context: Context) {
         return added
     }
 
-    fun remove(item: Item?): Boolean {
+    fun remove(item: MediaItem?): Boolean {
         if (item == null) return false
         val removed = items.remove(item)
         removeImageOrVideoItem(item)
@@ -221,7 +221,7 @@ class MediaSelectionProxy(private var _context: Context) {
         }
     }
 
-    private fun currentMaxSelectableTips(item: Item?): Int {
+    private fun currentMaxSelectableTips(item: MediaItem?): Int {
         if (!spec.isMediaTypeExclusive()) {
             if (item?.isImage() == true) {
                 return R.string.error_over_count_of_image
@@ -234,7 +234,7 @@ class MediaSelectionProxy(private var _context: Context) {
     }
 
     // depends
-    private fun currentMaxSelectable(item: Item?): Int {
+    private fun currentMaxSelectable(item: MediaItem?): Int {
         if (!spec.isMediaTypeExclusive()) {
             if (item?.isImage() == true) {
                 return spec.maxImageSelectable
@@ -268,12 +268,12 @@ class MediaSelectionProxy(private var _context: Context) {
      * Determine whether there will be conflict media types. A user can only select images and videos at the same time
      * while [SelectionSpec.mediaTypeExclusive] is set to false.
      */
-    private fun typeConflict(item: Item?) =
+    private fun typeConflict(item: MediaItem?) =
         spec.isMediaTypeExclusive()
                 && ((item?.isImage() == true && (collectionType == COLLECTION_VIDEO || collectionType == COLLECTION_MIXED))
                 || (item?.isVideo() == true && (collectionType == COLLECTION_IMAGE || collectionType == COLLECTION_MIXED)))
 
-    private fun addImageOrVideoItem(item: Item) {
+    private fun addImageOrVideoItem(item: MediaItem) {
         if (item.isImage()) {
             if (imageItems == null)
                 imageItems = linkedSetOf()
@@ -287,7 +287,7 @@ class MediaSelectionProxy(private var _context: Context) {
         }
     }
 
-    private fun removeImageOrVideoItem(item: Item) {
+    private fun removeImageOrVideoItem(item: MediaItem) {
         if (item.isImage()) {
             imageItems?.remove(item)
         } else if (item.isVideo()) {

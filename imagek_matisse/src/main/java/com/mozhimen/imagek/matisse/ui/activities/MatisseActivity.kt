@@ -19,8 +19,8 @@ import com.mozhimen.imagek.matisse.annors.AForm
 import com.mozhimen.imagek.matisse.mos.Album
 import com.mozhimen.imagek.matisse.cons.Constants
 import com.mozhimen.imagek.matisse.mos.IncapableCause
-import com.mozhimen.imagek.matisse.mos.Item
-import com.mozhimen.imagek.matisse.commons.IAlbum
+import com.mozhimen.imagek.matisse.mos.MediaItem
+import com.mozhimen.imagek.matisse.commons.IAlbumListener
 import com.mozhimen.imagek.matisse.helpers.MediaSelectionProxy
 import com.mozhimen.imagek.matisse.ucrop.UCrop
 import com.mozhimen.imagek.matisse.bases.BaseActivity
@@ -69,7 +69,7 @@ class MatisseActivity : BaseActivity(), MediaSelectionFragment.IMediaSelectionPr
     override fun configActivity() {
         super.configActivity()
         initView()
-        selectionSpec?.statusBarFuture?.invoke(this, toolbar)
+        selectionSpec?.onLoadStatusBarListener?.invoke(this, toolbar)
 
         if (selectionSpec?.capture == true) {
             mediaStoreCompat = MediaStoreCompat(this)
@@ -222,7 +222,7 @@ class MatisseActivity : BaseActivity(), MediaSelectionFragment.IMediaSelectionPr
 
     override fun provideSelectedItemCollection() = mediaSelectionProxy
 
-    override fun onMediaClick(album: Album?, item: Item, adapterPosition: Int) {
+    override fun onMediaClick(album: Album?, item: MediaItem, adapterPosition: Int) {
         val intent = Intent(this, AlbumPreviewActivity::class.java)
             .putExtra(Constants.EXTRA_ALBUM, album as Parcelable)
             .putExtra(Constants.EXTRA_ITEM, item)
@@ -328,7 +328,7 @@ class MatisseActivity : BaseActivity(), MediaSelectionFragment.IMediaSelectionPr
         }
     }
 
-    private var albumCallback = object : IAlbum {
+    private var albumCallback = object : IAlbumListener {
         override fun onAlbumStart() {
             // do nothing
         }

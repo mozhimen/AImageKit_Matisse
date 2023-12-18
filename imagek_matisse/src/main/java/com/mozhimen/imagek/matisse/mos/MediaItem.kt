@@ -11,9 +11,12 @@ import kotlinx.android.parcel.IgnoredOnParcel
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize
-class Item(
-    var id: Long, private var mimeType: String, var size: Long = 0,
-    var duration: Long = 0, var positionInList: Int = -1
+class MediaItem(
+    var id: Long,
+    private var mimeType: String,
+    var size: Long = 0,
+    var duration: Long = 0,
+    var positionInList: Int = -1
 ) : Parcelable {
 
     companion object {
@@ -23,7 +26,7 @@ class Item(
         // * 注：资源文件size单位为字节byte
         @SuppressLint("Range")
         fun valueOf(cursor: Cursor?, positionInList: Int = -1) = cursor?.let {
-            Item(
+            MediaItem(
                 it.getLong(it.getColumnIndex(MediaStore.Files.FileColumns._ID)),
                 it.getString(it.getColumnIndex(MediaStore.MediaColumns.MIME_TYPE)),
                 it.getLong(it.getColumnIndex(MediaStore.MediaColumns.SIZE)),
@@ -32,8 +35,12 @@ class Item(
         }
     }
 
+    ///////////////////////////////////////////////////////////////////////////////
+
     @IgnoredOnParcel
     private var uri: Uri
+
+    ///////////////////////////////////////////////////////////////////////////////
 
     init {
         val contentUri = when {
@@ -43,6 +50,8 @@ class Item(
         }
         uri = ContentUris.withAppendedId(contentUri, id)
     }
+
+    ///////////////////////////////////////////////////////////////////////////////
 
     fun isImage() = MimeTypeManager.isImage(mimeType)
 
@@ -54,12 +63,14 @@ class Item(
 
     fun isCapture() = id == ITEM_ID_CAPTURE
 
-    override fun describeContents() = 0
+    ///////////////////////////////////////////////////////////////////////////////
+
+    override fun describeContents(): Int = 0
 
     override fun equals(other: Any?): Boolean {
-        if (other !is Item) return false
+        if (other !is MediaItem) return false
 
-        val otherItem = other as Item?
+        val otherItem = other as MediaItem?
         return ((id == otherItem?.id && (mimeType == otherItem.mimeType))
                 && (uri == otherItem.uri) && size == otherItem.size && duration == otherItem.duration)
     }

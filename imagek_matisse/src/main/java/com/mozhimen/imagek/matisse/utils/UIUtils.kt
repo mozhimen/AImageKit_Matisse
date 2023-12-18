@@ -25,8 +25,8 @@ const val MIN_GRID_WIDTH = 200              // min width of media grid
 const val MAX_SPAN_COUNT = 6                // max span of media grid
 
 fun handleCause(context: Context, cause: IncapableCause?) {
-    if (cause?.noticeEvent != null) {
-        cause.noticeEvent?.invoke(
+    if (cause?.onNoticeEventListener != null) {
+        cause.onNoticeEventListener?.invoke(
             context, cause.form, cause.title ?: "", cause.message ?: ""
         )
         return

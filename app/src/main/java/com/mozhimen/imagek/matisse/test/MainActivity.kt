@@ -33,6 +33,7 @@ class MainActivity : BaseActivityVB<ActivityMainBinding>() {
         }
     }
 
+    @Deprecated("Deprecated in Java")
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode != Activity.RESULT_OK) return
@@ -43,10 +44,10 @@ class MainActivity : BaseActivityVB<ActivityMainBinding>() {
         _selectionCreator =
             ImageKMatisse.from(this)
                 .choose(MimeTypeManager.ofImage())
-                .theme(com.mozhimen.imagek.matisse.R.style.Matisse_Default)
-                .countable(false)
-                .maxSelectable(1)
-                .capture(false)
+                .setThemeRes(com.mozhimen.imagek.matisse.R.style.Matisse_Default)
+                .setCountable(false)
+                .setMaxSelectable(1)
+                .setIsCapture(false)
                 .captureStrategy(CaptureStrategy(true, "${UtilKPackage.getPackageName()}.provider"))
                 .restrictOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT)
                 .spanCount(3)

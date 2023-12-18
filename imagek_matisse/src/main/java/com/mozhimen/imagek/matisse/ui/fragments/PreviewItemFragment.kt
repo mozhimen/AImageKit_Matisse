@@ -9,7 +9,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.mozhimen.imagek.matisse.R
-import com.mozhimen.imagek.matisse.mos.Item
+import com.mozhimen.imagek.matisse.mos.MediaItem
 import com.mozhimen.imagek.matisse.mos.SelectionSpec
 import com.mozhimen.imagek.matisse.utils.PhotoMetadataUtils
 import it.sephiroth.android.library.imagezoom.ImageViewTouch
@@ -26,7 +26,7 @@ class PreviewItemFragment : Fragment() {
     companion object {
         private const val ARGS_ITEM = "args_item"
 
-        fun newInstance(item: Item): PreviewItemFragment {
+        fun newInstance(item: MediaItem): PreviewItemFragment {
             val fragment = PreviewItemFragment()
             val bundle = Bundle()
             bundle.putParcelable(ARGS_ITEM, item)
@@ -41,7 +41,7 @@ class PreviewItemFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val item: Item = arguments!!.getParcelable(ARGS_ITEM) ?: return
+        val item: MediaItem = arguments!!.getParcelable(ARGS_ITEM) ?: return
 
         val videoPlayButton: View = view.findViewById(R.id.video_play_button)
         if (item.isVideo()) {
