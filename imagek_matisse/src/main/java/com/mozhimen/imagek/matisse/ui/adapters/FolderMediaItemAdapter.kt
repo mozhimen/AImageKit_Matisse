@@ -13,13 +13,15 @@ import com.mozhimen.imagek.matisse.mos.Album
 import com.mozhimen.imagek.matisse.mos.SelectionSpec
 import com.mozhimen.imagek.matisse.widgets.CheckRadioView
 
-class FolderItemMediaAdapter(var context: Context, var mCurrentPosition: Int) :
-    RecyclerView.Adapter<FolderItemMediaAdapter.FolderViewHolder>() {
+class FolderMediaItemAdapter(var context: Context, var mCurrentPosition: Int) :
+    RecyclerView.Adapter<FolderMediaItemAdapter.FolderViewHolder>() {
 
     var albumList = arrayListOf<Album>()
     private var inflater: LayoutInflater
     var itemClickListener: OnItemClickListener? = null
     private var placeholder: Drawable?
+
+    /////////////////////////////////////////////////////////////////
 
     init {
         val ta = context.theme.obtainStyledAttributes(intArrayOf(R.attr.ItemImage_ResPlaceholder))
@@ -28,6 +30,8 @@ class FolderItemMediaAdapter(var context: Context, var mCurrentPosition: Int) :
 
         inflater = LayoutInflater.from(context)
     }
+
+    /////////////////////////////////////////////////////////////////
 
     override fun onBindViewHolder(holder: FolderViewHolder, position: Int) {
 
@@ -54,11 +58,15 @@ class FolderItemMediaAdapter(var context: Context, var mCurrentPosition: Int) :
 
     override fun getItemCount() = albumList.size
 
+    /////////////////////////////////////////////////////////////////
+
     fun setListData(list: MutableList<Album>?) {
         albumList.clear()
         list?.apply { albumList.addAll(this) }
         notifyDataSetChanged()
     }
+
+    /////////////////////////////////////////////////////////////////
 
     inner class FolderViewHolder(private val mParentView: ViewGroup, itemView: View) :
         RecyclerView.ViewHolder(itemView), View.OnClickListener {
@@ -99,6 +107,8 @@ class FolderItemMediaAdapter(var context: Context, var mCurrentPosition: Int) :
             setChecked(checked)
         }
     }
+
+    /////////////////////////////////////////////////////////////////
 
     interface OnItemClickListener {
         fun onItemClick(view: View, position: Int)

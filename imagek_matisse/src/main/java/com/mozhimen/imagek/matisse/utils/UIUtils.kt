@@ -15,7 +15,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.FragmentActivity
 import com.mozhimen.imagek.matisse.R
-import com.mozhimen.imagek.matisse.annors.AForm
+import com.mozhimen.imagek.matisse.annors.AFormType
 import com.mozhimen.imagek.matisse.mos.IncapableCause
 import com.mozhimen.imagek.matisse.widgets.IncapableDialog
 import kotlin.math.min
@@ -27,13 +27,13 @@ const val MAX_SPAN_COUNT = 6                // max span of media grid
 fun handleCause(context: Context, cause: IncapableCause?) {
     if (cause?.onNoticeEventListener != null) {
         cause.onNoticeEventListener?.invoke(
-            context, cause.form, cause.title ?: "", cause.message ?: ""
+            context, cause.formType, cause.title ?: "", cause.message ?: ""
         )
         return
     }
 
-    when (cause?.form) {
-        AForm.DIALOG -> {
+    when (cause?.formType) {
+        AFormType.DIALOG -> {
             val incapableDialog = IncapableDialog.newInstance(cause.title, cause.message)
             incapableDialog.show(
                 (context as FragmentActivity).supportFragmentManager,
@@ -41,7 +41,7 @@ fun handleCause(context: Context, cause: IncapableCause?) {
             )
         }
 
-        AForm.TOAST -> {
+        AFormType.TOAST -> {
             Toast.makeText(context, cause.message, Toast.LENGTH_SHORT).show()
         }
     }

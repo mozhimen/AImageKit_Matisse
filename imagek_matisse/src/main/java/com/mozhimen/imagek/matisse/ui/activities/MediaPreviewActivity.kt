@@ -5,7 +5,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import com.mozhimen.imagek.matisse.bases.BasePreviewActivity
-import com.mozhimen.imagek.matisse.cons.Constants
+import com.mozhimen.imagek.matisse.cons.ImageKMatisseCons
 import com.mozhimen.imagek.matisse.mos.MediaItem
 
 /**
@@ -19,19 +19,21 @@ class MediaPreviewActivity : BasePreviewActivity() {
     companion object {
         fun instance(context: Context, bundle: Bundle, mOriginalEnable: Boolean) {
             val intent = Intent(context, MediaPreviewActivity::class.java)
-            intent.putExtra(Constants.EXTRA_DEFAULT_BUNDLE, bundle).putExtra(Constants.EXTRA_RESULT_ORIGINAL_ENABLE, mOriginalEnable)
-            (context as Activity).startActivityForResult(intent, Constants.REQUEST_CODE_PREVIEW)
+            intent.putExtra(ImageKMatisseCons.EXTRA_DEFAULT_BUNDLE, bundle).putExtra(ImageKMatisseCons.EXTRA_RESULT_ORIGINAL_ENABLE, mOriginalEnable)
+            (context as Activity).startActivityForResult(intent, ImageKMatisseCons.REQUEST_CODE_PREVIEW)
         }
     }
 
+    //////////////////////////////////////////////////////////
+
     override fun setViewData() {
         super.setViewData()
-        val bundle = intent.getBundleExtra(Constants.EXTRA_DEFAULT_BUNDLE)
-        val selected = bundle?.getParcelableArrayList<MediaItem>(Constants.STATE_SELECTION)
+        val bundle = intent.getBundleExtra(ImageKMatisseCons.EXTRA_DEFAULT_BUNDLE)
+        val selected = bundle?.getParcelableArrayList<MediaItem>(ImageKMatisseCons.STATE_SELECTION)
         selected?.apply {
-            adapter?.addAll(this)
-            adapter?.notifyDataSetChanged()
-            check_view?.apply {
+            previewPagerAdapter?.addAll(this)
+            previewPagerAdapter?.notifyDataSetChanged()
+            checkView?.apply {
                 if (selectionSpec?.isCountable() == true) {
                     setCheckedNum(1)
                 } else {

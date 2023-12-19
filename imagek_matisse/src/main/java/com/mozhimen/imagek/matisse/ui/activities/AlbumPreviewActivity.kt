@@ -3,31 +3,33 @@ package com.mozhimen.imagek.matisse.ui.activities
 import android.database.Cursor
 import com.mozhimen.imagek.matisse.bases.BasePreviewActivity
 import com.mozhimen.imagek.matisse.mos.Album
-import com.mozhimen.imagek.matisse.cons.Constants
+import com.mozhimen.imagek.matisse.cons.ImageKMatisseCons
 import com.mozhimen.imagek.matisse.mos.MediaItem
-import com.mozhimen.imagek.matisse.commons.IAlbumListener
-import com.mozhimen.imagek.matisse.mos.AlbumMediaCollection
+import com.mozhimen.imagek.matisse.commons.IAlbumLoadListener
+import com.mozhimen.imagek.matisse.helpers.loader.AlbumMediaCursorLoaderCallbacks
 import com.mozhimen.imagek.matisse.ui.adapters.PreviewPagerAdapter
 
 /**
  * Created by liubo on 2018/9/11.
  */
-class AlbumPreviewActivity : BasePreviewActivity(), IAlbumListener {
+class AlbumPreviewActivity : BasePreviewActivity(), IAlbumLoadListener {
 
-    private var collection = AlbumMediaCollection()
+    private var _albumMediaCursorLoaderCallbacks = AlbumMediaCursorLoaderCallbacks()
     private var isAlreadySetPosition = false
+
+    //////////////////////////////////////////////////////////
 
     override fun setViewData() {
         super.setViewData()
-        collection.onCreate(this, this)
-        val album = intent.getParcelableExtra<Album>(Constants.EXTRA_ALBUM) ?: return
-        collection.load(album)
-        val item = intent.getParcelableExtra<MediaItem>(Constants.EXTRA_ITEM)
-        check_view?.apply {
+        _albumMediaCursorLoaderCallbacks.onCreate(this, this)
+        val album = intent.getParcelableExtra<Album>(ImageKMatisseCons.EXTRA_ALBUM) ?: return
+        _albumMediaCursorLoaderCallbacks.load(album)
+        val item = intent.getParcelableExtra<MediaItem>(ImageKMatisseCons.EXTRA_ITEM)
+        checkView?.apply {
             if (selectionSpec?.isCountable() == true) {
-                setCheckedNum(selectedCollection.checkedNumOf(item))
+                setCheckedNum(mediaSelectionProxy.checkedNumOf(item))
             } else {
-                setChecked(selectedCollection.isSelected(item))
+                setChecked(mediaSelectionProxy.isSelected(item))
             }
         }
         updateSize(item)
@@ -35,7 +37,7 @@ class AlbumPreviewActivity : BasePreviewActivity(), IAlbumListener {
 
     override fun onDestroy() {
         super.onDestroy()
-        collection.onDestroy()
+        _albumMediaCursorLoaderCallbacks.onDestroy()
     }
 
     override fun onAlbumLoad(cursor: Cursor) {
@@ -45,14 +47,14 @@ class AlbumPreviewActivity : BasePreviewActivity(), IAlbumListener {
         }
 
         if (items.isEmpty()) return
-        val adapter = pager?.adapter as PreviewPagerAdapter
+        val adapter = previewViewPager?.adapter as PreviewPagerAdapter
         adapter.addAll(items)
         adapter.notifyDataSetChanged()
         if (!isAlreadySetPosition) {
             isAlreadySetPosition = true
-            val selected = intent.getParcelableExtra<MediaItem>(Constants.EXTRA_ITEM) ?: return
+            val selected = intent.getParcelableExtra<MediaItem>(ImageKMatisseCons.EXTRA_ITEM) ?: return
             val selectedIndex = items.indexOf(selected)
-            pager?.setCurrentItem(selectedIndex, false)
+            previewViewPager?.setCurrentItem(selectedIndex, false)
             previousPos = selectedIndex
         }
     }

@@ -10,15 +10,15 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.mozhimen.imagek.matisse.R
 import com.mozhimen.imagek.matisse.commons.IFolderBottomSheetListener
-import com.mozhimen.imagek.matisse.cons.Constants
-import com.mozhimen.imagek.matisse.ui.adapters.FolderItemMediaAdapter
+import com.mozhimen.imagek.matisse.cons.ImageKMatisseCons
+import com.mozhimen.imagek.matisse.ui.adapters.FolderMediaItemAdapter
 import com.mozhimen.imagek.matisse.utils.getScreenHeight
 
 class FolderBottomSheet : BottomSheetDialogFragment() {
 
     private var kParentView: View? = null
     private lateinit var recyclerView: RecyclerView
-    var adapter: FolderItemMediaAdapter? = null
+    var adapter: FolderMediaItemAdapter? = null
     var folderBottomSheetListener: IFolderBottomSheetListener? = null
     private var currentPosition = 0
 
@@ -28,7 +28,7 @@ class FolderBottomSheet : BottomSheetDialogFragment() {
         fun instance(context: Context, currentPos: Int, tag: String): FolderBottomSheet {
             val folderBottomSheet = FolderBottomSheet()
             val bundle = Bundle()
-            bundle.putInt(Constants.FOLDER_CHECK_POSITION, currentPos)
+            bundle.putInt(ImageKMatisseCons.FOLDER_CHECK_POSITION, currentPos)
             folderBottomSheet.arguments = bundle
             folderBottomSheet.show((context as FragmentActivity).supportFragmentManager, tag)
             return folderBottomSheet
@@ -39,7 +39,7 @@ class FolderBottomSheet : BottomSheetDialogFragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        currentPosition = arguments?.getInt(Constants.FOLDER_CHECK_POSITION, 0) ?: 0
+        currentPosition = arguments?.getInt(ImageKMatisseCons.FOLDER_CHECK_POSITION, 0) ?: 0
     }
 
     override fun getContentView(inflater: LayoutInflater, container: ViewGroup): View {
@@ -63,11 +63,11 @@ class FolderBottomSheet : BottomSheetDialogFragment() {
         recyclerView.layoutManager = LinearLayoutManager(context)
         recyclerView.setHasFixedSize(true)
         setRecyclerViewHeight()
-        adapter = FolderItemMediaAdapter(requireContext(), currentPosition).apply {
+        adapter = FolderMediaItemAdapter(requireContext(), currentPosition).apply {
             recyclerView.adapter = this
             folderBottomSheetListener?.initData(this)
 
-            itemClickListener = object : FolderItemMediaAdapter.OnItemClickListener {
+            itemClickListener = object : FolderMediaItemAdapter.OnItemClickListener {
                 override fun onItemClick(view: View, position: Int) {
                     dismiss()
                     folderBottomSheetListener?.onItemClick(albumList[position], position)

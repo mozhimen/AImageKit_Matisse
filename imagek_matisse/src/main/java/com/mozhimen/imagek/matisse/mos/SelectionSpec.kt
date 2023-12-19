@@ -12,6 +12,7 @@ import com.mozhimen.imagek.matisse.commons.IOnLoadStatusBarListener
 import com.mozhimen.imagek.matisse.commons.IOnCheckedListener
 import com.mozhimen.imagek.matisse.commons.IOnSelectedListener
 import java.io.File
+import com.mozhimen.basick.elemk.android.provider.MediaStoreCaptureProxy.CaptureStrategy
 
 /**
  * Describe : Builder to get config values

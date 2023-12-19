@@ -3,15 +3,17 @@ package com.mozhimen.imagek.matisse.bases
 import android.app.Activity
 import android.content.pm.ActivityInfo
 import android.os.Bundle
+import androidx.annotation.CallSuper
 import androidx.appcompat.app.AppCompatActivity
+import com.mozhimen.basick.elemk.androidx.appcompat.commons.IActivity
 import com.mozhimen.imagek.matisse.R
-import com.mozhimen.imagek.matisse.annors.AForm
+import com.mozhimen.imagek.matisse.annors.AFormType
 import com.mozhimen.imagek.matisse.mos.IncapableCause
 import com.mozhimen.imagek.matisse.mos.SelectionSpec
 import com.mozhimen.imagek.matisse.utils.handleCause
 import com.mozhimen.imagek.matisse.utils.obtainAttrString
 
-abstract class BaseActivity : AppCompatActivity() {
+abstract class BaseActivity : AppCompatActivity(), IActivity {
 
     lateinit var activity: Activity
     var selectionSpec: SelectionSpec? = null
@@ -25,6 +27,8 @@ abstract class BaseActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         if (safeCancelActivity()) return
         activity = this
+
+        initFlag()
         setContentView(getResourceLayoutId())
         configActivity()
         configSaveInstanceState(savedInstanceState)
@@ -42,11 +46,17 @@ abstract class BaseActivity : AppCompatActivity() {
 
     //////////////////////////////////////////////////////////////////////////////////
 
+    override fun initLayout() {}
+
+    override fun initData(savedInstanceState: android.os.Bundle?) {}
+
+    override fun initFlag() {}
+
     /**
      * 处理状态栏(状态栏颜色、状态栏字体颜色、是否隐藏等操作)
-     *
      * 空实现，供外部重写
      */
+    @CallSuper
     open fun configActivity() {
         if (selectionSpec?.needOrientationRestriction() == true) {
             requestedOrientation = selectionSpec?.orientation ?: ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED
@@ -66,7 +76,7 @@ abstract class BaseActivity : AppCompatActivity() {
     /**
      * 抽离提示方法
      */
-    fun handleCauseTips(message: String = "", @AForm form: Int = AForm.TOAST, title: String = "", dismissLoading: Boolean = true) {
+    fun handleCauseTips(message: String = "", @AFormType form: Int = AFormType.TOAST, title: String = "", dismissLoading: Boolean = true) {
         handleCause(activity, IncapableCause(form, title, message, dismissLoading))
     }
 

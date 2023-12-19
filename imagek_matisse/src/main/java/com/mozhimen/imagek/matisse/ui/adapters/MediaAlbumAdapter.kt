@@ -23,7 +23,14 @@ import com.mozhimen.imagek.matisse.widgets.MediaGrid
 class MediaAlbumAdapter(
     private var context: Context, private var selectedCollection: MediaSelectionProxy,
     private var recyclerView: RecyclerView
-) : RecyclerViewCursorAdapter<RecyclerView.ViewHolder>(null), MediaGrid.OnMediaGridClickListener {
+) : RecyclerViewCursorAdapter<RecyclerView.ViewHolder>(null), MediaGrid.IOnMediaGridClickListener {
+
+    companion object {
+        const val VIEW_TYPE_CAPTURE = 0X01
+        const val VIEW_TYPE_MEDIA = 0X02
+    }
+
+    ////////////////////////////////////////////////////////////////////////////
 
     private var placeholder: Drawable? = null
     private var selectionSpec: SelectionSpec = SelectionSpec.getInstance()
@@ -31,6 +38,8 @@ class MediaAlbumAdapter(
     var onMediaClickListener: OnMediaClickListener? = null
     private var imageResize = 0
     private var layoutInflater: LayoutInflater
+
+    ////////////////////////////////////////////////////////////////////////////
 
     init {
         val ta = context.theme.obtainStyledAttributes(intArrayOf(R.attr.ItemImage_ResPlaceholder))
@@ -40,10 +49,7 @@ class MediaAlbumAdapter(
         layoutInflater = LayoutInflater.from(context)
     }
 
-    companion object {
-        const val VIEW_TYPE_CAPTURE = 0X01
-        const val VIEW_TYPE_MEDIA = 0X02
-    }
+    ////////////////////////////////////////////////////////////////////////////
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return when (viewType) {
@@ -89,6 +95,35 @@ class MediaAlbumAdapter(
     override fun getItemViewType(position: Int, cursor: Cursor) =
         if (MediaItem.valueOf(cursor)?.isCapture() == true) VIEW_TYPE_CAPTURE else VIEW_TYPE_MEDIA
 
+    override fun onThumbnailClicked(thumbnail: ImageView, item: MediaItem, holder: RecyclerView.ViewHolder) {
+        onMediaClickListener?.onMediaClick(null, item, holder.adapterPosition)
+    }
+
+    /**
+     * 单选：
+     *     a.选中：刷新当前项与上次选择项
+     *     b.取消选中：刷新当前项与上次选择项
+     *
+     * 多选：
+     *      1. 按序号计数
+     *          a.选中：仅刷新选中的item
+     *          b.取消选中：
+     *              取消最后一位：仅刷新当前操作的item
+     *              取消非最后一位：刷新所有选中的item
+     *      2. 无序号计数
+     *          a.选中：仅刷新选中的item
+     *          b.取消选中：仅刷新选中的item
+     */
+    override fun onCheckViewClicked(checkView: CheckView, item: MediaItem, holder: RecyclerView.ViewHolder) {
+        if (selectionSpec.isSingleChoose()) {
+            notifySingleChooseData(item)
+        } else {
+            notifyMultiChooseData(item)
+        }
+    }
+
+    ////////////////////////////////////////////////////////////////////////////
+
     private fun getImageResize(context: Context): Int {
         if (imageResize != 0) return imageResize
 
@@ -122,37 +157,6 @@ class MediaAlbumAdapter(
             }
         } else {
             mediaGrid.setChecked(selectedCollection.isSelected(item))
-        }
-    }
-
-    override fun onThumbnailClicked(
-        thumbnail: ImageView, item: MediaItem, holder: RecyclerView.ViewHolder
-    ) {
-        onMediaClickListener?.onMediaClick(null, item, holder.adapterPosition)
-    }
-
-    /**
-     * 单选：
-     *     a.选中：刷新当前项与上次选择项
-     *     b.取消选中：刷新当前项与上次选择项
-     *
-     * 多选：
-     *      1. 按序号计数
-     *          a.选中：仅刷新选中的item
-     *          b.取消选中：
-     *              取消最后一位：仅刷新当前操作的item
-     *              取消非最后一位：刷新所有选中的item
-     *      2. 无序号计数
-     *          a.选中：仅刷新选中的item
-     *          b.取消选中：仅刷新选中的item
-     */
-    override fun onCheckViewClicked(
-        checkView: CheckView, item: MediaItem, holder: RecyclerView.ViewHolder
-    ) {
-        if (selectionSpec.isSingleChoose()) {
-            notifySingleChooseData(item)
-        } else {
-            notifyMultiChooseData(item)
         }
     }
 
@@ -257,6 +261,8 @@ class MediaAlbumAdapter(
         }
     }
 
+    ////////////////////////////////////////////////////////////////////////////
+    
     interface CheckStateListener {
         fun onSelectUpdate()
     }

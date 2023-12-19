@@ -9,52 +9,54 @@ import com.mozhimen.imagek.matisse.commons.IFolderBottomSheetListener
 import com.mozhimen.imagek.matisse.mos.Album
 import com.mozhimen.imagek.matisse.ui.fragments.FolderBottomSheet
 
-class FolderBottomSheetWrapper(
-    private var context: Context, private var _folderBottomSheetListener: IFolderBottomSheetListener
+class FolderBottomSheetProxy(
+    private var _context: Context, private var _folderBottomSheetListener: IFolderBottomSheetListener
 ) {
-    private var albumFolderCursor: Cursor? = null
-    private var albumFolderList: ArrayList<Album>? = null
-    private var bottomSheet: FolderBottomSheet? = null
-    private var lastFolderCheckedPosition = 0
+    private var _folderCursor: Cursor? = null
+    private var _folderList: ArrayList<Album>? = null
+    private var _folderBottomSheet: FolderBottomSheet? = null
+    private var _lastFolderCheckedPosition = 0
+
+    //////////////////////////////////////////////////////////
 
     fun createFolderSheetDialog() {
-        bottomSheet = FolderBottomSheet.instance(
-            context, lastFolderCheckedPosition, "Folder"
+        _folderBottomSheet = FolderBottomSheet.instance(
+            _context, _lastFolderCheckedPosition, "Folder"
         )
 
-        bottomSheet?.folderBottomSheetListener = _folderBottomSheetListener
+        _folderBottomSheet?.folderBottomSheetListener = _folderBottomSheetListener
     }
 
     fun readAlbumFromCursor(): ArrayList<Album>? {
-        if (albumFolderList?.size ?: 0 > 0) return albumFolderList
+        if (_folderList?.size ?: 0 > 0) return _folderList
 
-        if (albumFolderCursor == null) return null
+        if (_folderCursor == null) return null
 
         var allFolderCoverPath: Uri? = null
         var allFolderCount = 0L
-        if (albumFolderList == null) {
-            albumFolderList = arrayListOf()
+        if (_folderList == null) {
+            _folderList = arrayListOf()
         }
 
-        albumFolderCursor?.moveToFirst()
-        while (albumFolderCursor!!.moveToNext()) {
-            val album = Album.valueOf(albumFolderCursor!!)
-            if (albumFolderList?.size == 0) {
+        _folderCursor?.moveToFirst()
+        while (_folderCursor!!.moveToNext()) {
+            val album = Album.valueOf(_folderCursor!!)
+            if (_folderList?.size == 0) {
                 allFolderCoverPath = album.getCoverPath()
             }
-            albumFolderList?.add(album)
+            _folderList?.add(album)
             allFolderCount += album.getCount()
         }
-        albumFolderList?.add(
-            0, Album(allFolderCoverPath, context.getString(R.string.album_name_all), allFolderCount)
+        _folderList?.add(
+            0, Album(allFolderCoverPath, _context.getString(R.string.album_name_all), allFolderCount)
         )
-        return albumFolderList
+        return _folderList
     }
 
     fun insetAlbumToFolder(capturePath: Uri) {
         readAlbumFromCursor()
 
-        albumFolderList?.apply {
+        _folderList?.apply {
             // 全部相册需添加一张
             this[0].addCaptureCount()
             this[0].setCoverPath(capturePath)
@@ -71,7 +73,7 @@ class FolderBottomSheetWrapper(
 //            }
 
             // Pictures目录手动添加一张图片
-            filter { Environment.DIRECTORY_PICTURES == it.getDisplayName(context) }.forEach {
+            filter { Environment.DIRECTORY_PICTURES == it.getDisplayName(_context) }.forEach {
                 it.addCaptureCount()
                 it.setCoverPath(capturePath)
             }
@@ -83,22 +85,22 @@ class FolderBottomSheetWrapper(
      * @return true=记录成功   false=记录失败
      */
     fun setLastFolderCheckedPosition(lastPosition: Int): Boolean {
-        if (lastFolderCheckedPosition == lastPosition) return false
-        lastFolderCheckedPosition = lastPosition
+        if (_lastFolderCheckedPosition == lastPosition) return false
+        _lastFolderCheckedPosition = lastPosition
         return true
     }
 
     fun setAlbumFolderCursor(cursor: Cursor) {
-        albumFolderCursor = cursor
+        _folderCursor = cursor
         readAlbumFromCursor()
     }
 
-    fun getAlbumFolderList() = albumFolderList
+    fun getAlbumFolderList() = _folderList
 
     fun clearFolderSheetDialog() {
-        if (bottomSheet != null && bottomSheet?.adapter != null) {
-            albumFolderCursor = null
-            bottomSheet?.adapter?.setListData(null)
+        if (_folderBottomSheet != null && _folderBottomSheet?.adapter != null) {
+            _folderCursor = null
+            _folderBottomSheet?.adapter?.setListData(null)
         }
     }
 }

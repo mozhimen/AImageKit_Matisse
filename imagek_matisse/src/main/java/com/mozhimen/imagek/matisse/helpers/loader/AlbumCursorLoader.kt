@@ -19,7 +19,7 @@ import java.util.*
  * Describe : Load all albums(group by bucket_id) into a single cursor
  * Created by Leo on 2018/8/29 on 14:28.
  */
-class AlbumLoader(context: Context, selection: String, selectionArgs: Array<out String>) : CursorLoader(
+class AlbumCursorLoader(context: Context, selection: String, selectionArgs: Array<out String>) : CursorLoader(
     context, QUERY_URI, if (beforeAndroidTen()) PROJECTION else PROJECTION_29,
     selection, selectionArgs, BUCKET_ORDER_BY
 ) {
@@ -41,6 +41,33 @@ class AlbumLoader(context: Context, selection: String, selectionArgs: Array<out 
             MediaStore.Files.FileColumns._ID, BUCKET_ID, BUCKET_DISPLAY_NAME,
             MediaStore.MediaColumns.MIME_TYPE, "COUNT(*) AS $COLUMN_COUNT"
         )
+
+        ///////////////////////////////////////////////////////////////////////
+
+        fun newInstance(context: Context): CursorLoader {
+            var selection = if (beforeAndroidTen())
+                SELECTION_FOR_SINGLE_MEDIA_TYPE
+            else
+                SELECTION_FOR_SINGLE_MEDIA_TYPE_29
+            val selectionArgs: Array<String>
+
+            when {
+                SelectionSpec.getInstance().onlyShowImages() -> selectionArgs =
+                    getSelectionArgsForSingleMediaType(MediaStore.Files.FileColumns.MEDIA_TYPE_IMAGE)
+
+                SelectionSpec.getInstance().onlyShowVideos() -> selectionArgs =
+                    getSelectionArgsForSingleMediaType(MediaStore.Files.FileColumns.MEDIA_TYPE_VIDEO)
+
+                else -> {
+                    selection = if (beforeAndroidTen()) SELECTION else SELECTION_29
+                    selectionArgs = SELECTION_ARGS
+                }
+            }
+
+            return AlbumCursorLoader(context, selection, selectionArgs)
+        }
+
+        ///////////////////////////////////////////////////////////////////////
 
         private val PROJECTION_29 = arrayOf(
             MediaStore.Files.FileColumns._ID, BUCKET_ID,
@@ -71,34 +98,11 @@ class AlbumLoader(context: Context, selection: String, selectionArgs: Array<out 
 
         private fun getSelectionArgsForSingleMediaType(mediaType: Int) =
             arrayOf(mediaType.toString())
-
-        fun newInstance(context: Context): CursorLoader {
-            var selection = if (beforeAndroidTen())
-                SELECTION_FOR_SINGLE_MEDIA_TYPE
-            else
-                SELECTION_FOR_SINGLE_MEDIA_TYPE_29
-            val selectionArgs: Array<String>
-
-            when {
-                SelectionSpec.getInstance().onlyShowImages() -> selectionArgs =
-                    getSelectionArgsForSingleMediaType(MediaStore.Files.FileColumns.MEDIA_TYPE_IMAGE)
-
-                SelectionSpec.getInstance().onlyShowVideos() -> selectionArgs =
-                    getSelectionArgsForSingleMediaType(MediaStore.Files.FileColumns.MEDIA_TYPE_VIDEO)
-
-                else -> {
-                    selection = if (beforeAndroidTen()) SELECTION else SELECTION_29
-                    selectionArgs = SELECTION_ARGS
-                }
-            }
-
-            return AlbumLoader(context, selection, selectionArgs)
-        }
     }
 
     ///////////////////////////////////////////////////////////////////////
 
-    override fun loadInBackground(): Cursor? {
+    override fun loadInBackground(): Cursor {
         val albums = super.loadInBackground()
         val allAlbum = MatrixCursor(COLUMNS)
         return if (beforeAndroidTen()) loadBelowAndroidQ(albums, allAlbum)

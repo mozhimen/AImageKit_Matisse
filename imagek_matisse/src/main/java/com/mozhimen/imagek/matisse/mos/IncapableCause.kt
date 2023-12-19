@@ -3,7 +3,7 @@ package com.mozhimen.imagek.matisse.mos
 import android.content.Context
 import android.widget.Toast
 import androidx.fragment.app.FragmentActivity
-import com.mozhimen.imagek.matisse.annors.AForm
+import com.mozhimen.imagek.matisse.annors.AFormType
 import com.mozhimen.imagek.matisse.commons.IOnNoticeEventListener
 import com.mozhimen.imagek.matisse.widgets.IncapableDialog
 
@@ -12,12 +12,12 @@ class IncapableCause {
     companion object {
         fun handleCause(context: Context, cause: IncapableCause?) {
             if (cause?.onNoticeEventListener != null) {
-                cause.onNoticeEventListener?.invoke(context, cause.form, cause.title ?: "", cause.message ?: "")
+                cause.onNoticeEventListener?.invoke(context, cause.formType, cause.title ?: "", cause.message ?: "")
                 return
             }
 
-            when (cause?.form) {
-                AForm.DIALOG -> {
+            when (cause?.formType) {
+                AFormType.DIALOG -> {
                     IncapableDialog.newInstance(cause.title, cause.message)
                         .show(
                             (context as FragmentActivity).supportFragmentManager,
@@ -25,33 +25,35 @@ class IncapableCause {
                         )
                 }
 
-                AForm.TOAST -> {
+                AFormType.TOAST -> {
                     Toast.makeText(context, cause.message, Toast.LENGTH_SHORT).show()
                 }
 
-                AForm.LOADING -> {
+                AFormType.LOADING -> {
                     // TODO Leo 2019-12-24 complete loading
                 }
             }
         }
     }
 
-    var form = AForm.TOAST
+    //////////////////////////////////////////////////////////
+
+    var formType = AFormType.TOAST
     var title: String? = null
     var message: String? = null
-    var dismissLoading: Boolean? = null
+    var isDismissLoading: Boolean? = null
     var onNoticeEventListener: IOnNoticeEventListener? = null
 
     ////////////////////////////////////////////////////////////////////////////////////
 
-    constructor(message: String) : this(AForm.TOAST, message)
-    constructor(@AForm form: Int, message: String) : this(form, "", message)
-    constructor(@AForm form: Int, title: String, message: String) : this(form, title, message, true)
-    constructor(@AForm form: Int, title: String, message: String, dismissLoading: Boolean) {
-        this.form = form
+    constructor(message: String) : this(AFormType.TOAST, message)
+    constructor(@AFormType form: Int, message: String) : this(form, "", message)
+    constructor(@AFormType form: Int, title: String, message: String) : this(form, title, message, true)
+    constructor(@AFormType form: Int, title: String, message: String, dismissLoading: Boolean) {
+        this.formType = form
         this.title = title
         this.message = message
-        this.dismissLoading = dismissLoading
+        this.isDismissLoading = dismissLoading
         this.onNoticeEventListener = SelectionSpec.getInstance().onNoticeEventListener
     }
 }

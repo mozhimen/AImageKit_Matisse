@@ -9,11 +9,11 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.viewpager.widget.ViewPager
 import com.mozhimen.imagek.matisse.R
-import com.mozhimen.imagek.matisse.annors.AForm
-import com.mozhimen.imagek.matisse.cons.Constants
+import com.mozhimen.imagek.matisse.annors.AFormType
+import com.mozhimen.imagek.matisse.cons.ImageKMatisseCons
+import com.mozhimen.imagek.matisse.helpers.MediaSelectionProxy
 import com.mozhimen.imagek.matisse.mos.IncapableCause
 import com.mozhimen.imagek.matisse.mos.MediaItem
-import com.mozhimen.imagek.matisse.mos.SelectedItemCollection
 import com.mozhimen.imagek.matisse.ucrop.UCrop
 import com.mozhimen.imagek.matisse.ui.adapters.PreviewPagerAdapter
 import com.mozhimen.imagek.matisse.ui.fragments.PicturePreviewItemFragment
@@ -35,69 +35,72 @@ import com.mozhimen.imagek.matisse.utils.setViewVisible
  * author：liubo </br>
  * since V 1.0.0 </br>
  */
-open class BasePreviewActivity : BaseActivity(), View.OnClickListener,
-    ViewPager.OnPageChangeListener {
+open class BasePreviewActivity : BaseActivity(), View.OnClickListener, ViewPager.OnPageChangeListener {
 
-    lateinit var selectedCollection: SelectedItemCollection
-    var adapter: PreviewPagerAdapter? = null
+    lateinit var mediaSelectionProxy: MediaSelectionProxy
+    var previewPagerAdapter: PreviewPagerAdapter? = null
     var previousPos = -1
-    private var originalEnable = false
+    private var _isOriginalEnable = false
 
     ////////////////////////////////////////////////////////////////////////////////////////////
-    private lateinit var button_preview: TextView
-    private lateinit var button_apply: TextView
-    private lateinit var tv_size: TextView
-    private lateinit var original_layout: LinearLayout
-    private var original: CheckRadioView? = null
+    private lateinit var _buttonPreview: TextView
+    private lateinit var _buttonApply: TextView
+    private lateinit var _textViewSize: TextView
+    private lateinit var _layoutOriginal: LinearLayout
+    private var _checkRadioViewOriginal: CheckRadioView? = null
 
-    lateinit var check_view: CheckView
-    var pager: PreviewViewPager? = null
+    lateinit var checkView: CheckView
+    var previewViewPager: PreviewViewPager? = null
 
     ////////////////////////////////////////////////////////////////////////////////////////////
+
+    override fun initFlag() {
+        selectionSpec?.onLoadStatusBarListener?.invoke(this, null)
+    }
 
     override fun configActivity() {
         super.configActivity()
         initView()
-        selectionSpec?.onLoadStatusBarListener?.invoke(this, null)
 
         if (Platform.hasKitKat19()) {
             window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
         }
 
-        selectedCollection = SelectedItemCollection(this)
-        originalEnable = if (savedInstanceState == null) {
-            selectedCollection.onCreate(intent.getBundleExtra(Constants.EXTRA_DEFAULT_BUNDLE))
-            intent.getBooleanExtra(Constants.EXTRA_RESULT_ORIGINAL_ENABLE, false)
+        mediaSelectionProxy = MediaSelectionProxy(this)
+        _isOriginalEnable = if (savedInstanceState == null) {
+            mediaSelectionProxy.onCreate(intent.getBundleExtra(ImageKMatisseCons.EXTRA_DEFAULT_BUNDLE))
+            intent.getBooleanExtra(ImageKMatisseCons.EXTRA_RESULT_ORIGINAL_ENABLE, false)
         } else {
-            selectedCollection.onCreate(savedInstanceState)
-            savedInstanceState!!.getBoolean(Constants.CHECK_STATE)
+            mediaSelectionProxy.onCreate(savedInstanceState)
+            savedInstanceState!!.getBoolean(ImageKMatisseCons.CHECK_STATE)
         }
     }
 
     override fun getResourceLayoutId() = R.layout.activity_media_preview
 
     override fun setViewData() {
-        button_preview.setText(getAttrString(R.attr.Preview_TextBack, R.string.button_back))
+        _buttonPreview.setText(getAttrString(R.attr.Preview_TextBack, R.string.button_back))
 
-        adapter = PreviewPagerAdapter(supportFragmentManager, null)
-        pager?.adapter = adapter
-        check_view.setCountable(selectionSpec?.isCountable() == true)
+        previewPagerAdapter = PreviewPagerAdapter(supportFragmentManager, null)
+        previewViewPager?.adapter = previewPagerAdapter
+        checkView.setCountable(selectionSpec?.isCountable() == true)
         updateApplyButton()
     }
 
     override fun initListener() {
-        setOnClickListener(this, button_preview, button_apply, check_view, original_layout)
-        pager?.addOnPageChangeListener(this)
+        setOnClickListener(this, _buttonPreview, _buttonApply, checkView, _layoutOriginal)
+        previewViewPager?.addOnPageChangeListener(this)
     }
 
     override fun onSaveInstanceState(outState: Bundle) {
-        selectedCollection.onSaveInstanceState(outState)
-        outState.putBoolean(Constants.CHECK_STATE, originalEnable)
+        mediaSelectionProxy.onSaveInstanceState(outState)
+        outState.putBoolean(ImageKMatisseCons.CHECK_STATE, _isOriginalEnable)
         super.onSaveInstanceState(outState)
     }
 
+    @Deprecated("Deprecated in Java")
     override fun onBackPressed() {
-        finishIntentFromPreviewApply(activity, false, selectedCollection, originalEnable)
+        finishIntentFromPreviewApply(activity, false, mediaSelectionProxy, _isOriginalEnable)
         super.onBackPressed()
     }
 
@@ -108,10 +111,10 @@ open class BasePreviewActivity : BaseActivity(), View.OnClickListener,
     }
 
     override fun onPageSelected(position: Int) {
-        val pager = pager
+        val pager = previewViewPager
         val adapter = pager?.adapter as? PreviewPagerAdapter
         adapter ?: return
-        check_view.apply {
+        checkView.apply {
             if (previousPos != -1 && previousPos != position) {
                 (adapter.instantiateItem(
                     pager,
@@ -119,20 +122,20 @@ open class BasePreviewActivity : BaseActivity(), View.OnClickListener,
                 ) as PicturePreviewItemFragment).resetView()
                 val item = adapter.getMediaItem(position)
                 if (selectionSpec?.isCountable() == true) {
-                    val checkedNum = selectedCollection.checkedNumOf(item)
+                    val checkedNum = mediaSelectionProxy.checkedNumOf(item)
                     setCheckedNum(checkedNum)
                     if (checkedNum > 0) {
                         setEnable(true)
                     } else {
-                        setEnable(!selectedCollection.maxSelectableReached(item))
+                        setEnable(!mediaSelectionProxy.maxSelectableReached(item))
                     }
                 } else {
-                    val checked = selectedCollection.isSelected(item)
+                    val checked = mediaSelectionProxy.isSelected(item)
                     setChecked(checked)
                     if (checked)
                         setEnable(true)
                     else
-                        setEnable(!selectedCollection.maxSelectableReached(item))
+                        setEnable(!mediaSelectionProxy.maxSelectableReached(item))
                 }
                 updateSize(item)
             }
@@ -143,10 +146,11 @@ open class BasePreviewActivity : BaseActivity(), View.OnClickListener,
 
     override fun onClick(v: View?) {
         when (v) {
-            button_preview -> onBackPressed()
-            button_apply -> {
+            _buttonPreview -> onBackPressed()
+
+            _buttonApply -> {
                 if (selectionSpec?.openCrop() == true) {
-                    val item = selectedCollection.items()[0]
+                    val item = mediaSelectionProxy.items()[0]
 
                     if (selectionSpec?.isSupportCrop(item) == true) {
                         item.getContentUri().apply {
@@ -154,45 +158,45 @@ open class BasePreviewActivity : BaseActivity(), View.OnClickListener,
                         }
                     } else {
                         finishIntentFromPreviewApply(
-                            activity, true, selectedCollection, originalEnable
+                            activity, true, mediaSelectionProxy, _isOriginalEnable
                         )
                     }
                 } else {
-                    finishIntentFromPreviewApply(activity, true, selectedCollection, originalEnable)
+                    finishIntentFromPreviewApply(activity, true, mediaSelectionProxy, _isOriginalEnable)
                 }
             }
 
-            original_layout -> {
-                val count = countOverMaxSize(selectedCollection)
+            _layoutOriginal -> {
+                val count = countOverMaxSize(mediaSelectionProxy)
                 if (count <= 0) {
-                    originalEnable = !originalEnable
-                    original?.setChecked(originalEnable)
-                    selectionSpec?.onCheckedListener?.onCheck(originalEnable)
+                    _isOriginalEnable = !_isOriginalEnable
+                    _checkRadioViewOriginal?.setChecked(_isOriginalEnable)
+                    selectionSpec?.onCheckedListener?.onCheck(_isOriginalEnable)
                     return
                 }
 
                 handleCauseTips(
                     getString(R.string.error_over_original_count, count, selectionSpec?.originalMaxSize),
-                    AForm.DIALOG
+                    AFormType.DIALOG
                 )
             }
 
-            check_view -> {
-                val item = adapter?.getMediaItem(pager?.currentItem ?: 0)
-                if (selectedCollection.isSelected(item)) {
-                    selectedCollection.remove(item)
+            checkView -> {
+                val item = previewPagerAdapter?.getMediaItem(previewViewPager?.currentItem ?: 0)
+                if (mediaSelectionProxy.isSelected(item)) {
+                    mediaSelectionProxy.remove(item)
                     if (selectionSpec?.isCountable() == true) {
-                        check_view.setCheckedNum(CheckView.UNCHECKED)
+                        checkView.setCheckedNum(CheckView.UNCHECKED)
                     } else {
-                        check_view.setChecked(false)
+                        checkView.setChecked(false)
                     }
                 } else {
                     if (assertAddSelection(item)) {
-                        selectedCollection.add(item)
+                        mediaSelectionProxy.add(item)
                         if (selectionSpec?.isCountable() == true) {
-                            check_view.setCheckedNum(selectedCollection.checkedNumOf(item))
+                            checkView.setCheckedNum(mediaSelectionProxy.checkedNumOf(item))
                         } else {
-                            check_view.setChecked(true)
+                            checkView.setChecked(true)
                         }
                     }
                 }
@@ -200,18 +204,19 @@ open class BasePreviewActivity : BaseActivity(), View.OnClickListener,
                 updateApplyButton()
 
                 selectionSpec?.onSelectedListener?.onSelected(
-                    selectedCollection.asListOfUri(), selectedCollection.asListOfString()
+                    mediaSelectionProxy.asListOfUri(), mediaSelectionProxy.asListOfString()
                 )
             }
         }
     }
 
+    @Deprecated("Deprecated in Java")
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode != Activity.RESULT_OK) return
 
         when (requestCode) {
-            Constants.REQUEST_CODE_CROP -> {
+            ImageKMatisseCons.REQUEST_CODE_CROP -> {
                 data?.run {
                     val resultUri = UCrop.getOutput(data) ?: return@run
                     finishIntentFromCropSuccess(activity, resultUri)
@@ -224,7 +229,7 @@ open class BasePreviewActivity : BaseActivity(), View.OnClickListener,
 
     fun updateSize(item: MediaItem?) {
         item?.apply {
-            tv_size.apply {
+            _textViewSize.apply {
                 if (isGif()) {
                     setViewVisible(true, this)
                     text = String.format(
@@ -235,7 +240,7 @@ open class BasePreviewActivity : BaseActivity(), View.OnClickListener,
                 }
             }
 
-            original_layout?.apply {
+            _layoutOriginal?.apply {
                 if (isVideo()) {
                     setViewVisible(false, this)
                 } else if (selectionSpec?.originalable == true) {
@@ -248,30 +253,30 @@ open class BasePreviewActivity : BaseActivity(), View.OnClickListener,
     ////////////////////////////////////////////////////////////////////////////////////////////
 
     private fun initView() {
-        button_preview = findViewById(R.id.button_preview)
-        pager = findViewById(R.id.pager)
-        check_view = findViewById(R.id.check_view)
-        button_apply = findViewById(R.id.button_apply)
-        original_layout = findViewById(R.id.original_layout)
-        original = findViewById(R.id.original)
-        tv_size = findViewById(R.id.tv_size)
+        _buttonPreview = findViewById(R.id.button_preview)
+        previewViewPager = findViewById(R.id.pager)
+        checkView = findViewById(R.id.check_view)
+        _buttonApply = findViewById(R.id.button_apply)
+        _layoutOriginal = findViewById(R.id.original_layout)
+        _checkRadioViewOriginal = findViewById(R.id.original)
+        _textViewSize = findViewById(R.id.tv_size)
     }
 
     private fun updateApplyButton() {
-        val selectedCount = selectedCollection.count()
+        val selectedCount = mediaSelectionProxy.count()
 
         setApplyText(selectedCount)
 
         if (selectionSpec?.originalable == true) {
-            setViewVisible(true, original_layout)
+            setViewVisible(true, _layoutOriginal)
             updateOriginalState()
         } else {
-            setViewVisible(false, original_layout)
+            setViewVisible(false, _layoutOriginal)
         }
     }
 
     private fun setApplyText(selectedCount: Int) {
-        button_apply.apply {
+        _buttonApply.apply {
             when (selectedCount) {
                 0 -> {
                     text = getString(
@@ -304,19 +309,19 @@ open class BasePreviewActivity : BaseActivity(), View.OnClickListener,
     }
 
     private fun updateOriginalState() {
-        original?.setChecked(originalEnable)
-        if (countOverMaxSize(selectedCollection) > 0 || originalEnable) {
+        _checkRadioViewOriginal?.setChecked(_isOriginalEnable)
+        if (countOverMaxSize(mediaSelectionProxy) > 0 || _isOriginalEnable) {
             handleCauseTips(
                 getString(R.string.error_over_original_size, selectionSpec?.originalMaxSize),
-                AForm.DIALOG
+                AFormType.DIALOG
             )
-            original?.setChecked(false)
-            originalEnable = false
+            _checkRadioViewOriginal?.setChecked(false)
+            _isOriginalEnable = false
         }
     }
 
     private fun assertAddSelection(item: MediaItem?): Boolean {
-        val cause = selectedCollection.isAcceptable(item)
+        val cause = mediaSelectionProxy.isAcceptable(item)
         IncapableCause.handleCause(this, cause)
         return cause == null
     }

@@ -36,11 +36,12 @@
         android:layout_gravity="center"
         android:foreground="?selectableItemBackground"
         android:gravity="center"
-        android:text="?attr/Navigation_TextBack"
-        android:textColor="?attr/Navigation_TextColorBack"
-        android:textSize="?attr/Navigation_TextSizeBack"
+        android:text="?attr/Navigation_TextTitle"
+        android:textColor="?attr/Navigation_TextColorTitle"
+        android:textSize="?attr/Navigation_TextSizeTitle"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView

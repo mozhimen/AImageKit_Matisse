@@ -5,20 +5,24 @@ import android.content.Context
 import android.content.Intent
 import android.content.pm.ActivityInfo
 import android.os.Bundle
+import com.bumptech.glide.load.resource.bitmap.CircleCrop
+import com.bumptech.glide.request.RequestOptions
 import com.mozhimen.basick.elemk.androidx.appcompat.bases.BaseActivityVB
 import com.mozhimen.basick.elemk.commons.I_Listener
 import com.mozhimen.basick.utilk.android.content.UtilKPackage
-import com.mozhimen.imagek.matisse.helpers.Glide4Engine
+import com.mozhimen.imagek.matisse.impls.Glide4ImageEngine
 import com.mozhimen.imagek.matisse.ImageKMatisse
 import com.mozhimen.imagek.matisse.helpers.MimeTypeManager
-import com.mozhimen.imagek.matisse.helpers.SelectionCreator
-import com.mozhimen.imagek.matisse.mos.CaptureStrategy
+import com.mozhimen.imagek.matisse.helpers.SelectionBuilder
 import com.mozhimen.imagek.matisse.cons.Constants
+import com.mozhimen.basick.elemk.android.provider.MediaStoreCaptureProxy
+import com.mozhimen.basick.utilk.kotlin.collections.ifNotEmpty
+import com.mozhimen.imagek.matisse.cons.ImageKMatisseCons
 import com.mozhimen.imagek.matisse.test.databinding.ActivityMainBinding
 import com.mozhimen.manifestk.xxpermission.XXPermissionUtil
 
 class MainActivity : BaseActivityVB<ActivityMainBinding>() {
-    private var _selectionCreator: SelectionCreator? = null
+    private var _selectionBuilder: SelectionBuilder? = null
 
     override fun initData(savedInstanceState: Bundle?) {
         startPermissionReadWrite(this) {
@@ -29,7 +33,7 @@ class MainActivity : BaseActivityVB<ActivityMainBinding>() {
     override fun initView(savedInstanceState: Bundle?) {
         createMatisse()
         vb.mainBtnSelect.setOnClickListener {
-            _selectionCreator?.forResult(Constants.REQUEST_CODE_CHOOSE)
+            _selectionBuilder?.forResult(Constants.REQUEST_CODE_CHOOSE)
         }
     }
 
@@ -38,24 +42,47 @@ class MainActivity : BaseActivityVB<ActivityMainBinding>() {
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode != Activity.RESULT_OK) return
         android.util.Log.d(TAG, "onActivityResult: requestCode $requestCode, resultCode $resultCode")
+        when (requestCode) {
+            ImageKMatisseCons.REQUEST_CODE_CHOOSE -> doActivityResultForChoose(data)
+//            ImageKMatisseCons.REQUEST_CODE_CAPTURE -> doActivityResultForCapture()
+//            ImageKMatisseCons.REQUEST_CODE_CROP -> doActivityResultForCrop(data)
+        }
+    }
+
+    private fun doActivityResultForChoose(data: Intent?) {
+        if (data == null) return
+        // 获取uri返回值  裁剪结果不返回uri
+        val uriList = ImageKMatisse.obtainResult(data)
+        uriList?.ifNotEmpty {
+            val selectedPhotoPath =
+                UriHelper.uriToFile(this@UserInformationEditingActivity, it[0])?.absolutePath
+            if (!selectedPhotoPath.isNullOrEmpty()) {
+                mLastSelectedPhotoPath = selectedPhotoPath
+                GlideApp
+                    .with(this@UserInformationEditingActivity)
+                    .load(selectedPhotoPath)
+                    .apply(RequestOptions.bitmapTransform(CircleCrop()))
+                    .into(mBinding.userHeadImg)
+            }
+        }
     }
 
     private fun createMatisse() {
-        _selectionCreator =
+        _selectionBuilder =
             ImageKMatisse.from(this)
-                .choose(MimeTypeManager.ofImage())
+                .select(MimeTypeManager.ofImage())
                 .setThemeRes(com.mozhimen.imagek.matisse.R.style.Matisse_Default)
                 .setCountable(false)
                 .setMaxSelectable(1)
                 .setIsCapture(false)
-                .captureStrategy(CaptureStrategy(true, "${UtilKPackage.getPackageName()}.provider"))
-                .restrictOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT)
-                .spanCount(3)
-                .thumbnailScale(0.8f)
-                .imageEngine(Glide4Engine())
-                .isCrop(true)
-                .isCircleCrop(true)
-                .setStatusBarFuture { params, view ->
+                .setCaptureStrategy(MediaStoreCaptureProxy.CaptureStrategy(true, "${UtilKPackage.getPackageName()}.provider"))
+                .setOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT)
+                .setSpanCount(3)
+                .setThumbnailScale(0.8f)
+                .setImageEngine(Glide4ImageEngine())
+                .setIsCrop(true)
+                .setIsCircleCrop(true)
+                .setOnLoadStatusBarListener { activity, view ->
 //                    params.initAdaptKSystemBar(CProperty.IMMERSED_HARD_STICKY)
                 }
 //                .setStatusBarFuture { params, view ->

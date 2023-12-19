@@ -7,7 +7,7 @@ import android.net.Uri
 import android.os.Parcel
 import android.os.Parcelable
 import com.mozhimen.imagek.matisse.R
-import com.mozhimen.imagek.matisse.helpers.loader.AlbumLoader
+import com.mozhimen.imagek.matisse.helpers.loader.AlbumCursorLoader
 
 class Album() : Parcelable {
     private var id = ""
@@ -43,6 +43,8 @@ class Album() : Parcelable {
         this.isCheck = mIsCheck
     }
 
+    //////////////////////////////////////////////////////////////////////////
+
     fun getId() = id
 
     fun getCoverPath() = coverUri
@@ -69,6 +71,8 @@ class Album() : Parcelable {
 
     fun isChecked() = isCheck
 
+    //////////////////////////////////////////////////////////////////////////
+
     override fun writeToParcel(parcel: Parcel, flags: Int) {
         parcel.writeString(id)
         parcel.writeParcelable(coverUri, 0)
@@ -78,6 +82,8 @@ class Album() : Parcelable {
     }
 
     override fun describeContents() = 0
+
+    //////////////////////////////////////////////////////////////////////////
 
     companion object CREATOR : Parcelable.Creator<Album> {
 
@@ -94,10 +100,10 @@ class Album() : Parcelable {
 
         @SuppressLint("Range")
         fun valueOf(cursor: Cursor) = Album(
-            cursor.getString(cursor.getColumnIndex(AlbumLoader.BUCKET_ID)),
-            Uri.parse(cursor.getString(cursor.getColumnIndex(AlbumLoader.COLUMN_URI)) ?: ""),
-            cursor.getString(cursor.getColumnIndex(AlbumLoader.BUCKET_DISPLAY_NAME)),
-            cursor.getLong(cursor.getColumnIndex(AlbumLoader.COLUMN_COUNT))
+            cursor.getString(cursor.getColumnIndex(AlbumCursorLoader.BUCKET_ID)),
+            Uri.parse(cursor.getString(cursor.getColumnIndex(AlbumCursorLoader.COLUMN_URI)) ?: ""),
+            cursor.getString(cursor.getColumnIndex(AlbumCursorLoader.BUCKET_DISPLAY_NAME)),
+            cursor.getLong(cursor.getColumnIndex(AlbumCursorLoader.COLUMN_COUNT))
         )
     }
 }

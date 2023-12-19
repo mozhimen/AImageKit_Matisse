@@ -18,12 +18,13 @@ class MediaGrid : SquareFrameLayout, View.OnClickListener {
 
     private lateinit var media: MediaItem
     private lateinit var preBindInfo: PreBindInfo
-    lateinit var listener: OnMediaGridClickListener
+    lateinit var listener: IOnMediaGridClickListener
     private var media_thumbnail: ImageView
     private var check_view: CheckView
     private var gif: ImageView
     private var video_duration: TextView
 
+    /////////////////////////////////////////////////////////////////
 
     constructor(context: Context?) : this(context, null, 0)
     constructor(context: Context?, attrs: AttributeSet?) : this(context, attrs, 0)
@@ -39,6 +40,8 @@ class MediaGrid : SquareFrameLayout, View.OnClickListener {
         check_view.setOnClickListener(this)
     }
 
+    /////////////////////////////////////////////////////////////////
+
     override fun onClick(v: View?) {
         when (v) {
             media_thumbnail -> listener.onThumbnailClicked(
@@ -47,6 +50,20 @@ class MediaGrid : SquareFrameLayout, View.OnClickListener {
             check_view -> listener.onCheckViewClicked(check_view, media, preBindInfo.viewHolder)
         }
     }
+
+    /////////////////////////////////////////////////////////////////
+
+    interface IOnMediaGridClickListener {
+        fun onThumbnailClicked(thumbnail: ImageView, item: MediaItem, holder: RecyclerView.ViewHolder)
+        fun onCheckViewClicked(checkView: CheckView, item: MediaItem, holder: RecyclerView.ViewHolder)
+    }
+
+    /////////////////////////////////////////////////////////////////
+
+    class PreBindInfo(
+        var resize: Int, var placeholder: Drawable?,
+        var checkViewCountable: Boolean, var viewHolder: RecyclerView.ViewHolder
+    )
 
     fun preBindMedia(info: PreBindInfo) {
         preBindInfo = info
@@ -60,20 +77,22 @@ class MediaGrid : SquareFrameLayout, View.OnClickListener {
         setVideoDuration()
     }
 
-    private fun setGifTag() {
-        setViewVisible(media.isGif(), gif)
-    }
-
-    private fun initCheckView() {
-        check_view.setCountable(preBindInfo.checkViewCountable)
-    }
-
     fun setCheckedNum(checkedNum: Int) {
         check_view.setCheckedNum(checkedNum)
     }
 
     fun setChecked(checked: Boolean) {
         check_view.setChecked(checked)
+    }
+
+    /////////////////////////////////////////////////////////////////
+
+    private fun setGifTag() {
+        setViewVisible(media.isGif(), gif)
+    }
+
+    private fun initCheckView() {
+        check_view.setCountable(preBindInfo.checkViewCountable)
     }
 
     private fun setImage() {
@@ -98,14 +117,4 @@ class MediaGrid : SquareFrameLayout, View.OnClickListener {
             setViewVisible(false, video_duration)
         }
     }
-
-    interface OnMediaGridClickListener {
-        fun onThumbnailClicked(thumbnail: ImageView, item: MediaItem, holder: RecyclerView.ViewHolder)
-        fun onCheckViewClicked(checkView: CheckView, item: MediaItem, holder: RecyclerView.ViewHolder)
-    }
-
-    class PreBindInfo(
-        var resize: Int, var placeholder: Drawable?,
-        var checkViewCountable: Boolean, var viewHolder: RecyclerView.ViewHolder
-    )
 }

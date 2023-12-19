@@ -7,6 +7,7 @@
     <dimen name="bottom_tool_height">48dp</dimen>
 
     <dimen name="text_back">15sp</dimen>
+    <dimen name="text_title">15sp</dimen>
     <dimen name="text_sure">15sp</dimen>
     <dimen name="text_preview">15sp</dimen>
     <dimen name="text_album">15sp</dimen>

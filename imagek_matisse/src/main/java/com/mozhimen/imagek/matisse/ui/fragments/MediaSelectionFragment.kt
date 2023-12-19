@@ -11,11 +11,11 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.mozhimen.imagek.matisse.R
 import com.mozhimen.imagek.matisse.databinding.FragmentMediaSelectionBinding
 import com.mozhimen.imagek.matisse.mos.Album
-import com.mozhimen.imagek.matisse.cons.Constants
+import com.mozhimen.imagek.matisse.cons.ImageKMatisseCons
 import com.mozhimen.imagek.matisse.mos.MediaItem
 import com.mozhimen.imagek.matisse.mos.SelectionSpec
-import com.mozhimen.imagek.matisse.commons.IAlbumListener
-import com.mozhimen.imagek.matisse.mos.AlbumMediaCollection
+import com.mozhimen.imagek.matisse.commons.IAlbumLoadListener
+import com.mozhimen.imagek.matisse.helpers.loader.AlbumMediaCursorLoaderCallbacks
 import com.mozhimen.imagek.matisse.helpers.MediaSelectionProxy
 import com.mozhimen.imagek.matisse.ui.adapters.MediaAlbumAdapter
 import com.mozhimen.imagek.matisse.utils.MAX_SPAN_COUNT
@@ -24,9 +24,9 @@ import com.mozhimen.imagek.matisse.widgets.MediaGridInset
 import kotlin.math.max
 import kotlin.math.min
 
-class MediaSelectionFragment : Fragment(), IAlbumListener, MediaAlbumAdapter.CheckStateListener, MediaAlbumAdapter.OnMediaClickListener {
+class MediaSelectionFragment : Fragment(), IAlbumLoadListener, MediaAlbumAdapter.CheckStateListener, MediaAlbumAdapter.OnMediaClickListener {
 
-    private val albumMediaCollection = AlbumMediaCollection()
+    private val albumMediaCollection = AlbumMediaCursorLoaderCallbacks()
     private lateinit var adapter: MediaAlbumAdapter
     private lateinit var album: Album
     private lateinit var selectionProvider: IMediaSelectionProvider
@@ -36,7 +36,7 @@ class MediaSelectionFragment : Fragment(), IAlbumListener, MediaAlbumAdapter.Che
     companion object {
         fun newInstance(album: Album): MediaSelectionFragment {
             val fragment = MediaSelectionFragment()
-            fragment.arguments = Bundle().apply { putParcelable(Constants.EXTRA_ALBUM, album) }
+            fragment.arguments = Bundle().apply { putParcelable(ImageKMatisseCons.EXTRA_ALBUM, album) }
             return fragment
         }
     }
@@ -68,7 +68,7 @@ class MediaSelectionFragment : Fragment(), IAlbumListener, MediaAlbumAdapter.Che
         super.onActivityCreated(savedInstanceState)
         val recyclerview = mBinding?.recyclerview
         recyclerview ?: return
-        album = arguments?.getParcelable(Constants.EXTRA_ALBUM)!!
+        album = arguments?.getParcelable(ImageKMatisseCons.EXTRA_ALBUM)!!
         adapter = MediaAlbumAdapter(
             requireContext(), selectionProvider.provideSelectedItemCollection(), recyclerview
         )

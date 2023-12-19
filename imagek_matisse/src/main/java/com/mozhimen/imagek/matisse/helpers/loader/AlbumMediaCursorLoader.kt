@@ -9,21 +9,16 @@ import androidx.loader.content.CursorLoader
 import com.mozhimen.imagek.matisse.mos.Album
 import com.mozhimen.imagek.matisse.mos.MediaItem
 import com.mozhimen.imagek.matisse.mos.SelectionSpec
-import com.mozhimen.imagek.matisse.helpers.MediaStoreCompat
+import com.mozhimen.basick.elemk.android.provider.MediaStoreCaptureProxy
+import com.mozhimen.basick.utilk.android.content.UtilKPackageManager
 
 /**
  * Load images and videos into a single cursor.
  * Created by Leo on 2018/9/4 on 19:53.
  */
-class AlbumMediaLoader(
+class AlbumMediaCursorLoader(
     context: Context, selection: String, selectionArgs: Array<out String>, capture: Boolean
 ) : CursorLoader(context, QUERY_URI, PROJECTION, selection, selectionArgs, ORDER_BY) {
-
-    private var enableCapture = false
-
-    init {
-        enableCapture = capture
-    }
 
     companion object {
         private val QUERY_URI = MediaStore.Files.getContentUri("external")
@@ -118,13 +113,25 @@ class AlbumMediaLoader(
                 }
                 enableCapture = false
             }
-            return AlbumMediaLoader(context, selection, selectionArgs, enableCapture)
+            return AlbumMediaCursorLoader(context, selection, selectionArgs, enableCapture)
         }
     }
 
+    //////////////////////////////////////////////////////////
+
+    private var enableCapture = false
+
+    //////////////////////////////////////////////////////////
+
+    init {
+        enableCapture = capture
+    }
+
+    //////////////////////////////////////////////////////////
+
     override fun loadInBackground(): Cursor? {
         val result = super.loadInBackground()
-        if (!enableCapture || !MediaStoreCompat.hasCameraFeature(context)) {
+        if (!enableCapture || !UtilKPackageManager.hasBackCamera(context)) {
             return result
         }
         val dummy = MatrixCursor(PROJECTION)

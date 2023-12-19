@@ -28,34 +28,32 @@ object MimeTypeManager {
 
     // 静态图
     @JvmStatic
-    fun ofMotionlessImage(): EnumSet<EMimeType> = EnumSet.of(
-        EMimeType.JPEG, EMimeType.JPG, EMimeType.PNG, EMimeType.BMP
-    )
+    fun ofMotionlessImage(): EnumSet<EMimeType> =
+        EnumSet.of(EMimeType.JPEG, EMimeType.JPG, EMimeType.PNG, EMimeType.BMP)
 
     @JvmStatic
-    fun ofVideo(): EnumSet<EMimeType> = EnumSet.of(
-        EMimeType.MPEG, EMimeType.MP4, EMimeType.QUICKTIME, EMimeType.THREEGPP, EMimeType.THREEGPP2,
-        EMimeType.MKV, EMimeType.WEBM, EMimeType.TS, EMimeType.AVI
-    )
+    fun ofVideo(): EnumSet<EMimeType> =
+        EnumSet.of(EMimeType.MPEG, EMimeType.MP4, EMimeType.QUICKTIME, EMimeType.THREEGPP, EMimeType.THREEGPP2, EMimeType.MKV, EMimeType.WEBM, EMimeType.TS, EMimeType.AVI)
 
     ////////////////////////////////////////////////////////////////////////
 
     @JvmStatic
-    fun isImage(mimeType: String?) =
+    fun isImage(mimeType: String?): Boolean =
         isMotionlessImage(mimeType)
                 || EMimeType.GIF.getKey().contains(lowerCaseMimeType(mimeType))
                 || EMimeType.WEBP.getKey().contains(lowerCaseMimeType(mimeType))
 
     @JvmStatic
-    fun isVideo(mimeType: String) = EMimeType.MPEG.getKey().contains(lowerCaseMimeType(mimeType))
-            || EMimeType.MP4.getKey().contains(lowerCaseMimeType(mimeType))
-            || EMimeType.QUICKTIME.getKey().contains(lowerCaseMimeType(mimeType))
-            || EMimeType.THREEGPP.getKey().contains(lowerCaseMimeType(mimeType))
-            || EMimeType.THREEGPP2.getKey().contains(lowerCaseMimeType(mimeType))
-            || EMimeType.MKV.getKey().contains(lowerCaseMimeType(mimeType))
-            || EMimeType.WEBM.getKey().contains(lowerCaseMimeType(mimeType))
-            || EMimeType.TS.getKey().contains(lowerCaseMimeType(mimeType))
-            || EMimeType.AVI.getKey().contains(lowerCaseMimeType(mimeType))
+    fun isVideo(mimeType: String): Boolean =
+        EMimeType.MPEG.getKey().contains(lowerCaseMimeType(mimeType))
+                || EMimeType.MP4.getKey().contains(lowerCaseMimeType(mimeType))
+                || EMimeType.QUICKTIME.getKey().contains(lowerCaseMimeType(mimeType))
+                || EMimeType.THREEGPP.getKey().contains(lowerCaseMimeType(mimeType))
+                || EMimeType.THREEGPP2.getKey().contains(lowerCaseMimeType(mimeType))
+                || EMimeType.MKV.getKey().contains(lowerCaseMimeType(mimeType))
+                || EMimeType.WEBM.getKey().contains(lowerCaseMimeType(mimeType))
+                || EMimeType.TS.getKey().contains(lowerCaseMimeType(mimeType))
+                || EMimeType.AVI.getKey().contains(lowerCaseMimeType(mimeType))
 
     @JvmStatic
     fun isGif(mimeType: String) = EMimeType.GIF.getKey().contains(lowerCaseMimeType(mimeType))
@@ -63,7 +61,8 @@ object MimeTypeManager {
     ////////////////////////////////////////////////////////////////////////
 
     @JvmStatic
-    fun arraySetOf(vararg suffixes: String) = ArraySet(mutableListOf(*suffixes))
+    fun arraySetOf(vararg suffixes: String): ArraySet<String> =
+        ArraySet(mutableListOf(*suffixes))
 
     @JvmStatic
     fun checkType(context: Context, uri: Uri?, mExtensions: Set<String>): Boolean {
@@ -90,11 +89,12 @@ object MimeTypeManager {
 
     ////////////////////////////////////////////////////////////////////////
 
-    private fun isMotionlessImage(mimeType: String?) =
+    private fun isMotionlessImage(mimeType: String?): Boolean =
         EMimeType.JPEG.getKey().contains(lowerCaseMimeType(mimeType))
                 || EMimeType.JPG.getKey().contains(lowerCaseMimeType(mimeType))
                 || EMimeType.PNG.getKey().contains(lowerCaseMimeType(mimeType))
                 || EMimeType.BMP.getKey().contains(lowerCaseMimeType(mimeType))
 
-    private fun lowerCaseMimeType(mimeType: String?) = mimeType?.toLowerCase() ?: ""
+    private fun lowerCaseMimeType(mimeType: String?): String =
+        mimeType?.toLowerCase() ?: ""
 }

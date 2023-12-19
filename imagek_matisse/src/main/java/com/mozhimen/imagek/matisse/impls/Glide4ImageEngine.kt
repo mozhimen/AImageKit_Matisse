@@ -1,4 +1,4 @@
-package com.mozhimen.imagek.matisse.helpers
+package com.mozhimen.imagek.matisse.impls
 
 import android.content.Context
 import android.graphics.drawable.Drawable
@@ -13,7 +13,7 @@ import com.mozhimen.imagek.matisse.commons.IImageEngine
 /**
  * [IImageEngine] implementation using Glide.
  */
-class Glide4Engine : IImageEngine {
+class Glide4ImageEngine : IImageEngine {
 
     override fun cleanMemory(context: Context) {
         if (Looper.myLooper() == Looper.getMainLooper()) {

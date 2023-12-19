@@ -1,4 +1,4 @@
-package com.mozhimen.imagek.matisse.helpers
+package com.mozhimen.imagek.matisse.utils
 
 import android.media.ExifInterface
 

@@ -10,8 +10,8 @@ import androidx.annotation.IntDef
  * @Version 1.0
  */
 @Retention(AnnotationRetention.SOURCE)
-@IntDef(AForm.TOAST, AForm.DIALOG, AForm.LOADING, AForm.NONE)
-annotation class AForm {
+@IntDef(AFormType.TOAST, AFormType.DIALOG, AFormType.LOADING, AFormType.NONE)
+annotation class AFormType {
     companion object {
         const val TOAST = 0x0001
         const val DIALOG = 0x0002

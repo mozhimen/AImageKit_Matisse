@@ -1,7 +1,7 @@
 package com.mozhimen.imagek.matisse.commons
 
 import com.mozhimen.imagek.matisse.mos.Album
-import com.mozhimen.imagek.matisse.ui.adapters.FolderItemMediaAdapter
+import com.mozhimen.imagek.matisse.ui.adapters.FolderMediaItemAdapter
 
 /**
  * @ClassName IFolderBottomSheetListener
@@ -11,7 +11,7 @@ import com.mozhimen.imagek.matisse.ui.adapters.FolderItemMediaAdapter
  * @Version 1.0
  */
 interface IFolderBottomSheetListener {
-    fun initData(adapter: FolderItemMediaAdapter)
+    fun initData(adapter: FolderMediaItemAdapter)
 
     /**
      * 点击回调
