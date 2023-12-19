@@ -2,7 +2,7 @@ package com.mozhimen.imagek.matisse.cons
 
 import com.mozhimen.imagek.matisse.ucrop.UCrop
 
-object ImageKMatisseCons {
+object CImageKMatisse {
     const val EXTRA_RESULT_SELECTION = "extra_result_selection"
     const val EXTRA_RESULT_SELECTION_ID = "extra_result_selection_id"
     const val EXTRA_RESULT_ORIGINAL_ENABLE = "extra_result_original_enable"

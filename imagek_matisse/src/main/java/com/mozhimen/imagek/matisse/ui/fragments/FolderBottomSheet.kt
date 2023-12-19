@@ -10,7 +10,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.mozhimen.imagek.matisse.R
 import com.mozhimen.imagek.matisse.commons.IFolderBottomSheetListener
-import com.mozhimen.imagek.matisse.cons.ImageKMatisseCons
+import com.mozhimen.imagek.matisse.cons.CImageKMatisse
 import com.mozhimen.imagek.matisse.ui.adapters.FolderMediaItemAdapter
 import com.mozhimen.imagek.matisse.utils.getScreenHeight
 
@@ -28,7 +28,7 @@ class FolderBottomSheet : BottomSheetDialogFragment() {
         fun instance(context: Context, currentPos: Int, tag: String): FolderBottomSheet {
             val folderBottomSheet = FolderBottomSheet()
             val bundle = Bundle()
-            bundle.putInt(ImageKMatisseCons.FOLDER_CHECK_POSITION, currentPos)
+            bundle.putInt(CImageKMatisse.FOLDER_CHECK_POSITION, currentPos)
             folderBottomSheet.arguments = bundle
             folderBottomSheet.show((context as FragmentActivity).supportFragmentManager, tag)
             return folderBottomSheet
@@ -39,7 +39,7 @@ class FolderBottomSheet : BottomSheetDialogFragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        currentPosition = arguments?.getInt(ImageKMatisseCons.FOLDER_CHECK_POSITION, 0) ?: 0
+        currentPosition = arguments?.getInt(CImageKMatisse.FOLDER_CHECK_POSITION, 0) ?: 0
     }
 
     override fun getContentView(inflater: LayoutInflater, container: ViewGroup): View {

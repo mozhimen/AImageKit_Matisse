@@ -3,7 +3,7 @@ package com.mozhimen.imagek.matisse.ui.activities
 import android.database.Cursor
 import com.mozhimen.imagek.matisse.bases.BasePreviewActivity
 import com.mozhimen.imagek.matisse.mos.Album
-import com.mozhimen.imagek.matisse.cons.ImageKMatisseCons
+import com.mozhimen.imagek.matisse.cons.CImageKMatisse
 import com.mozhimen.imagek.matisse.mos.MediaItem
 import com.mozhimen.imagek.matisse.commons.IAlbumLoadListener
 import com.mozhimen.imagek.matisse.helpers.loader.AlbumMediaCursorLoaderCallbacks
@@ -22,9 +22,9 @@ class AlbumPreviewActivity : BasePreviewActivity(), IAlbumLoadListener {
     override fun setViewData() {
         super.setViewData()
         _albumMediaCursorLoaderCallbacks.onCreate(this, this)
-        val album = intent.getParcelableExtra<Album>(ImageKMatisseCons.EXTRA_ALBUM) ?: return
+        val album = intent.getParcelableExtra<Album>(CImageKMatisse.EXTRA_ALBUM) ?: return
         _albumMediaCursorLoaderCallbacks.load(album)
-        val item = intent.getParcelableExtra<MediaItem>(ImageKMatisseCons.EXTRA_ITEM)
+        val item = intent.getParcelableExtra<MediaItem>(CImageKMatisse.EXTRA_ITEM)
         checkView?.apply {
             if (selectionSpec?.isCountable() == true) {
                 setCheckedNum(mediaSelectionProxy.checkedNumOf(item))
@@ -52,7 +52,7 @@ class AlbumPreviewActivity : BasePreviewActivity(), IAlbumLoadListener {
         adapter.notifyDataSetChanged()
         if (!isAlreadySetPosition) {
             isAlreadySetPosition = true
-            val selected = intent.getParcelableExtra<MediaItem>(ImageKMatisseCons.EXTRA_ITEM) ?: return
+            val selected = intent.getParcelableExtra<MediaItem>(CImageKMatisse.EXTRA_ITEM) ?: return
             val selectedIndex = items.indexOf(selected)
             previewViewPager?.setCurrentItem(selectedIndex, false)
             previousPos = selectedIndex

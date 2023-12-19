@@ -5,8 +5,8 @@ import android.content.res.Resources
 import android.net.Uri
 import android.os.Bundle
 import com.mozhimen.imagek.matisse.R
-import com.mozhimen.imagek.matisse.cons.ImageKMatisseCons.STATE_COLLECTION_TYPE
-import com.mozhimen.imagek.matisse.cons.ImageKMatisseCons.STATE_SELECTION
+import com.mozhimen.imagek.matisse.cons.CImageKMatisse.STATE_COLLECTION_TYPE
+import com.mozhimen.imagek.matisse.cons.CImageKMatisse.STATE_SELECTION
 import com.mozhimen.imagek.matisse.mos.IncapableCause
 import com.mozhimen.imagek.matisse.mos.MediaItem
 import com.mozhimen.imagek.matisse.mos.SelectionSpec

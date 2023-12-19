@@ -13,16 +13,15 @@ import com.mozhimen.basick.utilk.android.content.UtilKPackage
 import com.mozhimen.imagek.matisse.impls.Glide4ImageEngine
 import com.mozhimen.imagek.matisse.ImageKMatisse
 import com.mozhimen.imagek.matisse.helpers.MimeTypeManager
-import com.mozhimen.imagek.matisse.helpers.SelectionBuilder
-import com.mozhimen.imagek.matisse.cons.Constants
 import com.mozhimen.basick.elemk.android.provider.MediaStoreCaptureProxy
 import com.mozhimen.basick.utilk.kotlin.collections.ifNotEmpty
-import com.mozhimen.imagek.matisse.cons.ImageKMatisseCons
+import com.mozhimen.imagek.matisse.ImageKMatisseSelectionBuilder
+import com.mozhimen.imagek.matisse.cons.CImageKMatisse
 import com.mozhimen.imagek.matisse.test.databinding.ActivityMainBinding
 import com.mozhimen.manifestk.xxpermission.XXPermissionUtil
 
 class MainActivity : BaseActivityVB<ActivityMainBinding>() {
-    private var _selectionBuilder: SelectionBuilder? = null
+    private var _selectionBuilder: ImageKMatisseSelectionBuilder? = null
 
     override fun initData(savedInstanceState: Bundle?) {
         startPermissionReadWrite(this) {
@@ -33,7 +32,7 @@ class MainActivity : BaseActivityVB<ActivityMainBinding>() {
     override fun initView(savedInstanceState: Bundle?) {
         createMatisse()
         vb.mainBtnSelect.setOnClickListener {
-            _selectionBuilder?.forResult(Constants.REQUEST_CODE_CHOOSE)
+            _selectionBuilder?.forResult(CImageKMatisse.REQUEST_CODE_CHOOSE)
         }
     }
 
@@ -43,7 +42,7 @@ class MainActivity : BaseActivityVB<ActivityMainBinding>() {
         if (resultCode != Activity.RESULT_OK) return
         android.util.Log.d(TAG, "onActivityResult: requestCode $requestCode, resultCode $resultCode")
         when (requestCode) {
-            ImageKMatisseCons.REQUEST_CODE_CHOOSE -> doActivityResultForChoose(data)
+            CImageKMatisse.REQUEST_CODE_CHOOSE -> doActivityResultForChoose(data)
 //            ImageKMatisseCons.REQUEST_CODE_CAPTURE -> doActivityResultForCapture()
 //            ImageKMatisseCons.REQUEST_CODE_CROP -> doActivityResultForCrop(data)
         }

@@ -10,7 +10,7 @@ import android.widget.TextView
 import androidx.viewpager.widget.ViewPager
 import com.mozhimen.imagek.matisse.R
 import com.mozhimen.imagek.matisse.annors.AFormType
-import com.mozhimen.imagek.matisse.cons.ImageKMatisseCons
+import com.mozhimen.imagek.matisse.cons.CImageKMatisse
 import com.mozhimen.imagek.matisse.helpers.MediaSelectionProxy
 import com.mozhimen.imagek.matisse.mos.IncapableCause
 import com.mozhimen.imagek.matisse.mos.MediaItem
@@ -68,11 +68,11 @@ open class BasePreviewActivity : BaseActivity(), View.OnClickListener, ViewPager
 
         mediaSelectionProxy = MediaSelectionProxy(this)
         _isOriginalEnable = if (savedInstanceState == null) {
-            mediaSelectionProxy.onCreate(intent.getBundleExtra(ImageKMatisseCons.EXTRA_DEFAULT_BUNDLE))
-            intent.getBooleanExtra(ImageKMatisseCons.EXTRA_RESULT_ORIGINAL_ENABLE, false)
+            mediaSelectionProxy.onCreate(intent.getBundleExtra(CImageKMatisse.EXTRA_DEFAULT_BUNDLE))
+            intent.getBooleanExtra(CImageKMatisse.EXTRA_RESULT_ORIGINAL_ENABLE, false)
         } else {
             mediaSelectionProxy.onCreate(savedInstanceState)
-            savedInstanceState!!.getBoolean(ImageKMatisseCons.CHECK_STATE)
+            savedInstanceState!!.getBoolean(CImageKMatisse.CHECK_STATE)
         }
     }
 
@@ -94,7 +94,7 @@ open class BasePreviewActivity : BaseActivity(), View.OnClickListener, ViewPager
 
     override fun onSaveInstanceState(outState: Bundle) {
         mediaSelectionProxy.onSaveInstanceState(outState)
-        outState.putBoolean(ImageKMatisseCons.CHECK_STATE, _isOriginalEnable)
+        outState.putBoolean(CImageKMatisse.CHECK_STATE, _isOriginalEnable)
         super.onSaveInstanceState(outState)
     }
 
@@ -216,7 +216,7 @@ open class BasePreviewActivity : BaseActivity(), View.OnClickListener, ViewPager
         if (resultCode != Activity.RESULT_OK) return
 
         when (requestCode) {
-            ImageKMatisseCons.REQUEST_CODE_CROP -> {
+            CImageKMatisse.REQUEST_CODE_CROP -> {
                 data?.run {
                     val resultUri = UCrop.getOutput(data) ?: return@run
                     finishIntentFromCropSuccess(activity, resultUri)

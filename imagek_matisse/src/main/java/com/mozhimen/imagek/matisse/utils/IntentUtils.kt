@@ -5,7 +5,7 @@ package com.mozhimen.imagek.matisse.utils
 import android.app.Activity
 import android.content.Intent
 import android.net.Uri
-import com.mozhimen.imagek.matisse.cons.ImageKMatisseCons
+import com.mozhimen.imagek.matisse.cons.CImageKMatisse
 import com.mozhimen.imagek.matisse.mos.MediaItem
 import com.mozhimen.imagek.matisse.mos.SelectionSpec
 import com.mozhimen.imagek.matisse.helpers.MediaSelectionProxy
@@ -90,9 +90,9 @@ private fun finishIntentToMain(
     selectedId: ArrayList<String>, originalEnable: Boolean
 ) {
     Intent().apply {
-        putParcelableArrayListExtra(ImageKMatisseCons.EXTRA_RESULT_SELECTION, selectedUris)
-        putStringArrayListExtra(ImageKMatisseCons.EXTRA_RESULT_SELECTION_ID, selectedId)
-        putExtra(ImageKMatisseCons.EXTRA_RESULT_ORIGINAL_ENABLE, originalEnable)
+        putParcelableArrayListExtra(CImageKMatisse.EXTRA_RESULT_SELECTION, selectedUris)
+        putStringArrayListExtra(CImageKMatisse.EXTRA_RESULT_SELECTION_ID, selectedId)
+        putExtra(CImageKMatisse.EXTRA_RESULT_ORIGINAL_ENABLE, originalEnable)
         activity.setResult(Activity.RESULT_OK, this)
     }
     activity.finish()
@@ -105,7 +105,7 @@ private fun finishIntentToMain(
 fun finishIntentFromCrop(activity: Activity, cropUri: Uri?) {
     cropUri?.run {
         Intent().apply {
-            putParcelableArrayListExtra(ImageKMatisseCons.EXTRA_RESULT_SELECTION, arrayListOf(cropUri))
+            putParcelableArrayListExtra(CImageKMatisse.EXTRA_RESULT_SELECTION, arrayListOf(cropUri))
             activity.setResult(Activity.RESULT_OK, this)
             activity.finish()
         }
@@ -120,9 +120,9 @@ fun finishIntentFromPreviewApply(
     selectedCollection: MediaSelectionProxy, originalEnable: Boolean
 ) {
     Intent().apply {
-        putExtra(ImageKMatisseCons.EXTRA_RESULT_BUNDLE, selectedCollection.getDataWithBundle())
-        putExtra(ImageKMatisseCons.EXTRA_RESULT_APPLY, apply)
-        putExtra(ImageKMatisseCons.EXTRA_RESULT_ORIGINAL_ENABLE, originalEnable)
+        putExtra(CImageKMatisse.EXTRA_RESULT_BUNDLE, selectedCollection.getDataWithBundle())
+        putExtra(CImageKMatisse.EXTRA_RESULT_APPLY, apply)
+        putExtra(CImageKMatisse.EXTRA_RESULT_ORIGINAL_ENABLE, originalEnable)
         activity.setResult(Activity.RESULT_OK, this)
     }
     if (apply) activity.finish()
@@ -133,7 +133,7 @@ fun finishIntentFromPreviewApply(
  */
 fun finishIntentFromCropSuccess(activity: Activity, cropResultUri: Uri) {
     Intent().apply {
-        putExtra(ImageKMatisseCons.EXTRA_RESULT_CROP_BACK_BUNDLE, cropResultUri)
+        putExtra(CImageKMatisse.EXTRA_RESULT_CROP_BACK_BUNDLE, cropResultUri)
         activity.setResult(Activity.RESULT_OK, this)
     }
     activity.finish()
@@ -148,10 +148,10 @@ fun handlePreviewIntent(
     isApplyData: Boolean, selectedCollection: MediaSelectionProxy
 ) {
     data?.apply {
-        val resultBundle = getBundleExtra(ImageKMatisseCons.EXTRA_RESULT_BUNDLE)
+        val resultBundle = getBundleExtra(CImageKMatisse.EXTRA_RESULT_BUNDLE)
         resultBundle?.apply {
-            val collectionType = getInt(ImageKMatisseCons.STATE_COLLECTION_TYPE)
-            val selected: ArrayList<MediaItem>? = getParcelableArrayList(ImageKMatisseCons.STATE_SELECTION)
+            val collectionType = getInt(CImageKMatisse.STATE_COLLECTION_TYPE)
+            val selected: ArrayList<MediaItem>? = getParcelableArrayList(CImageKMatisse.STATE_SELECTION)
             selected?.apply {
                 if (isApplyData) {
                     // 从预览界面确认提交过来

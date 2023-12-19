@@ -5,7 +5,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import com.mozhimen.imagek.matisse.bases.BasePreviewActivity
-import com.mozhimen.imagek.matisse.cons.ImageKMatisseCons
+import com.mozhimen.imagek.matisse.cons.CImageKMatisse
 import com.mozhimen.imagek.matisse.mos.MediaItem
 
 /**
@@ -19,8 +19,8 @@ class MediaPreviewActivity : BasePreviewActivity() {
     companion object {
         fun instance(context: Context, bundle: Bundle, mOriginalEnable: Boolean) {
             val intent = Intent(context, MediaPreviewActivity::class.java)
-            intent.putExtra(ImageKMatisseCons.EXTRA_DEFAULT_BUNDLE, bundle).putExtra(ImageKMatisseCons.EXTRA_RESULT_ORIGINAL_ENABLE, mOriginalEnable)
-            (context as Activity).startActivityForResult(intent, ImageKMatisseCons.REQUEST_CODE_PREVIEW)
+            intent.putExtra(CImageKMatisse.EXTRA_DEFAULT_BUNDLE, bundle).putExtra(CImageKMatisse.EXTRA_RESULT_ORIGINAL_ENABLE, mOriginalEnable)
+            (context as Activity).startActivityForResult(intent, CImageKMatisse.REQUEST_CODE_PREVIEW)
         }
     }
 
@@ -28,8 +28,8 @@ class MediaPreviewActivity : BasePreviewActivity() {
 
     override fun setViewData() {
         super.setViewData()
-        val bundle = intent.getBundleExtra(ImageKMatisseCons.EXTRA_DEFAULT_BUNDLE)
-        val selected = bundle?.getParcelableArrayList<MediaItem>(ImageKMatisseCons.STATE_SELECTION)
+        val bundle = intent.getBundleExtra(CImageKMatisse.EXTRA_DEFAULT_BUNDLE)
+        val selected = bundle?.getParcelableArrayList<MediaItem>(CImageKMatisse.STATE_SELECTION)
         selected?.apply {
             previewPagerAdapter?.addAll(this)
             previewPagerAdapter?.notifyDataSetChanged()

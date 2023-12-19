@@ -4,7 +4,7 @@ import android.app.Activity
 import android.content.Intent
 import android.net.Uri
 import androidx.fragment.app.Fragment
-import com.mozhimen.imagek.matisse.cons.ImageKMatisseCons
+import com.mozhimen.imagek.matisse.cons.CImageKMatisse
 import com.mozhimen.imagek.matisse.cons.EMimeType
 import java.lang.ref.WeakReference
 
@@ -48,7 +48,7 @@ class ImageKMatisse {
          * @return User selected media' [Uri] list.
          */
         fun obtainResult(data: Intent): List<Uri>? {
-            return data.getParcelableArrayListExtra(ImageKMatisseCons.EXTRA_RESULT_SELECTION)
+            return data.getParcelableArrayListExtra(CImageKMatisse.EXTRA_RESULT_SELECTION)
         }
 
         /**
@@ -59,14 +59,14 @@ class ImageKMatisse {
          * @return User selected media path id list.
          */
         fun obtainPathIdResult(data: Intent): List<String>? {
-            return data.getStringArrayListExtra(ImageKMatisseCons.EXTRA_RESULT_SELECTION_ID)
+            return data.getStringArrayListExtra(CImageKMatisse.EXTRA_RESULT_SELECTION_ID)
         }
 
         /**
          * 直接获取裁剪结果
          */
         fun obtainCropResult(data: Intent?): Uri? {
-            return data?.getParcelableExtra(ImageKMatisseCons.EXTRA_RESULT_CROP_BACK_BUNDLE)
+            return data?.getParcelableExtra(CImageKMatisse.EXTRA_RESULT_CROP_BACK_BUNDLE)
         }
 
         /**
@@ -77,7 +77,7 @@ class ImageKMatisse {
          * @return Whether use original photo
          */
         fun obtainOriginalState(data: Intent) =
-            data.getBooleanExtra(ImageKMatisseCons.EXTRA_RESULT_ORIGINAL_ENABLE, false)
+            data.getBooleanExtra(CImageKMatisse.EXTRA_RESULT_ORIGINAL_ENABLE, false)
     }
 
     ////////////////////////////////////////////////////////////////////

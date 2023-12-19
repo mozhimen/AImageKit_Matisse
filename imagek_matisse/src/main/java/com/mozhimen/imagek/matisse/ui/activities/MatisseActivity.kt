@@ -17,7 +17,7 @@ import com.mozhimen.imagek.matisse.ImageKMatisse
 import com.mozhimen.imagek.matisse.R
 import com.mozhimen.imagek.matisse.annors.AFormType
 import com.mozhimen.imagek.matisse.mos.Album
-import com.mozhimen.imagek.matisse.cons.ImageKMatisseCons
+import com.mozhimen.imagek.matisse.cons.CImageKMatisse
 import com.mozhimen.imagek.matisse.mos.IncapableCause
 import com.mozhimen.imagek.matisse.mos.MediaItem
 import com.mozhimen.imagek.matisse.commons.IAlbumLoadListener
@@ -114,7 +114,7 @@ class MatisseActivity : BaseActivity(), MediaSelectionFragment.IMediaSelectionPr
         super.onSaveInstanceState(outState)
         _mediaSelectionProxy.onSaveInstanceState(outState)
         _albumLoadProxy?.onSaveInstanceState(outState)
-        outState.putBoolean(ImageKMatisseCons.CHECK_STATE, _isOriginalEnable)
+        outState.putBoolean(CImageKMatisse.CHECK_STATE, _isOriginalEnable)
     }
 
     @Deprecated("Deprecated in Java")
@@ -171,7 +171,7 @@ class MatisseActivity : BaseActivity(), MediaSelectionFragment.IMediaSelectionPr
     }
 
     override fun capture() {
-        _mediaStoreCaptureProxy?.dispatchCaptureIntent(this, ImageKMatisseCons.REQUEST_CODE_CAPTURE)
+        _mediaStoreCaptureProxy?.dispatchCaptureIntent(this, CImageKMatisse.REQUEST_CODE_CAPTURE)
     }
 
     @Deprecated("Deprecated in Java")
@@ -179,7 +179,7 @@ class MatisseActivity : BaseActivity(), MediaSelectionFragment.IMediaSelectionPr
         super.onActivityResult(requestCode, resultCode, data)
 
         when (requestCode) {
-            ImageKMatisseCons.REQUEST_CODE_PREVIEW -> {
+            CImageKMatisse.REQUEST_CODE_PREVIEW -> {
                 if (resultCode != Activity.RESULT_OK) return
                 val cropPath = ImageKMatisse.obtainCropResult(data)
 
@@ -187,14 +187,14 @@ class MatisseActivity : BaseActivity(), MediaSelectionFragment.IMediaSelectionPr
                 if (cropPath != null) finishIntentFromCrop(activity, cropPath)
                 else doActivityResultFromPreview(data)
             }
-            ImageKMatisseCons.REQUEST_CODE_CAPTURE -> doActivityResultFromCapture()
-            ImageKMatisseCons.REQUEST_CODE_CROP -> {
+            CImageKMatisse.REQUEST_CODE_CAPTURE -> doActivityResultFromCapture()
+            CImageKMatisse.REQUEST_CODE_CROP -> {
                 data?.run {
                     val resultUri = UCrop.getOutput(data)
                     finishIntentFromCrop(activity, resultUri)
                 }
             }
-            ImageKMatisseCons.REQUEST_CODE_CROP_ERROR -> {
+            CImageKMatisse.REQUEST_CODE_CROP_ERROR -> {
                 data?.run {
                     val cropError = UCrop.getError(data)?.message ?: ""
                     IncapableCause.handleCause(activity, IncapableCause(cropError))
@@ -261,12 +261,12 @@ class MatisseActivity : BaseActivity(), MediaSelectionFragment.IMediaSelectionPr
 
     override fun onMediaClick(album: Album?, item: MediaItem, adapterPosition: Int) {
         val intent = Intent(this, AlbumPreviewActivity::class.java)
-            .putExtra(ImageKMatisseCons.EXTRA_ALBUM, album as Parcelable)
-            .putExtra(ImageKMatisseCons.EXTRA_ITEM, item)
-            .putExtra(ImageKMatisseCons.EXTRA_DEFAULT_BUNDLE, _mediaSelectionProxy.getDataWithBundle())
-            .putExtra(ImageKMatisseCons.EXTRA_RESULT_ORIGINAL_ENABLE, _isOriginalEnable)
+            .putExtra(CImageKMatisse.EXTRA_ALBUM, album as Parcelable)
+            .putExtra(CImageKMatisse.EXTRA_ITEM, item)
+            .putExtra(CImageKMatisse.EXTRA_DEFAULT_BUNDLE, _mediaSelectionProxy.getDataWithBundle())
+            .putExtra(CImageKMatisse.EXTRA_RESULT_ORIGINAL_ENABLE, _isOriginalEnable)
 
-        startActivityForResult(intent, ImageKMatisseCons.REQUEST_CODE_PREVIEW)
+        startActivityForResult(intent, CImageKMatisse.REQUEST_CODE_PREVIEW)
     }
 
     //////////////////////////////////////////////////////////
@@ -289,8 +289,8 @@ class MatisseActivity : BaseActivity(), MediaSelectionFragment.IMediaSelectionPr
     private fun doActivityResultFromPreview(data: Intent?) {
         data?.apply {
 
-            _isOriginalEnable = getBooleanExtra(ImageKMatisseCons.EXTRA_RESULT_ORIGINAL_ENABLE, false)
-            val isApplyData = getBooleanExtra(ImageKMatisseCons.EXTRA_RESULT_APPLY, false)
+            _isOriginalEnable = getBooleanExtra(CImageKMatisse.EXTRA_RESULT_ORIGINAL_ENABLE, false)
+            val isApplyData = getBooleanExtra(CImageKMatisse.EXTRA_RESULT_APPLY, false)
             handlePreviewIntent(activity, data, _isOriginalEnable, isApplyData, _mediaSelectionProxy)
 
             if (!isApplyData) {

@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.mozhimen.imagek.matisse.R
 import com.mozhimen.imagek.matisse.databinding.FragmentMediaSelectionBinding
 import com.mozhimen.imagek.matisse.mos.Album
-import com.mozhimen.imagek.matisse.cons.ImageKMatisseCons
+import com.mozhimen.imagek.matisse.cons.CImageKMatisse
 import com.mozhimen.imagek.matisse.mos.MediaItem
 import com.mozhimen.imagek.matisse.mos.SelectionSpec
 import com.mozhimen.imagek.matisse.commons.IAlbumLoadListener
@@ -36,7 +36,7 @@ class MediaSelectionFragment : Fragment(), IAlbumLoadListener, MediaAlbumAdapter
     companion object {
         fun newInstance(album: Album): MediaSelectionFragment {
             val fragment = MediaSelectionFragment()
-            fragment.arguments = Bundle().apply { putParcelable(ImageKMatisseCons.EXTRA_ALBUM, album) }
+            fragment.arguments = Bundle().apply { putParcelable(CImageKMatisse.EXTRA_ALBUM, album) }
             return fragment
         }
     }
@@ -68,7 +68,7 @@ class MediaSelectionFragment : Fragment(), IAlbumLoadListener, MediaAlbumAdapter
         super.onActivityCreated(savedInstanceState)
         val recyclerview = mBinding?.recyclerview
         recyclerview ?: return
-        album = arguments?.getParcelable(ImageKMatisseCons.EXTRA_ALBUM)!!
+        album = arguments?.getParcelable(CImageKMatisse.EXTRA_ALBUM)!!
         adapter = MediaAlbumAdapter(
             requireContext(), selectionProvider.provideSelectedItemCollection(), recyclerview
         )
