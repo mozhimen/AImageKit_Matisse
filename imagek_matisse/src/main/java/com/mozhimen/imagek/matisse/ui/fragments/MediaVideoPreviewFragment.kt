@@ -7,10 +7,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.fragment.app.Fragment
+import com.mozhimen.basick.elemk.androidx.fragment.bases.BaseFragment
 import com.mozhimen.imagek.matisse.R
-import com.mozhimen.imagek.matisse.mos.MediaItem
-import com.mozhimen.imagek.matisse.mos.SelectionSpec
+import com.mozhimen.imagek.matisse.mos.Media
+import com.mozhimen.imagek.matisse.mos.Selection
 import com.mozhimen.imagek.matisse.utils.PhotoMetadataUtils
 import it.sephiroth.android.library.imagezoom.ImageViewTouch
 import it.sephiroth.android.library.imagezoom.ImageViewTouchBase
@@ -21,27 +21,28 @@ import it.sephiroth.android.library.imagezoom.ImageViewTouchBase
  * author：Leo </br>
  * since V 1.8.0 </br>
  */
-class PreviewItemFragment : Fragment() {
+class MediaVideoPreviewFragment : BaseFragment() {
 
     companion object {
         private const val ARGS_ITEM = "args_item"
 
-        fun newInstance(item: MediaItem): PreviewItemFragment {
-            val fragment = PreviewItemFragment()
-            val bundle = Bundle()
-            bundle.putParcelable(ARGS_ITEM, item)
-            fragment.arguments = bundle
+        fun newInstance(item: Media): MediaVideoPreviewFragment {
+            val fragment = MediaVideoPreviewFragment()
+            fragment.arguments = Bundle().apply {
+                putParcelable(ARGS_ITEM, item)
+            }
             return fragment
         }
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
-    ): View = inflater.inflate(R.layout.item_media_preview, container, false)
+    //////////////////////////////////////////////////////////////////////////////////
+
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View =
+        inflater.inflate(R.layout.item_media_preview, container, false)
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        val item: MediaItem = arguments!!.getParcelable(ARGS_ITEM) ?: return
+        val item: Media = arguments!!.getParcelable(ARGS_ITEM) ?: return
 
         val videoPlayButton: View = view.findViewById(R.id.video_play_button)
         if (item.isVideo()) {
@@ -62,11 +63,11 @@ class PreviewItemFragment : Fragment() {
         image.displayType = ImageViewTouchBase.DisplayType.FIT_TO_SCREEN
         val size: Point = PhotoMetadataUtils.getBitmapSize(item.getContentUri(), activity)
         if (item.isGif()) {
-            SelectionSpec.getInstance().imageEngine?.loadGifImage(
+            Selection.getInstance().imageEngine?.loadGifImage(
                 context!!, size.x, size.y, image, item.getContentUri()
             )
         } else {
-            SelectionSpec.getInstance().imageEngine?.loadImage(
+            Selection.getInstance().imageEngine?.loadImage(
                 context!!, size.x, size.y, image, item.getContentUri()
             )
         }

@@ -19,21 +19,24 @@ import com.mozhimen.imagek.matisse.annors.AFormType
 import com.mozhimen.imagek.matisse.mos.Album
 import com.mozhimen.imagek.matisse.cons.CImageKMatisse
 import com.mozhimen.imagek.matisse.mos.IncapableCause
-import com.mozhimen.imagek.matisse.mos.MediaItem
+import com.mozhimen.imagek.matisse.mos.Media
 import com.mozhimen.imagek.matisse.commons.IAlbumLoadListener
 import com.mozhimen.imagek.matisse.helpers.MediaSelectionProxy
 import com.mozhimen.imagek.matisse.ucrop.UCrop
 import com.mozhimen.imagek.matisse.bases.BaseActivity
-import com.mozhimen.imagek.matisse.commons.IFolderBottomSheetListener
-import com.mozhimen.imagek.matisse.helpers.FolderBottomSheetProxy
+import com.mozhimen.imagek.matisse.commons.IAlbumBottomSheetListener
+import com.mozhimen.imagek.matisse.helpers.AlbumSelectionBottomSheetProxy
 import com.mozhimen.imagek.matisse.helpers.AlbumLoadProxy
-import com.mozhimen.imagek.matisse.ui.adapters.MediaAlbumAdapter
-import com.mozhimen.imagek.matisse.ui.adapters.FolderMediaItemAdapter
-import com.mozhimen.imagek.matisse.ui.fragments.MediaSelectionFragment
+import com.mozhimen.imagek.matisse.ui.adapters.AlbumSelectionAdapter
+import com.mozhimen.imagek.matisse.ui.fragments.AlbumSelectionFragment
 import com.mozhimen.imagek.matisse.widgets.CheckRadioView
 import com.mozhimen.basick.elemk.android.provider.MediaStoreCaptureProxy
 import com.mozhimen.basick.lintk.optin.OptInApiCall_BindLifecycle
 import com.mozhimen.basick.lintk.optin.OptInApiInit_ByLazy
+import com.mozhimen.imagek.matisse.commons.IMediaCheckSelectSateListener
+import com.mozhimen.imagek.matisse.commons.IMediaClickListener
+import com.mozhimen.imagek.matisse.commons.IMediaPhotoCapture
+import com.mozhimen.imagek.matisse.commons.IMediaSelectionProxyProvider
 import com.mozhimen.imagek.matisse.utils.countOverMaxSize
 import com.mozhimen.imagek.matisse.utils.finishIntentFromCrop
 import com.mozhimen.imagek.matisse.utils.gotoImageCrop
@@ -41,7 +44,6 @@ import com.mozhimen.imagek.matisse.utils.handleIntentFromPreview
 import com.mozhimen.imagek.matisse.utils.handlePreviewIntent
 import com.mozhimen.imagek.matisse.utils.setOnClickListener
 import com.mozhimen.imagek.matisse.utils.setViewVisible
-import java.lang.ref.WeakReference
 
 /**
  * desc：入口</br>
@@ -49,15 +51,19 @@ import java.lang.ref.WeakReference
  * author：Leo </br>
  * since V 1.0.0 </br>
  */
-class MatisseActivity : BaseActivity(), MediaSelectionFragment.IMediaSelectionProvider,
-    MediaAlbumAdapter.CheckStateListener, MediaAlbumAdapter.OnMediaClickListener,
-    MediaAlbumAdapter.OnPhotoCapture, View.OnClickListener {
+class MatisseActivity : BaseActivity(),
+    IMediaSelectionProxyProvider,
+    IMediaCheckSelectSateListener,
+    IMediaClickListener,
+    IMediaPhotoCapture,
+    View.OnClickListener {
 
     private var _mediaStoreCaptureProxy: MediaStoreCaptureProxy? = null
     private var _albumLoadProxy: AlbumLoadProxy? = null
     private lateinit var _mediaSelectionProxy: MediaSelectionProxy
+
     @OptIn(OptInApiInit_ByLazy::class, OptInApiCall_BindLifecycle::class)
-    private val _folderBottomSheetProxy: FolderBottomSheetProxy by lazy { FolderBottomSheetProxy(this) }
+    private val _albumSelectionBottomSheetProxy: AlbumSelectionBottomSheetProxy by lazy { AlbumSelectionBottomSheetProxy(this) }
 
     //////////////////////////////////////////////////////////
 
@@ -78,34 +84,37 @@ class MatisseActivity : BaseActivity(), MediaSelectionFragment.IMediaSelectionPr
 
     //////////////////////////////////////////////////////////
 
+    @OptIn(OptInApiInit_ByLazy::class, OptInApiCall_BindLifecycle::class)
     private var _albumLoadListener = object : IAlbumLoadListener {
         override fun onAlbumStart() {
             // do nothing
         }
 
         override fun onAlbumLoad(cursor: Cursor) {
-            _folderBottomSheetProxy.setAlbumFolderCursor(cursor)
+            _albumSelectionBottomSheetProxy.setAlbumFolderCursor(cursor)
 
             Handler(Looper.getMainLooper()).post {
                 if (cursor.moveToFirst()) {
-                    _album = Album.valueOf(cursor).apply { onAlbumSelected(this) }
+                    _album = Album.valueOf(cursor).apply {
+                        onAlbumSelected(this)
+                    }
                 }
             }
         }
 
         override fun onAlbumReset() {
-            _folderBottomSheetProxy.clearFolderSheetDialog()
+            _albumSelectionBottomSheetProxy.clearFolderSheetDialog()
         }
     }
 
     @OptIn(OptInApiInit_ByLazy::class, OptInApiCall_BindLifecycle::class)
-    private var _folderBottomSheetListener = object : IFolderBottomSheetListener {
-        override fun initData(adapter: FolderMediaItemAdapter) {
-            adapter.setListData(_folderBottomSheetProxy.readAlbumFromCursor())
+    private var _folderBottomSheetListener = object : IAlbumBottomSheetListener {
+        override fun onInitData(adapter: AlbumSelectionAdapter) {
+            adapter.setListData(_albumSelectionBottomSheetProxy.readAlbumFromCursor())
         }
 
         override fun onItemClick(album: Album, position: Int) {
-            if (!_folderBottomSheetProxy.setLastFolderCheckedPosition(position)) return
+            if (!_albumSelectionBottomSheetProxy.setLastFolderCheckedPosition(position)) return
             _albumLoadProxy?.setStateCurrentSelection(position)
 
             _buttonApply.text = album.getDisplayName(activity)
@@ -131,13 +140,13 @@ class MatisseActivity : BaseActivity(), MediaSelectionFragment.IMediaSelectionPr
     override fun onDestroy() {
         super.onDestroy()
         _albumLoadProxy?.onDestroy()
-        selectionSpec?.onCheckedListener = null
-        selectionSpec?.onSelectedListener = null
+        selection?.onCheckedListener = null
+        selection?.onSelectedListener = null
     }
 
     override fun initFlag() {
         try {
-            selectionSpec?.onLoadStatusBarListener?.invoke(this)
+            selection?.onLoadStatusBarListener?.invoke(this)
         } catch (e: Exception) {
             e.printStackTrace()
         }
@@ -147,16 +156,16 @@ class MatisseActivity : BaseActivity(), MediaSelectionFragment.IMediaSelectionPr
         super.configActivity()
         initView()
         try {
-            selectionSpec?.onLoadToolbarListener?.invoke(this, _toolbar)
+            selection?.onLoadToolbarListener?.invoke(this, _toolbar)
         } catch (e: Exception) {
             e.printStackTrace()
         }
 
-        if (selectionSpec?.capture == true) {
+        if (selection?.capture == true) {
             _mediaStoreCaptureProxy = MediaStoreCaptureProxy(this)
-            if (selectionSpec?.captureStrategy == null)
+            if (selection?.captureStrategy == null)
                 throw RuntimeException("Don't forget to set CaptureStrategy.")
-            _mediaStoreCaptureProxy?.setCaptureStrategy(selectionSpec?.captureStrategy!!)
+            _mediaStoreCaptureProxy?.setCaptureStrategy(selection?.captureStrategy!!)
         }
     }
 
@@ -167,25 +176,22 @@ class MatisseActivity : BaseActivity(), MediaSelectionFragment.IMediaSelectionPr
         _buttonApply.setText(getAttrString(R.attr.BottomBarAlbum_Text, R.string.album_name_all))
         _mediaSelectionProxy = MediaSelectionProxy(this).apply { onCreate(savedInstanceState) }
         _albumLoadProxy = AlbumLoadProxy(this, _albumLoadListener)
-        _folderBottomSheetProxy.bindLifecycle(this@MatisseActivity)
+        _albumSelectionBottomSheetProxy.bindLifecycle(this@MatisseActivity)
         updateBottomToolbar()
     }
 
     override fun initListener() {
-        setOnClickListener(
-            this, _buttonApply, _buttonPreview,
-            _layoutOriginal, _buttonComplete, _buttonBack
-        )
+        setOnClickListener(this, _buttonApply, _buttonPreview, _layoutOriginal, _buttonComplete, _buttonBack)
     }
 
-    override fun onSelectUpdate() {
+    override fun onMediaSelectUpdate() {
         updateBottomToolbar()
-        selectionSpec?.onSelectedListener?.onSelected(
+        selection?.onSelectedListener?.onSelected(
             _mediaSelectionProxy.asListOfUri(), _mediaSelectionProxy.asListOfString()
         )
     }
 
-    override fun capture() {
+    override fun onCapture() {
         _mediaStoreCaptureProxy?.dispatchCaptureIntent(this, CImageKMatisse.REQUEST_CODE_CAPTURE)
     }
 
@@ -242,7 +248,7 @@ class MatisseActivity : BaseActivity(), MediaSelectionFragment.IMediaSelectionPr
                 }
 
                 val item = _mediaSelectionProxy.asList()[0]
-                if (selectionSpec?.openCrop() == true && selectionSpec?.isSupportCrop(item) == true) {
+                if (selection?.openCrop() == true && selection?.isSupportCrop(item) == true) {
                     gotoImageCrop(this, _mediaSelectionProxy.asListOfUri() as ArrayList<Uri>)
                     return
                 }
@@ -255,12 +261,12 @@ class MatisseActivity : BaseActivity(), MediaSelectionFragment.IMediaSelectionPr
                 if (count <= 0) {
                     _isOriginalEnable = !_isOriginalEnable
                     _checkRadioViewOriginal.setChecked(_isOriginalEnable)
-                    selectionSpec?.onCheckedListener?.onCheck(_isOriginalEnable)
+                    selection?.onCheckedListener?.onCheck(_isOriginalEnable)
                     return
                 }
 
                 handleCauseTips(
-                    getString(R.string.error_over_original_count, count, selectionSpec?.originalMaxSize),
+                    getString(R.string.error_over_original_count, count, selection?.originalMaxSize),
                     AFormType.DIALOG
                 )
             }
@@ -271,14 +277,15 @@ class MatisseActivity : BaseActivity(), MediaSelectionFragment.IMediaSelectionPr
                     return
                 }
 
-                _folderBottomSheetProxy.createFolderSheetDialog(_folderBottomSheetListener)
+                _albumSelectionBottomSheetProxy.createFolderSheetDialog(_folderBottomSheetListener)
             }
         }
     }
 
-    override fun provideSelectedItemCollection() = _mediaSelectionProxy
+    override fun provideMediaSelectionProxy(): MediaSelectionProxy =
+        _mediaSelectionProxy
 
-    override fun onMediaClick(album: Album?, item: MediaItem, adapterPosition: Int) {
+    override fun onMediaClick(album: Album?, item: Media, adapterPosition: Int) {
         val intent = Intent(this, AlbumPreviewActivity::class.java)
             .putExtra(CImageKMatisse.EXTRA_ALBUM, album as Parcelable)
             .putExtra(CImageKMatisse.EXTRA_ITEM, item)
@@ -313,11 +320,11 @@ class MatisseActivity : BaseActivity(), MediaSelectionFragment.IMediaSelectionPr
             handlePreviewIntent(activity, data, _isOriginalEnable, isApplyData, _mediaSelectionProxy)
 
             if (!isApplyData) {
-                val mediaSelectionFragment = supportFragmentManager.findFragmentByTag(
-                    MediaSelectionFragment::class.java.simpleName
+                val albumSelectionFragment = supportFragmentManager.findFragmentByTag(
+                    AlbumSelectionFragment::class.java.simpleName
                 )
-                if (mediaSelectionFragment is MediaSelectionFragment) {
-                    mediaSelectionFragment.refreshMediaGrid()
+                if (albumSelectionFragment is AlbumSelectionFragment) {
+                    albumSelectionFragment.refreshMediaGrid()
                 }
                 updateBottomToolbar()
             }
@@ -327,6 +334,7 @@ class MatisseActivity : BaseActivity(), MediaSelectionFragment.IMediaSelectionPr
     /**
      * 处理拍照的[onActivityResult]
      */
+    @OptIn(OptInApiInit_ByLazy::class, OptInApiCall_BindLifecycle::class)
     private fun doActivityResultFromCapture() {
         val capturePathUri = _mediaStoreCaptureProxy?.getCurrentPhotoUri() ?: return
         val capturePath = _mediaStoreCaptureProxy?.getCurrentPhotoStrPath() ?: return
@@ -335,12 +343,14 @@ class MatisseActivity : BaseActivity(), MediaSelectionFragment.IMediaSelectionPr
         // 重新获取相册数据
         _albumLoadProxy?.loadAlbumData()
         // 手动插入到相册列表
-        _folderBottomSheetProxy.insetAlbumToFolder(capturePathUri)
+        _albumSelectionBottomSheetProxy.insetAlbumToFolder(capturePathUri)
         // 重新load所有资源
-        _folderBottomSheetProxy.getAlbumFolderList()?.apply { onAlbumSelected(this[0]) }
+        _albumSelectionBottomSheetProxy.getAlbumFolderList()?.apply {
+            onAlbumSelected(this[0])
+        }
 
         // Check is Crop first
-        if (selectionSpec?.openCrop() == true) {
+        if (selection?.openCrop() == true) {
             gotoImageCrop(this, arrayListOf(capturePathUri))
         }
     }
@@ -349,7 +359,7 @@ class MatisseActivity : BaseActivity(), MediaSelectionFragment.IMediaSelectionPr
         val selectedCount = _mediaSelectionProxy.count()
         setCompleteText(selectedCount)
 
-        if (selectionSpec?.originalable == true) {
+        if (selection?.originalable == true) {
             setViewVisible(true, _layoutOriginal)
             updateOriginalState()
         } else {
@@ -361,7 +371,7 @@ class MatisseActivity : BaseActivity(), MediaSelectionFragment.IMediaSelectionPr
         if (selectedCount == 0) {
             _buttonComplete.setText(getAttrString(R.attr.Navigation_TextSure, R.string.button_sure))
 
-        } else if (selectedCount == 1 && selectionSpec?.singleSelectionModeEnabled() == true) {
+        } else if (selectedCount == 1 && selection?.singleSelectionModeEnabled() == true) {
             _buttonComplete.setText(getAttrString(R.attr.Navigation_TextSure, R.string.button_sure))
 
         } else {
@@ -375,7 +385,7 @@ class MatisseActivity : BaseActivity(), MediaSelectionFragment.IMediaSelectionPr
         _checkRadioViewOriginal.setChecked(_isOriginalEnable)
         if (countOverMaxSize(_mediaSelectionProxy) > 0 || _isOriginalEnable) {
             handleCauseTips(
-                getString(R.string.error_over_original_size, selectionSpec?.originalMaxSize),
+                getString(R.string.error_over_original_size, selection?.originalMaxSize),
                 AFormType.DIALOG
             )
 
@@ -391,8 +401,8 @@ class MatisseActivity : BaseActivity(), MediaSelectionFragment.IMediaSelectionPr
         } else {
             setViewVisible(false, _viewEmpty)
             setViewVisible(true, _viewContainer)
-            val fragment = MediaSelectionFragment.newInstance(album)
-            supportFragmentManager.beginTransaction().replace(_viewContainer.id, fragment, MediaSelectionFragment::class.java.simpleName).commitAllowingStateLoss()
+            val albumSelectionFragment = AlbumSelectionFragment.newInstance(album)
+            supportFragmentManager.beginTransaction().replace(_viewContainer.id, albumSelectionFragment, AlbumSelectionFragment::class.java.simpleName).commitAllowingStateLoss()
         }
     }
 }

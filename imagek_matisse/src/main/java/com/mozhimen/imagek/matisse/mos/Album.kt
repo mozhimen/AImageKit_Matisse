@@ -7,15 +7,40 @@ import android.net.Uri
 import android.os.Parcel
 import android.os.Parcelable
 import com.mozhimen.imagek.matisse.R
-import com.mozhimen.imagek.matisse.helpers.loader.AlbumCursorLoader
-import java.lang.ref.WeakReference
+import com.mozhimen.imagek.matisse.helpers.loader.AlbumLoadCursorLoader
 
 class Album() : Parcelable {
+    companion object CREATOR : Parcelable.Creator<Album> {
+
+        const val ALBUM_ID_ALL = (-1).toString()
+        const val ALBUM_NAME_ALL = "All"
+
+        override fun createFromParcel(parcel: Parcel): Album {
+            return Album(parcel)
+        }
+
+        override fun newArray(size: Int): Array<Album?> {
+            return arrayOfNulls(size)
+        }
+
+        @SuppressLint("Range")
+        fun valueOf(cursor: Cursor): Album = Album(
+            cursor.getString(cursor.getColumnIndex(AlbumLoadCursorLoader.BUCKET_ID)),
+            Uri.parse(cursor.getString(cursor.getColumnIndex(AlbumLoadCursorLoader.COLUMN_URI)) ?: ""),
+            cursor.getString(cursor.getColumnIndex(AlbumLoadCursorLoader.BUCKET_DISPLAY_NAME)),
+            cursor.getLong(cursor.getColumnIndex(AlbumLoadCursorLoader.COLUMN_COUNT))
+        )
+    }
+
+    //////////////////////////////////////////////////////////////////////////
+
     private var id = ""
     private var coverUri: Uri? = null
     private var displayName = ""
     private var count: Long = 0
     private var isCheck = false
+
+    //////////////////////////////////////////////////////////////////////////
 
     constructor(parcel: Parcel) : this() {
         id = parcel.readString() ?: ""
@@ -84,27 +109,7 @@ class Album() : Parcelable {
 
     override fun describeContents() = 0
 
-    //////////////////////////////////////////////////////////////////////////
-
-    companion object CREATOR : Parcelable.Creator<Album> {
-
-        const val ALBUM_ID_ALL = (-1).toString()
-        const val ALBUM_NAME_ALL = "All"
-
-        override fun createFromParcel(parcel: Parcel): Album {
-            return Album(parcel)
-        }
-
-        override fun newArray(size: Int): Array<Album?> {
-            return arrayOfNulls(size)
-        }
-
-        @SuppressLint("Range")
-        fun valueOf(cursor: Cursor) = Album(
-            cursor.getString(cursor.getColumnIndex(AlbumCursorLoader.BUCKET_ID)),
-            Uri.parse(cursor.getString(cursor.getColumnIndex(AlbumCursorLoader.COLUMN_URI)) ?: ""),
-            cursor.getString(cursor.getColumnIndex(AlbumCursorLoader.BUCKET_DISPLAY_NAME)),
-            cursor.getLong(cursor.getColumnIndex(AlbumCursorLoader.COLUMN_COUNT))
-        )
+    override fun toString(): String {
+        return "Album(id='$id', coverUri=$coverUri, displayName='$displayName', count=$count, isCheck=$isCheck)"
     }
 }

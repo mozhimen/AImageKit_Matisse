@@ -6,7 +6,7 @@ import android.net.Uri
  * Created by Lijianyou on 2018-09-07.
  * @author  Lijianyou
  */
-interface IOnSelectedListener {
+interface IMediaSelectedListener {
     /**
      * @param uriList the selected item [Uri] list.
      * @param pathList the selected item file path list.

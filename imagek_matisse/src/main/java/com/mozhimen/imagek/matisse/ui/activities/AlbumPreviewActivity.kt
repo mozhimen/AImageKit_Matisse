@@ -4,29 +4,29 @@ import android.database.Cursor
 import com.mozhimen.imagek.matisse.bases.BasePreviewActivity
 import com.mozhimen.imagek.matisse.mos.Album
 import com.mozhimen.imagek.matisse.cons.CImageKMatisse
-import com.mozhimen.imagek.matisse.mos.MediaItem
+import com.mozhimen.imagek.matisse.mos.Media
 import com.mozhimen.imagek.matisse.commons.IAlbumLoadListener
-import com.mozhimen.imagek.matisse.helpers.loader.AlbumMediaCursorLoaderCallbacks
-import com.mozhimen.imagek.matisse.ui.adapters.PreviewPagerAdapter
+import com.mozhimen.imagek.matisse.helpers.loader.AlbumSelectionCursorLoaderCallbacks
+import com.mozhimen.imagek.matisse.ui.adapters.MediaPreviewPagerAdapter
 
 /**
  * Created by liubo on 2018/9/11.
  */
 class AlbumPreviewActivity : BasePreviewActivity(), IAlbumLoadListener {
 
-    private var _albumMediaCursorLoaderCallbacks = AlbumMediaCursorLoaderCallbacks()
+    private var _albumSelectionCursorLoaderCallbacks = AlbumSelectionCursorLoaderCallbacks()
     private var isAlreadySetPosition = false
 
     //////////////////////////////////////////////////////////
 
     override fun setViewData() {
         super.setViewData()
-        _albumMediaCursorLoaderCallbacks.onCreate(this, this)
+        _albumSelectionCursorLoaderCallbacks.onCreate(this, this)
         val album = intent.getParcelableExtra<Album>(CImageKMatisse.EXTRA_ALBUM) ?: return
-        _albumMediaCursorLoaderCallbacks.load(album)
-        val item = intent.getParcelableExtra<MediaItem>(CImageKMatisse.EXTRA_ITEM)
+        _albumSelectionCursorLoaderCallbacks.load(album)
+        val item = intent.getParcelableExtra<Media>(CImageKMatisse.EXTRA_ITEM)
         checkView?.apply {
-            if (selectionSpec?.isCountable() == true) {
+            if (selection?.isCountable() == true) {
                 setCheckedNum(mediaSelectionProxy.checkedNumOf(item))
             } else {
                 setChecked(mediaSelectionProxy.isSelected(item))
@@ -37,22 +37,22 @@ class AlbumPreviewActivity : BasePreviewActivity(), IAlbumLoadListener {
 
     override fun onDestroy() {
         super.onDestroy()
-        _albumMediaCursorLoaderCallbacks.onDestroy()
+        _albumSelectionCursorLoaderCallbacks.onDestroy()
     }
 
     override fun onAlbumLoad(cursor: Cursor) {
-        val items = ArrayList<MediaItem>()
+        val items = ArrayList<Media>()
         while (cursor.moveToNext()) {
-            MediaItem.valueOf(cursor)?.run { items.add(this) }
+            Media.valueOf(cursor)?.run { items.add(this) }
         }
 
         if (items.isEmpty()) return
-        val adapter = previewViewPager?.adapter as PreviewPagerAdapter
+        val adapter = previewViewPager?.adapter as MediaPreviewPagerAdapter
         adapter.addAll(items)
         adapter.notifyDataSetChanged()
         if (!isAlreadySetPosition) {
             isAlreadySetPosition = true
-            val selected = intent.getParcelableExtra<MediaItem>(CImageKMatisse.EXTRA_ITEM) ?: return
+            val selected = intent.getParcelableExtra<Media>(CImageKMatisse.EXTRA_ITEM) ?: return
             val selectedIndex = items.indexOf(selected)
             previewViewPager?.setCurrentItem(selectedIndex, false)
             previousPos = selectedIndex

@@ -13,7 +13,7 @@ import java.util.*
  * Describe : Define MediaType
  * Created by Leo on 2018/8/29 on 15:02.
  */
-object MimeTypeManager {
+object MediaMimeTypeHelper {
     @JvmStatic
     fun ofAll(): EnumSet<EMimeType> =
         EnumSet.allOf(EMimeType::class.java)

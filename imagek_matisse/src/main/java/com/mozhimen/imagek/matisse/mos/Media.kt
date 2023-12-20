@@ -6,12 +6,12 @@ import android.database.Cursor
 import android.net.Uri
 import android.os.Parcelable
 import android.provider.MediaStore
-import com.mozhimen.imagek.matisse.helpers.MimeTypeManager
+import com.mozhimen.imagek.matisse.helpers.MediaMimeTypeHelper
 import kotlinx.android.parcel.IgnoredOnParcel
 import kotlinx.android.parcel.Parcelize
 
 @Parcelize
-class MediaItem(
+class Media(
     var id: Long,
     private var mimeType: String,
     var size: Long = 0,
@@ -26,7 +26,7 @@ class MediaItem(
         // * 注：资源文件size单位为字节byte
         @SuppressLint("Range")
         fun valueOf(cursor: Cursor?, positionInList: Int = -1) = cursor?.let {
-            MediaItem(
+            Media(
                 it.getLong(it.getColumnIndex(MediaStore.Files.FileColumns._ID)),
                 it.getString(it.getColumnIndex(MediaStore.MediaColumns.MIME_TYPE)),
                 it.getLong(it.getColumnIndex(MediaStore.MediaColumns.SIZE)),
@@ -53,11 +53,11 @@ class MediaItem(
 
     ///////////////////////////////////////////////////////////////////////////////
 
-    fun isImage() = MimeTypeManager.isImage(mimeType)
+    fun isImage() = MediaMimeTypeHelper.isImage(mimeType)
 
-    fun isGif() = MimeTypeManager.isGif(mimeType)
+    fun isGif() = MediaMimeTypeHelper.isGif(mimeType)
 
-    fun isVideo() = MimeTypeManager.isVideo(mimeType)
+    fun isVideo() = MediaMimeTypeHelper.isVideo(mimeType)
 
     fun getContentUri() = uri
 
@@ -68,9 +68,9 @@ class MediaItem(
     override fun describeContents(): Int = 0
 
     override fun equals(other: Any?): Boolean {
-        if (other !is MediaItem) return false
+        if (other !is Media) return false
 
-        val otherItem = other as MediaItem?
+        val otherItem = other as Media?
         return ((id == otherItem?.id && (mimeType == otherItem.mimeType))
                 && (uri == otherItem.uri) && size == otherItem.size && duration == otherItem.duration)
     }

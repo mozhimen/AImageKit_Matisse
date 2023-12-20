@@ -10,16 +10,16 @@ import android.net.Uri
 import android.provider.MediaStore
 import androidx.loader.content.CursorLoader
 import com.mozhimen.basick.utilk.android.os.UtilKBuildVersion
-import com.mozhimen.imagek.matisse.helpers.MimeTypeManager
+import com.mozhimen.imagek.matisse.helpers.MediaMimeTypeHelper
 import com.mozhimen.imagek.matisse.mos.Album
-import com.mozhimen.imagek.matisse.mos.SelectionSpec
+import com.mozhimen.imagek.matisse.mos.Selection
 import java.util.*
 
 /**
  * Describe : Load all albums(group by bucket_id) into a single cursor
  * Created by Leo on 2018/8/29 on 14:28.
  */
-class AlbumCursorLoader(context: Context, selection: String, selectionArgs: Array<out String>) : CursorLoader(
+class AlbumLoadCursorLoader(context: Context, selection: String, selectionArgs: Array<out String>) : CursorLoader(
     context, QUERY_URI, if (UtilKBuildVersion.isBeforeV_29_10_Q()) PROJECTION else PROJECTION_29,
     selection, selectionArgs, BUCKET_ORDER_BY
 ) {
@@ -29,6 +29,7 @@ class AlbumCursorLoader(context: Context, selection: String, selectionArgs: Arra
         const val COLUMN_COUNT = "count"
         const val BUCKET_ID = "bucket_id"
         const val BUCKET_DISPLAY_NAME = "bucket_display_name"
+
         private val QUERY_URI = MediaStore.Files.getContentUri("external")
         private const val BUCKET_ORDER_BY = "datetaken DESC"
 
@@ -52,10 +53,10 @@ class AlbumCursorLoader(context: Context, selection: String, selectionArgs: Arra
             val selectionArgs: Array<String>
 
             when {
-                SelectionSpec.getInstance().onlyShowImages() -> selectionArgs =
+                Selection.getInstance().onlyShowImages() -> selectionArgs =
                     getSelectionArgsForSingleMediaType(MediaStore.Files.FileColumns.MEDIA_TYPE_IMAGE)
 
-                SelectionSpec.getInstance().onlyShowVideos() -> selectionArgs =
+                Selection.getInstance().onlyShowVideos() -> selectionArgs =
                     getSelectionArgsForSingleMediaType(MediaStore.Files.FileColumns.MEDIA_TYPE_VIDEO)
 
                 else -> {
@@ -64,7 +65,7 @@ class AlbumCursorLoader(context: Context, selection: String, selectionArgs: Arra
                 }
             }
 
-            return AlbumCursorLoader(context, selection, selectionArgs)
+            return AlbumLoadCursorLoader(context, selection, selectionArgs)
         }
 
         ///////////////////////////////////////////////////////////////////////
@@ -210,8 +211,8 @@ class AlbumCursorLoader(context: Context, selection: String, selectionArgs: Arra
         val mimeType =
             cursor.getString(cursor.getColumnIndex(MediaStore.MediaColumns.MIME_TYPE)) ?: ""
         val contentUri = when {
-            MimeTypeManager.isImage(mimeType) -> MediaStore.Images.Media.EXTERNAL_CONTENT_URI
-            MimeTypeManager.isVideo(mimeType) -> MediaStore.Video.Media.EXTERNAL_CONTENT_URI
+            MediaMimeTypeHelper.isImage(mimeType) -> MediaStore.Images.Media.EXTERNAL_CONTENT_URI
+            MediaMimeTypeHelper.isVideo(mimeType) -> MediaStore.Video.Media.EXTERNAL_CONTENT_URI
             else -> MediaStore.Files.getContentUri("external")
         }
 

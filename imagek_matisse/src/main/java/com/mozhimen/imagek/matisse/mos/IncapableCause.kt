@@ -4,7 +4,7 @@ import android.content.Context
 import android.widget.Toast
 import androidx.fragment.app.FragmentActivity
 import com.mozhimen.imagek.matisse.annors.AFormType
-import com.mozhimen.imagek.matisse.commons.IOnNoticeEventListener
+import com.mozhimen.imagek.matisse.commons.INoticeEventListener
 import com.mozhimen.imagek.matisse.widgets.IncapableDialog
 
 class IncapableCause {
@@ -42,7 +42,7 @@ class IncapableCause {
     var title: String? = null
     var message: String? = null
     var isDismissLoading: Boolean? = null
-    var onNoticeEventListener: IOnNoticeEventListener? = null
+    var onNoticeEventListener: INoticeEventListener? = null
 
     ////////////////////////////////////////////////////////////////////////////////////
 
@@ -54,6 +54,6 @@ class IncapableCause {
         this.title = title
         this.message = message
         this.isDismissLoading = dismissLoading
-        this.onNoticeEventListener = SelectionSpec.getInstance().onNoticeEventListener
+        this.onNoticeEventListener = Selection.getInstance().onNoticeEventListener
     }
 }

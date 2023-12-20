@@ -85,7 +85,7 @@ public class UCropActivity extends BaseActivity implements View.OnClickListener 
     @Override
     public void initFlag() {
         try {
-            getSelectionSpec().getOnLoadStatusBarListener().invoke(this);
+            getSelection().getOnLoadStatusBarListener().invoke(this);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -95,7 +95,7 @@ public class UCropActivity extends BaseActivity implements View.OnClickListener 
     public void configActivity() {
         super.configActivity();
         try {
-            getSelectionSpec().getOnLoadToolbarListener().invoke(this, (View) findViewById(R.id.toolbar));
+            getSelection().getOnLoadToolbarListener().invoke(this, (View) findViewById(R.id.toolbar));
         } catch (Exception e) {
             e.printStackTrace();
         }

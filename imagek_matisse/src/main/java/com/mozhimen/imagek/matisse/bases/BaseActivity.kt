@@ -8,7 +8,7 @@ import com.mozhimen.basick.elemk.androidx.appcompat.commons.IActivity
 import com.mozhimen.imagek.matisse.R
 import com.mozhimen.imagek.matisse.annors.AFormType
 import com.mozhimen.imagek.matisse.mos.IncapableCause
-import com.mozhimen.imagek.matisse.mos.SelectionSpec
+import com.mozhimen.imagek.matisse.mos.Selection
 import com.mozhimen.imagek.matisse.utils.handleCause
 import com.mozhimen.imagek.matisse.utils.obtainAttrString
 import com.mozhimen.basick.elemk.androidx.appcompat.bases.BaseActivity
@@ -16,14 +16,14 @@ import com.mozhimen.basick.elemk.androidx.appcompat.bases.BaseActivity
 abstract class BaseActivity : BaseActivity(), IActivity {
 
     lateinit var activity: Activity
-    var selectionSpec: SelectionSpec? = null
+    var selection: Selection? = null
     var savedInstanceState: Bundle? = null
 
     //////////////////////////////////////////////////////////////////////////////////
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        selectionSpec = SelectionSpec.getInstance()
-        setTheme(selectionSpec?.themeRes ?: R.style.ImageKMatisse_Default)
+        selection = Selection.getInstance()
+        setTheme(selection?.themeRes ?: R.style.ImageKMatisse_Default)
         super.onCreate(savedInstanceState)
         if (safeCancelActivity()) return
         activity = this
@@ -58,8 +58,8 @@ abstract class BaseActivity : BaseActivity(), IActivity {
      */
     @CallSuper
     open fun configActivity() {
-        if (selectionSpec?.needOrientationRestriction() == true) {
-            requestedOrientation = selectionSpec?.orientation ?: ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED
+        if (selection?.needOrientationRestriction() == true) {
+            requestedOrientation = selection?.orientation ?: ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED
         }
     }
 
@@ -83,7 +83,7 @@ abstract class BaseActivity : BaseActivity(), IActivity {
     //////////////////////////////////////////////////////////////////////////////////
 
     private fun safeCancelActivity(): Boolean {
-        if (selectionSpec?.hasInited == false) {
+        if (selection?.hasInited == false) {
             setResult(Activity.RESULT_CANCELED)
             finish()
             return true

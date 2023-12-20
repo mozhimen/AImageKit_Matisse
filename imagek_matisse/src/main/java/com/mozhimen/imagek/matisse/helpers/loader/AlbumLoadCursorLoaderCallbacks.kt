@@ -9,7 +9,7 @@ import androidx.loader.content.Loader
 import com.mozhimen.imagek.matisse.commons.IAlbumLoadListener
 import java.lang.ref.WeakReference
 
-class AlbumCursorLoaderCallbacks : LoaderManager.LoaderCallbacks<Cursor> {
+class AlbumLoadCursorLoaderCallbacks : LoaderManager.LoaderCallbacks<Cursor> {
     companion object {
         const val LOADER_ID = 1
         const val STATE_CURRENT_SELECTION = "state_current_selection"
@@ -28,7 +28,7 @@ class AlbumCursorLoaderCallbacks : LoaderManager.LoaderCallbacks<Cursor> {
     override fun onCreateLoader(id: Int, args: Bundle?): Loader<Cursor> {
         val context = _contextRef?.get()
         _isLoadFinished = false
-        return AlbumCursorLoader.newInstance(context!!)
+        return AlbumLoadCursorLoader.newInstance(context!!)
     }
 
     override fun onLoadFinished(loader: Loader<Cursor>, data: Cursor?) {
@@ -42,7 +42,6 @@ class AlbumCursorLoaderCallbacks : LoaderManager.LoaderCallbacks<Cursor> {
 
     override fun onLoaderReset(loader: Loader<Cursor>) {
         if (_contextRef?.get() == null) return
-
         _albumLoadListener?.onAlbumReset()
     }
 
@@ -51,7 +50,7 @@ class AlbumCursorLoaderCallbacks : LoaderManager.LoaderCallbacks<Cursor> {
     fun onCreate(activity: FragmentActivity, callbacks: IAlbumLoadListener) {
         _contextRef = WeakReference(activity)
         _loaderManager = LoaderManager.getInstance(activity)
-        this._albumLoadListener = callbacks
+        _albumLoadListener = callbacks
     }
 
     fun onRestoreInstanceState(saveInstanceState: Bundle) {
@@ -76,6 +75,6 @@ class AlbumCursorLoaderCallbacks : LoaderManager.LoaderCallbacks<Cursor> {
     fun getCurrentSelection() = _currentSelection
 
     fun setStateCurrentSelection(currentSelection: Int) {
-        this._currentSelection = currentSelection
+        _currentSelection = currentSelection
     }
 }

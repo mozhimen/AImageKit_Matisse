@@ -6,7 +6,7 @@ import android.content.Intent
 import android.os.Bundle
 import com.mozhimen.imagek.matisse.bases.BasePreviewActivity
 import com.mozhimen.imagek.matisse.cons.CImageKMatisse
-import com.mozhimen.imagek.matisse.mos.MediaItem
+import com.mozhimen.imagek.matisse.mos.Media
 
 /**
  * desc：图片选中预览</br>
@@ -29,12 +29,12 @@ class MediaPreviewActivity : BasePreviewActivity() {
     override fun setViewData() {
         super.setViewData()
         val bundle = intent.getBundleExtra(CImageKMatisse.EXTRA_DEFAULT_BUNDLE)
-        val selected = bundle?.getParcelableArrayList<MediaItem>(CImageKMatisse.STATE_SELECTION)
+        val selected = bundle?.getParcelableArrayList<Media>(CImageKMatisse.STATE_SELECTION)
         selected?.apply {
-            previewPagerAdapter?.addAll(this)
-            previewPagerAdapter?.notifyDataSetChanged()
+            mediaPreviewPagerAdapter?.addAll(this)
+            mediaPreviewPagerAdapter?.notifyDataSetChanged()
             checkView?.apply {
-                if (selectionSpec?.isCountable() == true) {
+                if (selection?.isCountable() == true) {
                     setCheckedNum(1)
                 } else {
                     setChecked(true)

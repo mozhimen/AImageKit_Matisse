@@ -8,9 +8,9 @@ import android.os.Bundle
 import com.mozhimen.basick.elemk.androidx.appcompat.bases.BaseActivityVB
 import com.mozhimen.basick.elemk.commons.I_Listener
 import com.mozhimen.basick.utilk.android.content.UtilKPackage
-import com.mozhimen.imagek.matisse.impls.Glide4ImageEngine
+import com.mozhimen.imagek.matisse.impls.GlideImageEngine
 import com.mozhimen.imagek.matisse.ImageKMatisse
-import com.mozhimen.imagek.matisse.helpers.MimeTypeManager
+import com.mozhimen.imagek.matisse.helpers.MediaMimeTypeHelper
 import com.mozhimen.basick.elemk.android.provider.MediaStoreCaptureProxy
 import com.mozhimen.basick.utilk.kotlin.collections.ifNotEmpty
 import com.mozhimen.imagek.matisse.ImageKMatisseSelectionBuilder
@@ -18,7 +18,6 @@ import com.mozhimen.imagek.matisse.cons.CImageKMatisse
 import com.mozhimen.imagek.matisse.test.databinding.ActivityMainBinding
 import com.mozhimen.manifestk.xxpermission.XXPermissionUtil
 import com.mozhimen.basick.utilk.android.net.uri2strFilePathName
-import com.mozhimen.uicorek.adaptk.systembar.cons.CProperty
 import com.mozhimen.uicorek.adaptk.systembar.cons.CPropertyOr
 import com.mozhimen.uicorek.adaptk.systembar.initAdaptKSystemBar
 
@@ -65,7 +64,7 @@ class MainActivity : BaseActivityVB<ActivityMainBinding>() {
     private fun createMatisse() {
         _selectionBuilder =
             ImageKMatisse.from(this)
-                .select(MimeTypeManager.ofImage())
+                .select(MediaMimeTypeHelper.ofImage())
                 .setThemeRes(com.mozhimen.imagek.matisse.R.style.ImageKMatisse_Default)
                 .setCountable(false)
                 .setMaxSelectable(1)
@@ -74,7 +73,7 @@ class MainActivity : BaseActivityVB<ActivityMainBinding>() {
                 .setOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT)
                 .setSpanCount(3)
                 .setThumbnailScale(0.8f)
-                .setImageEngine(Glide4ImageEngine())
+                .setImageEngine(GlideImageEngine())
                 .setIsCrop(true)
                 .setIsCircleCrop(true)
                 .setOnLoadStatusBarListener { activity ->

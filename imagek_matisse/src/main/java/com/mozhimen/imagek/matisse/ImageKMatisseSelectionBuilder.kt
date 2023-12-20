@@ -8,13 +8,13 @@ import com.mozhimen.basick.elemk.android.provider.MediaStoreCaptureProxy
 import com.mozhimen.imagek.matisse.annors.AScreenOrientation
 import com.mozhimen.imagek.matisse.commons.IImageEngine
 import com.mozhimen.imagek.matisse.bases.BaseMediaFilter
-import com.mozhimen.imagek.matisse.mos.SelectionSpec
-import com.mozhimen.imagek.matisse.commons.IOnCheckedListener
-import com.mozhimen.imagek.matisse.commons.IOnSelectedListener
+import com.mozhimen.imagek.matisse.mos.Selection
+import com.mozhimen.imagek.matisse.commons.IMediaCheckedListener
+import com.mozhimen.imagek.matisse.commons.IMediaSelectedListener
 import com.mozhimen.imagek.matisse.cons.EMimeType
-import com.mozhimen.imagek.matisse.commons.IOnLoadStatusBarListener
-import com.mozhimen.imagek.matisse.commons.IOnLoadToolBarListener
-import com.mozhimen.imagek.matisse.commons.IOnNoticeEventListener
+import com.mozhimen.imagek.matisse.commons.ILoadStatusBarListener
+import com.mozhimen.imagek.matisse.commons.ILoadToolBarListener
+import com.mozhimen.imagek.matisse.commons.INoticeEventListener
 import com.mozhimen.imagek.matisse.ui.activities.MatisseActivity
 import java.io.File
 
@@ -28,12 +28,12 @@ import java.io.File
 class ImageKMatisseSelectionBuilder(
     private val _imageKMatisse: ImageKMatisse, mimeTypes: Set<EMimeType>, mediaTypeExclusive: Boolean
 ) {
-    private val _selectionSpec: SelectionSpec = SelectionSpec.getCleanInstance()
+    private val _selection: Selection = Selection.getCleanInstance()
 
     /////////////////////////////////////////////////////////////////////////////////
 
     init {
-        _selectionSpec.run {
+        _selection.run {
             this.mimeTypeSet = mimeTypes
             this.mediaTypeExclusive = mediaTypeExclusive
             this.orientation = SCREEN_ORIENTATION_UNSPECIFIED
@@ -52,7 +52,7 @@ class ImageKMatisseSelectionBuilder(
      * @return [ImageKMatisseSelectionBuilder] for fluent API.
      */
     fun setThemeRes(@StyleRes themeRes: Int): ImageKMatisseSelectionBuilder =
-        this.apply { _selectionSpec.themeRes = themeRes }
+        this.apply { _selection.themeRes = themeRes }
 
     /**
      * Show a auto-increased number or a check mark when user select media.
@@ -63,7 +63,7 @@ class ImageKMatisseSelectionBuilder(
      * @return [ImageKMatisseSelectionBuilder] for fluent API.
      */
     fun setCountable(countable: Boolean): ImageKMatisseSelectionBuilder =
-        this.apply { _selectionSpec.countable = countable }
+        this.apply { _selection.countable = countable }
 
     /**
      * 单一选择下
@@ -77,16 +77,16 @@ class ImageKMatisseSelectionBuilder(
      */
     fun setMaxSelectable(maxSelectable: Int): ImageKMatisseSelectionBuilder =
         this.apply {
-            if (!_selectionSpec.mediaTypeExclusive) return this
+            if (!_selection.mediaTypeExclusive) return this
             require(maxSelectable >= 1) { "maxSelectable must be greater than or equal to one" }
-            check(!(_selectionSpec.maxImageSelectable > 0 || _selectionSpec.maxVideoSelectable > 0)) {
+            check(!(_selection.maxImageSelectable > 0 || _selection.maxVideoSelectable > 0)) {
                 "already set maxImageSelectable and maxVideoSelectable"
             }
-            _selectionSpec.maxSelectable = maxSelectable
+            _selection.maxSelectable = maxSelectable
         }
 
     /**
-     * Only useful when [SelectionSpec.mediaTypeExclusive] set true and you want to set different maximum
+     * Only useful when [Selection.mediaTypeExclusive] set true and you want to set different maximum
      * selectable files for image and video media types.
      *
      * @param maxImageSelectable Maximum selectable count for image.
@@ -95,13 +95,13 @@ class ImageKMatisseSelectionBuilder(
      */
     fun setMaxSelectablePerMediaType(maxImageSelectable: Int, maxVideoSelectable: Int): ImageKMatisseSelectionBuilder =
         this.apply {
-            if (_selectionSpec.mediaTypeExclusive) return this
+            if (_selection.mediaTypeExclusive) return this
             require(!(maxImageSelectable < 1 || maxVideoSelectable < 1)) {
                 "mediaTypeExclusive must be false and max selectable must be greater than or equal to one"
             }
-            _selectionSpec.maxSelectable = -1
-            _selectionSpec.maxImageSelectable = maxImageSelectable
-            _selectionSpec.maxVideoSelectable = maxVideoSelectable
+            _selection.maxSelectable = -1
+            _selection.maxImageSelectable = maxImageSelectable
+            _selection.maxVideoSelectable = maxVideoSelectable
         }
 
     /**
@@ -112,8 +112,8 @@ class ImageKMatisseSelectionBuilder(
      */
     fun addMediaFilter(mediaFilter: BaseMediaFilter): ImageKMatisseSelectionBuilder =
         this.apply {
-            if (_selectionSpec.mediaFilters == null) _selectionSpec.mediaFilters = mutableListOf()
-            _selectionSpec.mediaFilters?.add(mediaFilter)
+            if (_selection.mediaFilters == null) _selection.mediaFilters = mutableListOf()
+            _selection.mediaFilters?.add(mediaFilter)
         }
 
     /////////////////////////////////////////////////////////////////////////////////
@@ -126,7 +126,7 @@ class ImageKMatisseSelectionBuilder(
      * @return [ImageKMatisseSelectionBuilder] for fluent API.
      */
     fun setIsCapture(enable: Boolean): ImageKMatisseSelectionBuilder =
-        this.apply { _selectionSpec.capture = enable }
+        this.apply { _selection.capture = enable }
 
     /**
      * Show a original photo check options.Let users decide whether use original photo after select
@@ -135,7 +135,7 @@ class ImageKMatisseSelectionBuilder(
      * @return [ImageKMatisseSelectionBuilder] for fluent API.
      */
     fun setOriginalCheckEnable(enable: Boolean): ImageKMatisseSelectionBuilder =
-        this.apply { _selectionSpec.originalable = enable }
+        this.apply { _selection.originalable = enable }
 
     /**
      * Maximum original size,the unit is MB. Only useful when {link@originalEnable} set true
@@ -144,7 +144,7 @@ class ImageKMatisseSelectionBuilder(
      * @return [ImageKMatisseSelectionBuilder] for fluent API.
      */
     fun setOriginalMaxSize(size: Int): ImageKMatisseSelectionBuilder =
-        this.apply { _selectionSpec.originalMaxSize = size }
+        this.apply { _selection.originalMaxSize = size }
 
     /**
      * 为保存照片的位置提供捕获策略，包括内部和外部存储，以及[androidx.core.content.FileProvider]的权限。
@@ -155,7 +155,7 @@ class ImageKMatisseSelectionBuilder(
      * @return [ImageKMatisseSelectionBuilder] for fluent API.
      */
     fun setCaptureStrategy(captureStrategy: MediaStoreCaptureProxy.CaptureStrategy): ImageKMatisseSelectionBuilder =
-        this.apply { _selectionSpec.captureStrategy = captureStrategy }
+        this.apply { _selection.captureStrategy = captureStrategy }
 
     /////////////////////////////////////////////////////////////////////////////////
 
@@ -169,7 +169,7 @@ class ImageKMatisseSelectionBuilder(
      * @see Activity.setRequestedOrientation
      */
     fun setOrientation(@AScreenOrientation orientation: Int): ImageKMatisseSelectionBuilder =
-        this.apply { _selectionSpec.orientation = orientation }
+        this.apply { _selection.orientation = orientation }
 
     /**
      * Set a fixed span count for the media grid. Same for different screen orientations.
@@ -181,8 +181,8 @@ class ImageKMatisseSelectionBuilder(
      */
     fun setSpanCount(spanCount: Int): ImageKMatisseSelectionBuilder =
         this.apply {
-            if (_selectionSpec.gridExpectedSize > 0) return this
-            _selectionSpec.spanCount = spanCount
+            if (_selection.gridExpectedSize > 0) return this
+            _selection.spanCount = spanCount
         }
 
     /**
@@ -195,7 +195,7 @@ class ImageKMatisseSelectionBuilder(
      * @return [ImageKMatisseSelectionBuilder] for fluent API.
      */
     fun setExpectedGridSize(sizePx: Int): ImageKMatisseSelectionBuilder =
-        this.apply { _selectionSpec.gridExpectedSize = sizePx }
+        this.apply { _selection.gridExpectedSize = sizePx }
 
     /**
      * Photo thumbnail's scale compared to the View's size. It should be a float value in (0.0,1.0].
@@ -206,7 +206,7 @@ class ImageKMatisseSelectionBuilder(
     fun setThumbnailScale(scale: Float): ImageKMatisseSelectionBuilder =
         this.apply {
             require(!(scale <= 0f || scale > 1f)) { "Thumbnail scale must be between (0.0, 1.0]" }
-            _selectionSpec.thumbnailScale = scale
+            _selection.thumbnailScale = scale
         }
 
     /**
@@ -219,8 +219,8 @@ class ImageKMatisseSelectionBuilder(
      */
     fun setImageEngine(imageEngine: IImageEngine): ImageKMatisseSelectionBuilder =
         this.apply {
-            _selectionSpec.imageEngine = imageEngine
-            _selectionSpec.imageEngine?.init(_imageKMatisse.activity?.applicationContext!!)
+            _selection.imageEngine = imageEngine
+            _selection.imageEngine?.init(_imageKMatisse.activity?.applicationContext!!)
         }
 
     /**
@@ -231,20 +231,20 @@ class ImageKMatisseSelectionBuilder(
      * @return [ImageKMatisseSelectionBuilder] for fluent API.
      */
     fun setIsCrop(crop: Boolean): ImageKMatisseSelectionBuilder =
-        this.apply { _selectionSpec.isCrop = crop }
+        this.apply { _selection.isCrop = crop }
 
     /**
      * isCircleCrop
      * default is RECTANGLE CROP
      */
     fun setIsCircleCrop(isCircle: Boolean): ImageKMatisseSelectionBuilder =
-        this.apply { _selectionSpec.isCircleCrop = isCircle }
+        this.apply { _selection.isCircleCrop = isCircle }
 
     /**
      * provide file to save image after crop
      */
     fun setCropCacheFolder(cropCacheFolder: File): ImageKMatisseSelectionBuilder =
-        this.apply { _selectionSpec.cropCacheFolder = cropCacheFolder }
+        this.apply { _selection.cropCacheFolder = cropCacheFolder }
 
     /**
      * Set listener for callback immediately when user select or unselect something.
@@ -252,38 +252,38 @@ class ImageKMatisseSelectionBuilder(
      * It's a redundant API with [ImageKMatisse.obtainResult],
      * we only suggest you to use this API when you need to do something immediately.
      *
-     * @param listener [IOnSelectedListener]
+     * @param listener [IMediaSelectedListener]
      * @return [ImageKMatisseSelectionBuilder] for fluent API.
      */
-    fun setOnSelectedListener(listener: IOnSelectedListener?): ImageKMatisseSelectionBuilder =
-        this.apply { _selectionSpec.onSelectedListener = listener }
+    fun setOnSelectedListener(listener: IMediaSelectedListener?): ImageKMatisseSelectionBuilder =
+        this.apply { _selection.onSelectedListener = listener }
 
     /**
      * Set listener for callback immediately when user check or uncheck original.
      *
-     * @param listener [IOnSelectedListener]
+     * @param listener [IMediaSelectedListener]
      * @return [ImageKMatisseSelectionBuilder] for fluent API.
      */
-    fun setOnCheckedListener(listener: IOnCheckedListener?): ImageKMatisseSelectionBuilder =
-        this.apply { _selectionSpec.onCheckedListener = listener }
+    fun setOnCheckedListener(listener: IMediaCheckedListener?): ImageKMatisseSelectionBuilder =
+        this.apply { _selection.onCheckedListener = listener }
 
     /**
      * set notice type for matisse
      */
-    fun setOnNoticeEventListener(listener: IOnNoticeEventListener?): ImageKMatisseSelectionBuilder =
-        this.apply { _selectionSpec.onNoticeEventListener = listener }
+    fun setOnNoticeEventListener(listener: INoticeEventListener?): ImageKMatisseSelectionBuilder =
+        this.apply { _selection.onNoticeEventListener = listener }
 
     /**
      * set Status Bar
      */
-    fun setOnLoadStatusBarListener(listener: IOnLoadStatusBarListener?): ImageKMatisseSelectionBuilder =
-        this.apply { _selectionSpec.onLoadStatusBarListener = listener }
+    fun setOnLoadStatusBarListener(listener: ILoadStatusBarListener?): ImageKMatisseSelectionBuilder =
+        this.apply { _selection.onLoadStatusBarListener = listener }
 
     /**
      * set ToolBar
      */
-    fun setOnLoadToolbarListener(listener: IOnLoadToolBarListener?): ImageKMatisseSelectionBuilder =
-        this.apply { _selectionSpec.onLoadToolbarListener = listener }
+    fun setOnLoadToolbarListener(listener: ILoadToolBarListener?): ImageKMatisseSelectionBuilder =
+        this.apply { _selection.onLoadToolbarListener = listener }
 
     /**
      * set last choose pictures ids
@@ -292,7 +292,7 @@ class ImageKMatisseSelectionBuilder(
      * 注：暂时无法保持预选中图片的顺序
      */
     fun setLastChoosePicturesIdOrUri(list: ArrayList<String>?): ImageKMatisseSelectionBuilder =
-        this.apply { _selectionSpec.lastChoosePictureIdsOrUris = list }
+        this.apply { _selection.lastChoosePictureIdsOrUris = list }
 
     /**
      * Start to select media and wait for result.

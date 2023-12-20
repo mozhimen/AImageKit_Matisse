@@ -3,16 +3,16 @@ package com.mozhimen.imagek.matisse.ui.adapters
 import android.view.ViewGroup
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentStatePagerAdapter
-import com.mozhimen.imagek.matisse.mos.MediaItem
-import com.mozhimen.imagek.matisse.ui.fragments.MediaPicturePreviewFragment
+import com.mozhimen.imagek.matisse.mos.Media
+import com.mozhimen.imagek.matisse.ui.fragments.MediaImagePreviewFragment
 
 /**
  * Created by liubo on 2018/9/6.
  */
-class PreviewPagerAdapter(manager: FragmentManager, listener: OnPrimaryItemSetListener?) :
+class MediaPreviewPagerAdapter(manager: FragmentManager, listener: OnPrimaryItemSetListener?) :
     FragmentStatePagerAdapter(manager) {
 
-    var items: ArrayList<MediaItem> = ArrayList()
+    var items: ArrayList<Media> = ArrayList()
     var kListener: OnPrimaryItemSetListener? = null
 
     init {
@@ -21,14 +21,14 @@ class PreviewPagerAdapter(manager: FragmentManager, listener: OnPrimaryItemSetLi
 
     override fun getCount() = items.size
 
-    override fun getItem(position: Int) = MediaPicturePreviewFragment.newInstance(items[position])
+    override fun getItem(position: Int) = MediaImagePreviewFragment.newInstance(items[position])
 
     override fun setPrimaryItem(container: ViewGroup, position: Int, `object`: Any) {
         super.setPrimaryItem(container, position, `object`)
         kListener?.onPrimaryItemSet(position)
     }
 
-    fun getMediaItem(position: Int): MediaItem? {
+    fun getMediaItem(position: Int): Media? {
         if (count > position) {
             return items[position]
         }
@@ -36,7 +36,7 @@ class PreviewPagerAdapter(manager: FragmentManager, listener: OnPrimaryItemSetLi
         return null
     }
 
-    fun addAll(items: List<MediaItem>) {
+    fun addAll(items: List<Media>) {
         this.items.addAll(items)
     }
 

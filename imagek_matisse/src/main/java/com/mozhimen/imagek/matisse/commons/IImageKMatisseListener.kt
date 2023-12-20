@@ -11,8 +11,8 @@ import com.mozhimen.imagek.matisse.bases.BaseActivity
  * @Date 2023/12/14
  * @Version 1.0
  */
-typealias IOnNoticeEventListener = (context: Context, noticeType: Int, title: String, msg: String) -> Unit
+typealias INoticeEventListener = (context: Context, noticeType: Int, title: String, msg: String) -> Unit
 
-typealias IOnLoadStatusBarListener = (activity: BaseActivity) -> Unit
+typealias ILoadStatusBarListener = (activity: BaseActivity) -> Unit
 
-typealias IOnLoadToolBarListener = (activity: BaseActivity, view: View?) -> Unit
+typealias ILoadToolBarListener = (activity: BaseActivity, view: View?) -> Unit

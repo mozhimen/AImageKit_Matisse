@@ -2,7 +2,7 @@
 
 package com.mozhimen.imagek.matisse.utils
 
-import com.mozhimen.imagek.matisse.mos.SelectionSpec
+import com.mozhimen.imagek.matisse.mos.Selection
 import com.mozhimen.imagek.matisse.helpers.MediaSelectionProxy
 
 /**
@@ -13,7 +13,7 @@ fun countOverMaxSize(selectedCollection: MediaSelectionProxy): Int {
     var count = 0
     selectedCollection.asList().filter { it.isImage() }.forEach {
         val size = PhotoMetadataUtils.getSizeInMB(it.size)
-        if (size > SelectionSpec.getInstance().originalMaxSize) count++
+        if (size > Selection.getInstance().originalMaxSize) count++
     }
     return count
 }

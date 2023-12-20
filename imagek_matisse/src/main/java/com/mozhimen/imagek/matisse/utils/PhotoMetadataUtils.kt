@@ -9,10 +9,10 @@ import android.media.ExifInterface
 import android.net.Uri
 import android.util.DisplayMetrics
 import com.mozhimen.imagek.matisse.R
-import com.mozhimen.imagek.matisse.helpers.MimeTypeManager
+import com.mozhimen.imagek.matisse.helpers.MediaMimeTypeHelper
 import com.mozhimen.imagek.matisse.mos.IncapableCause
-import com.mozhimen.imagek.matisse.mos.MediaItem
-import com.mozhimen.imagek.matisse.mos.SelectionSpec
+import com.mozhimen.imagek.matisse.mos.Media
+import com.mozhimen.imagek.matisse.mos.Selection
 import java.io.FileNotFoundException
 import java.io.IOException
 import java.io.InputStream
@@ -32,25 +32,25 @@ object PhotoMetadataUtils {
     /**
      * 遍历外部自定义过滤器
      */
-    fun isAcceptable(context: Context, item: MediaItem?): IncapableCause? {
+    fun isAcceptable(context: Context, item: Media?): IncapableCause? {
         if (!isSelectableType(context, item))
             return IncapableCause(context.getString(R.string.error_file_type))
 
-        if (SelectionSpec.getInstance().mediaFilters != null) {
-            SelectionSpec.getInstance().mediaFilters?.forEach {
+        if (Selection.getInstance().mediaFilters != null) {
+            Selection.getInstance().mediaFilters?.forEach {
                 return it.filter(context, item)
             }
         }
         return null
     }
 
-    private fun isSelectableType(context: Context?, item: MediaItem?): Boolean {
-        val mimeTypeSet = SelectionSpec.getInstance().mimeTypeSet
+    private fun isSelectableType(context: Context?, item: Media?): Boolean {
+        val mimeTypeSet = Selection.getInstance().mimeTypeSet
 
         if (context == null || mimeTypeSet == null) return false
 
         for (type in mimeTypeSet) {
-            if (MimeTypeManager.checkType(context, item?.getContentUri(), type.getValue())) {
+            if (MediaMimeTypeHelper.checkType(context, item?.getContentUri(), type.getValue())) {
                 return true
             }
         }

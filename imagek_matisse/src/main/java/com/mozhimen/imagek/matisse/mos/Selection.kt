@@ -3,23 +3,23 @@ package com.mozhimen.imagek.matisse.mos
 import android.content.pm.ActivityInfo
 import androidx.annotation.StyleRes
 import com.mozhimen.imagek.matisse.cons.EMimeType
-import com.mozhimen.imagek.matisse.helpers.MimeTypeManager
+import com.mozhimen.imagek.matisse.helpers.MediaMimeTypeHelper
 import com.mozhimen.imagek.matisse.R
 import com.mozhimen.imagek.matisse.commons.IImageEngine
 import com.mozhimen.imagek.matisse.bases.BaseMediaFilter
-import com.mozhimen.imagek.matisse.commons.IOnNoticeEventListener
-import com.mozhimen.imagek.matisse.commons.IOnLoadStatusBarListener
-import com.mozhimen.imagek.matisse.commons.IOnCheckedListener
-import com.mozhimen.imagek.matisse.commons.IOnSelectedListener
+import com.mozhimen.imagek.matisse.commons.INoticeEventListener
+import com.mozhimen.imagek.matisse.commons.ILoadStatusBarListener
+import com.mozhimen.imagek.matisse.commons.IMediaCheckedListener
+import com.mozhimen.imagek.matisse.commons.IMediaSelectedListener
 import java.io.File
 import com.mozhimen.basick.elemk.android.provider.MediaStoreCaptureProxy.CaptureStrategy
-import com.mozhimen.imagek.matisse.commons.IOnLoadToolBarListener
+import com.mozhimen.imagek.matisse.commons.ILoadToolBarListener
 
 /**
  * Describe : Builder to get config values
  * Created by Leo on 2018/8/29 on 14:54.
  */
-class SelectionSpec {
+class Selection {
     var mimeTypeSet: Set<EMimeType>? = null
     var mediaTypeExclusive = false                      // 设置单种/多种媒体资源选择 默认支持多种
     var mediaFilters: MutableList<BaseMediaFilter>? = null
@@ -39,26 +39,26 @@ class SelectionSpec {
     var originalable = false
     var originalMaxSize = 0
     var imageEngine: IImageEngine? = null
-    var onSelectedListener: IOnSelectedListener? = null
-    var onCheckedListener: IOnCheckedListener? = null
+    var onSelectedListener: IMediaSelectedListener? = null
+    var onCheckedListener: IMediaCheckedListener? = null
     var isCrop = false                              // 裁剪
     var isCircleCrop = false                        // 裁剪框的形状
     var cropCacheFolder: File? = null               // 裁剪后文件保存路径
     var hasInited = false                           // 是否初始化完成
-    var onNoticeEventListener: IOnNoticeEventListener? = null// 库内提示具体回调
-    var onLoadStatusBarListener: IOnLoadStatusBarListener? = null//
-    var onLoadToolbarListener: IOnLoadToolBarListener? = null
+    var onNoticeEventListener: INoticeEventListener? = null// 库内提示具体回调
+    var onLoadStatusBarListener: ILoadStatusBarListener? = null//
+    var onLoadToolbarListener: ILoadToolBarListener? = null
     var lastChoosePictureIdsOrUris: ArrayList<String>? = null   // 上次选中的图片Id
 
     class InstanceHolder {
         companion object {
-            val INSTANCE: SelectionSpec = SelectionSpec()
+            val INSTANCE: Selection = Selection()
         }
     }
 
     companion object {
         fun getInstance() = InstanceHolder.INSTANCE
-        fun getCleanInstance(): SelectionSpec {
+        fun getCleanInstance(): Selection {
             val selectionSpec = getInstance()
             selectionSpec.reset()
             return selectionSpec
@@ -102,17 +102,17 @@ class SelectionSpec {
     // 是否可裁剪
     fun openCrop() = isCrop && isSingleChoose()
 
-    fun isSupportCrop(item: MediaItem?) = item != null && item.isImage() && !item.isGif()
+    fun isSupportCrop(item: Media?) = item != null && item.isImage() && !item.isGif()
 
     // 是否单一资源选择方式
     fun isMediaTypeExclusive() =
         mediaTypeExclusive && (maxImageSelectable + maxVideoSelectable == 0)
 
     fun onlyShowImages() =
-        if (mimeTypeSet != null) MimeTypeManager.ofImage().containsAll(mimeTypeSet!!) else false
+        if (mimeTypeSet != null) MediaMimeTypeHelper.ofImage().containsAll(mimeTypeSet!!) else false
 
     fun onlyShowVideos() =
-        if (mimeTypeSet != null) MimeTypeManager.ofVideo().containsAll(mimeTypeSet!!) else false
+        if (mimeTypeSet != null) MediaMimeTypeHelper.ofVideo().containsAll(mimeTypeSet!!) else false
 
     fun singleSelectionModeEnabled() = !countable && isSingleChoose()
 

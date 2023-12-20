@@ -7,8 +7,8 @@ import android.content.Intent
 import android.net.Uri
 import com.mozhimen.basick.utilk.android.os.UtilKBuildVersion
 import com.mozhimen.imagek.matisse.cons.CImageKMatisse
-import com.mozhimen.imagek.matisse.mos.MediaItem
-import com.mozhimen.imagek.matisse.mos.SelectionSpec
+import com.mozhimen.imagek.matisse.mos.Media
+import com.mozhimen.imagek.matisse.mos.Selection
 import com.mozhimen.imagek.matisse.helpers.MediaSelectionProxy
 import com.mozhimen.imagek.matisse.ucrop.UCrop
 import java.io.File
@@ -31,7 +31,7 @@ fun startCrop(activity: Activity, originalPath: Uri) {
 
     val path = getPath(activity, originalPath) ?: ""
 
-    val spec = SelectionSpec.getInstance()
+    val spec = Selection.getInstance()
 
     val options = UCrop.Options()
         .setCircleDimmedLayer(spec.isCircleCrop)
@@ -64,7 +64,7 @@ fun startCrop(activity: Activity, originalPath: Uri) {
  * @param selectedItems 选中的资源Item
  */
 fun handleIntentFromPreview(
-    activity: Activity, originalEnable: Boolean, selectedItems: List<MediaItem>?
+    activity: Activity, originalEnable: Boolean, selectedItems: List<Media>?
 ) {
     if (selectedItems == null) return
 
@@ -151,7 +151,7 @@ fun handlePreviewIntent(
         val resultBundle = getBundleExtra(CImageKMatisse.EXTRA_RESULT_BUNDLE)
         resultBundle?.apply {
             val collectionType = getInt(CImageKMatisse.STATE_COLLECTION_TYPE)
-            val selected: ArrayList<MediaItem>? = getParcelableArrayList(CImageKMatisse.STATE_SELECTION)
+            val selected: ArrayList<Media>? = getParcelableArrayList(CImageKMatisse.STATE_SELECTION)
             selected?.apply {
                 if (isApplyData) {
                     // 从预览界面确认提交过来

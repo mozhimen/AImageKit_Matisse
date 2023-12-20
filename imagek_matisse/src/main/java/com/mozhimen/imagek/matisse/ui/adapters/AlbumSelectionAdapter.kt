@@ -1,5 +1,6 @@
 package com.mozhimen.imagek.matisse.ui.adapters
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.drawable.Drawable
 import android.view.LayoutInflater
@@ -10,12 +11,11 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.mozhimen.imagek.matisse.R
 import com.mozhimen.imagek.matisse.mos.Album
-import com.mozhimen.imagek.matisse.mos.SelectionSpec
+import com.mozhimen.imagek.matisse.mos.Selection
 import com.mozhimen.imagek.matisse.widgets.CheckRadioView
-import java.lang.ref.WeakReference
 
-class FolderMediaItemAdapter(var context: Context, var mCurrentPosition: Int) :
-    RecyclerView.Adapter<FolderMediaItemAdapter.FolderViewHolder>() {
+class AlbumSelectionAdapter(var context: Context, var mCurrentPosition: Int) :
+    RecyclerView.Adapter<AlbumSelectionAdapter.FolderViewHolder>() {
 
     private var inflater: LayoutInflater
     private var placeholder: Drawable?
@@ -47,7 +47,7 @@ class FolderMediaItemAdapter(var context: Context, var mCurrentPosition: Int) :
 
         // do not need to load animated Gif
         val mContext = holder.ivBucketCover.context
-        SelectionSpec.getInstance().imageEngine?.loadThumbnail(
+        Selection.getInstance().imageEngine?.loadThumbnail(
             mContext, mContext.resources.getDimensionPixelSize(R.dimen.size_media_grid),
             placeholder, holder.ivBucketCover, album.getCoverPath()
         )
@@ -61,6 +61,7 @@ class FolderMediaItemAdapter(var context: Context, var mCurrentPosition: Int) :
 
     /////////////////////////////////////////////////////////////////
 
+    @SuppressLint("NotifyDataSetChanged")
     fun setListData(list: MutableList<Album>?) {
         albumList.clear()
         list?.apply { albumList.addAll(this) }

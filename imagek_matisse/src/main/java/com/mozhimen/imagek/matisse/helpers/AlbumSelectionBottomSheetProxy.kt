@@ -1,23 +1,21 @@
 package com.mozhimen.imagek.matisse.helpers
 
-import android.app.Activity
 import android.database.Cursor
 import android.net.Uri
 import android.os.Environment
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.LifecycleOwner
 import com.mozhimen.basick.elemk.androidx.lifecycle.bases.BaseWakeBefDestroyLifecycleObserver
-import com.mozhimen.basick.elemk.androidx.lifecycle.bases.BaseWakeBefPauseLifecycleObserver
 import com.mozhimen.basick.lintk.optin.OptInApiCall_BindLifecycle
 import com.mozhimen.basick.lintk.optin.OptInApiInit_ByLazy
 import com.mozhimen.imagek.matisse.R
-import com.mozhimen.imagek.matisse.commons.IFolderBottomSheetListener
+import com.mozhimen.imagek.matisse.commons.IAlbumBottomSheetListener
 import com.mozhimen.imagek.matisse.mos.Album
-import com.mozhimen.imagek.matisse.ui.fragments.FolderBottomSheetDialogFragment
+import com.mozhimen.imagek.matisse.ui.fragments.AlbumSelectionBottomSheetDialogFragment
 
 @OptInApiInit_ByLazy
 @OptInApiCall_BindLifecycle
-class FolderBottomSheetProxy(
+class AlbumSelectionBottomSheetProxy(
     private var _fragmentActivity: FragmentActivity
 ) : BaseWakeBefDestroyLifecycleObserver() {
     companion object {
@@ -28,15 +26,15 @@ class FolderBottomSheetProxy(
 
     private var _folderCursor: Cursor? = null
     private var _folderList: ArrayList<Album>? = null
-    private var _folderBottomSheetDialogFragment: FolderBottomSheetDialogFragment? = null
+    private var _albumSelectionBottomSheetDialogFragment: AlbumSelectionBottomSheetDialogFragment? = null
     private var _lastFolderCheckedPosition = 0
 
     //////////////////////////////////////////////////////////
 
-    fun createFolderSheetDialog(listener: IFolderBottomSheetListener) {
-        _folderBottomSheetDialogFragment = FolderBottomSheetDialogFragment.newInstance(_lastFolderCheckedPosition)
-        _folderBottomSheetDialogFragment!!.show(_fragmentActivity.supportFragmentManager, TAG_FOLDER_BOTTOM_SHEET)
-        _folderBottomSheetDialogFragment!!.folderBottomSheetListener = listener
+    fun createFolderSheetDialog(listener: IAlbumBottomSheetListener) {
+        _albumSelectionBottomSheetDialogFragment = AlbumSelectionBottomSheetDialogFragment.newInstance(_lastFolderCheckedPosition)
+        _albumSelectionBottomSheetDialogFragment!!.show(_fragmentActivity.supportFragmentManager, TAG_FOLDER_BOTTOM_SHEET)
+        _albumSelectionBottomSheetDialogFragment!!.folderBottomSheetListener = listener
     }
 
     fun readAlbumFromCursor(): ArrayList<Album>? {
@@ -109,16 +107,16 @@ class FolderBottomSheetProxy(
     fun getAlbumFolderList() = _folderList
 
     fun clearFolderSheetDialog() {
-        if (_folderBottomSheetDialogFragment != null && _folderBottomSheetDialogFragment?.folderMediaItemAdapter != null) {
+        if (_albumSelectionBottomSheetDialogFragment != null && _albumSelectionBottomSheetDialogFragment?.albumSelectionAdapter != null) {
             _folderCursor = null
-            _folderBottomSheetDialogFragment?.folderMediaItemAdapter?.setListData(null)
+            _albumSelectionBottomSheetDialogFragment?.albumSelectionAdapter?.setListData(null)
         }
     }
 
     //////////////////////////////////////////////////////////////
 
     override fun onPause(owner: LifecycleOwner) {
-        _folderBottomSheetDialogFragment = null
+        _albumSelectionBottomSheetDialogFragment = null
         super.onPause(owner)
     }
 }

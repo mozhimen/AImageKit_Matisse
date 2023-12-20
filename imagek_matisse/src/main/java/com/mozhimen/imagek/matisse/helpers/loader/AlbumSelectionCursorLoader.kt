@@ -7,17 +7,19 @@ import android.database.MergeCursor
 import android.provider.MediaStore
 import androidx.loader.content.CursorLoader
 import com.mozhimen.imagek.matisse.mos.Album
-import com.mozhimen.imagek.matisse.mos.MediaItem
-import com.mozhimen.imagek.matisse.mos.SelectionSpec
-import com.mozhimen.basick.elemk.android.provider.MediaStoreCaptureProxy
+import com.mozhimen.imagek.matisse.mos.Media
+import com.mozhimen.imagek.matisse.mos.Selection
 import com.mozhimen.basick.utilk.android.content.UtilKPackageManager
 
 /**
  * Load images and videos into a single cursor.
  * Created by Leo on 2018/9/4 on 19:53.
  */
-class AlbumMediaCursorLoader(
-    context: Context, selection: String, selectionArgs: Array<out String>, capture: Boolean
+class AlbumSelectionCursorLoader(
+    context: Context,
+    selection: String,
+    selectionArgs: Array<out String>,
+    capture: Boolean
 ) : CursorLoader(context, QUERY_URI, PROJECTION, selection, selectionArgs, ORDER_BY) {
 
     companion object {
@@ -76,15 +78,13 @@ class AlbumMediaCursorLoader(
 
             if (album.isAll()) {
                 when {
-                    SelectionSpec.getInstance().onlyShowImages() -> {
+                    Selection.getInstance().onlyShowImages() -> {
                         selection = SELECTION_ALL_FOR_SINGLE_MEDIA_TYPE
-                        selectionArgs =
-                            arrayOf(MediaStore.Files.FileColumns.MEDIA_TYPE_IMAGE.toString())
+                        selectionArgs = arrayOf(MediaStore.Files.FileColumns.MEDIA_TYPE_IMAGE.toString())
                     }
-                    SelectionSpec.getInstance().onlyShowVideos() -> {
+                    Selection.getInstance().onlyShowVideos() -> {
                         selection = SELECTION_ALL_FOR_SINGLE_MEDIA_TYPE
-                        selectionArgs =
-                            arrayOf(MediaStore.Files.FileColumns.MEDIA_TYPE_VIDEO.toString())
+                        selectionArgs = arrayOf(MediaStore.Files.FileColumns.MEDIA_TYPE_VIDEO.toString())
                     }
                     else -> {
                         selection = SELECTION_ALL
@@ -94,17 +94,13 @@ class AlbumMediaCursorLoader(
                 enableCapture = capture
             } else {
                 when {
-                    SelectionSpec.getInstance().onlyShowImages() -> {
+                    Selection.getInstance().onlyShowImages() -> {
                         selection = SELECTION_ALBUM_FOR_SINGLE_MEDIA_TYPE
-                        selectionArgs = arrayOf(
-                            MediaStore.Files.FileColumns.MEDIA_TYPE_IMAGE.toString(), album.getId()
-                        )
+                        selectionArgs = arrayOf(MediaStore.Files.FileColumns.MEDIA_TYPE_IMAGE.toString(), album.getId())
                     }
-                    SelectionSpec.getInstance().onlyShowVideos() -> {
+                    Selection.getInstance().onlyShowVideos() -> {
                         selection = SELECTION_ALBUM_FOR_SINGLE_MEDIA_TYPE
-                        selectionArgs = arrayOf(
-                            MediaStore.Files.FileColumns.MEDIA_TYPE_VIDEO.toString(), album.getId()
-                        )
+                        selectionArgs = arrayOf(MediaStore.Files.FileColumns.MEDIA_TYPE_VIDEO.toString(), album.getId())
                     }
                     else -> {
                         selection = SELECTION_ALBUM
@@ -113,7 +109,7 @@ class AlbumMediaCursorLoader(
                 }
                 enableCapture = false
             }
-            return AlbumMediaCursorLoader(context, selection, selectionArgs, enableCapture)
+            return AlbumSelectionCursorLoader(context, selection, selectionArgs, enableCapture)
         }
     }
 
@@ -135,7 +131,7 @@ class AlbumMediaCursorLoader(
             return result
         }
         val dummy = MatrixCursor(PROJECTION)
-        dummy.addRow(arrayOf(MediaItem.ITEM_ID_CAPTURE, MediaItem.ITEM_DISPLAY_NAME_CAPTURE, "", 0, 0))
+        dummy.addRow(arrayOf(Media.ITEM_ID_CAPTURE, Media.ITEM_DISPLAY_NAME_CAPTURE, "", 0, 0))
         return MergeCursor(arrayOf(dummy, result!!))
     }
 

@@ -13,7 +13,7 @@ import com.mozhimen.imagek.matisse.commons.IImageEngine
 /**
  * [IImageEngine] implementation using Glide.
  */
-class Glide4ImageEngine : IImageEngine {
+class GlideImageEngine : IImageEngine {
 
     override fun cleanMemory(context: Context) {
         if (Looper.myLooper() == Looper.getMainLooper()) {

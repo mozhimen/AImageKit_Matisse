@@ -10,10 +10,11 @@ import com.mozhimen.imagek.matisse.commons.IAlbumLoadListener
 import com.mozhimen.imagek.matisse.mos.Album
 import java.lang.ref.WeakReference
 
-class AlbumMediaCursorLoaderCallbacks : LoaderManager.LoaderCallbacks<Cursor> {
+class AlbumSelectionCursorLoaderCallbacks : LoaderManager.LoaderCallbacks<Cursor> {
 
     companion object {
         const val LOADER_ID = 2
+
         const val ARGS_ALBUM = "args_album"
         const val ARGS_ENABLE_CAPTURE = "args_enable_capture"
     }
@@ -28,32 +29,26 @@ class AlbumMediaCursorLoaderCallbacks : LoaderManager.LoaderCallbacks<Cursor> {
 
     override fun onCreateLoader(id: Int, args: Bundle?): Loader<Cursor> {
         val content = _contextRef?.get()
-
         val album = args?.getParcelable<Album>(ARGS_ALBUM)
-        return AlbumMediaCursorLoader.newInstance(
-            content!!, album!!, album.isAll()
-                    && args.getBoolean(ARGS_ENABLE_CAPTURE, false)
-        )
+        return AlbumSelectionCursorLoader.newInstance(content!!, album!!, album.isAll() && args.getBoolean(ARGS_ENABLE_CAPTURE, false))
     }
 
     override fun onLoadFinished(loader: Loader<Cursor>, data: Cursor?) {
         if (_contextRef?.get() == null) return
-
         _albumLoadListener?.onAlbumLoad(data!!)
     }
 
     override fun onLoaderReset(loader: Loader<Cursor>) {
         if (_contextRef?.get() == null) return
-
         _albumLoadListener?.onAlbumReset()
     }
 
     //////////////////////////////////////////////////////////
 
-    fun onCreate(context: FragmentActivity, callbacks: IAlbumLoadListener) {
-        this._contextRef = WeakReference(context)
+    fun onCreate(context: FragmentActivity, listener: IAlbumLoadListener) {
+        _contextRef = WeakReference(context)
         _loaderManager = LoaderManager.getInstance(context)
-        this._albumLoadListener = callbacks
+        _albumLoadListener = listener
     }
 
     fun onDestroy() {
@@ -65,10 +60,11 @@ class AlbumMediaCursorLoaderCallbacks : LoaderManager.LoaderCallbacks<Cursor> {
         load(target, false)
     }
 
-    fun load(target: Album, enableCapture: Boolean) {
-        val args = Bundle()
-        args.putParcelable(ARGS_ALBUM, target)
-        args.putBoolean(ARGS_ENABLE_CAPTURE, enableCapture)
+    fun load(album: Album, enableCapture: Boolean) {
+        val args = Bundle().apply {
+            putParcelable(ARGS_ALBUM, album)
+            putBoolean(ARGS_ENABLE_CAPTURE, enableCapture)
+        }
         _loaderManager?.initLoader(LOADER_ID, args, this)
     }
 }

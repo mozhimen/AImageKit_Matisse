@@ -10,13 +10,13 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.mozhimen.imagek.matisse.R
-import com.mozhimen.imagek.matisse.mos.MediaItem
-import com.mozhimen.imagek.matisse.mos.SelectionSpec
+import com.mozhimen.imagek.matisse.mos.Media
+import com.mozhimen.imagek.matisse.mos.Selection
 import com.mozhimen.imagek.matisse.utils.setViewVisible
 
 class MediaGrid : SquareFrameLayout, View.OnClickListener {
 
-    private lateinit var media: MediaItem
+    private lateinit var media: Media
     private lateinit var preBindInfo: PreBindInfo
     lateinit var listener: IOnMediaGridClickListener
     private var media_thumbnail: ImageView
@@ -31,7 +31,7 @@ class MediaGrid : SquareFrameLayout, View.OnClickListener {
     constructor(context: Context?, attrs: AttributeSet?, defStyleAttr: Int) : super(
         context, attrs, defStyleAttr
     ) {
-        LayoutInflater.from(context).inflate(R.layout.merge_media_grid_content, this, true)
+        LayoutInflater.from(context).inflate(R.layout.merge_media_grid, this, true)
         media_thumbnail = findViewById(R.id.media_thumbnail)
         check_view = findViewById(R.id.check_view)
         video_duration = findViewById(R.id.video_duration)
@@ -54,8 +54,8 @@ class MediaGrid : SquareFrameLayout, View.OnClickListener {
     /////////////////////////////////////////////////////////////////
 
     interface IOnMediaGridClickListener {
-        fun onThumbnailClicked(thumbnail: ImageView, item: MediaItem, holder: RecyclerView.ViewHolder)
-        fun onCheckViewClicked(checkView: CheckView, item: MediaItem, holder: RecyclerView.ViewHolder)
+        fun onThumbnailClicked(thumbnail: ImageView, item: Media, holder: RecyclerView.ViewHolder)
+        fun onCheckViewClicked(checkView: CheckView, item: Media, holder: RecyclerView.ViewHolder)
     }
 
     /////////////////////////////////////////////////////////////////
@@ -69,7 +69,7 @@ class MediaGrid : SquareFrameLayout, View.OnClickListener {
         preBindInfo = info
     }
 
-    fun bindMedia(item: MediaItem) {
+    fun bindMedia(item: Media) {
         media = item
         setGifTag()
         initCheckView()
@@ -97,12 +97,12 @@ class MediaGrid : SquareFrameLayout, View.OnClickListener {
 
     private fun setImage() {
         if (media.isGif()) {
-            SelectionSpec.getInstance().imageEngine?.loadGifThumbnail(
+            Selection.getInstance().imageEngine?.loadGifThumbnail(
                 context, preBindInfo.resize, preBindInfo.placeholder,
                 media_thumbnail, media.getContentUri()
             )
         } else {
-            SelectionSpec.getInstance().imageEngine?.loadThumbnail(
+            Selection.getInstance().imageEngine?.loadThumbnail(
                 context, preBindInfo.resize, preBindInfo.placeholder,
                 media_thumbnail, media.getContentUri()
             )

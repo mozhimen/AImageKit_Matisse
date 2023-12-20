@@ -1,7 +1,7 @@
 package com.mozhimen.imagek.matisse.commons
 
 import com.mozhimen.imagek.matisse.mos.Album
-import com.mozhimen.imagek.matisse.ui.adapters.FolderMediaItemAdapter
+import com.mozhimen.imagek.matisse.ui.adapters.AlbumSelectionAdapter
 
 /**
  * @ClassName IFolderBottomSheetListener
@@ -10,8 +10,8 @@ import com.mozhimen.imagek.matisse.ui.adapters.FolderMediaItemAdapter
  * @Date 2023/12/18
  * @Version 1.0
  */
-interface IFolderBottomSheetListener {
-    fun initData(adapter: FolderMediaItemAdapter)
+interface IAlbumBottomSheetListener {
+    fun onInitData(adapter: AlbumSelectionAdapter)
 
     /**
      * 点击回调

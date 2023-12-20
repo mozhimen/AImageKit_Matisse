@@ -1,6 +1,6 @@
 package com.mozhimen.imagek.matisse.cons
 
-import com.mozhimen.imagek.matisse.helpers.MimeTypeManager
+import com.mozhimen.imagek.matisse.helpers.MediaMimeTypeHelper
 
 /**
  * Describe : MIME Type enumeration to restrict selectable media on the selection activity.
@@ -15,32 +15,32 @@ enum class EMimeType {
     ////////////////////////////////////////////////////////////////////////
 
     JPG {
-        override fun getValue() = MimeTypeManager.arraySetOf("jpg", "jpeg")
+        override fun getValue() = MediaMimeTypeHelper.arraySetOf("jpg", "jpeg")
         override fun getKey() = "image/jpg"
     },
 
     JPEG {
-        override fun getValue() = MimeTypeManager.arraySetOf("jpg", "jpeg")
+        override fun getValue() = MediaMimeTypeHelper.arraySetOf("jpg", "jpeg")
         override fun getKey() = "image/jpeg"
     },
 
     PNG {
-        override fun getValue() = MimeTypeManager.arraySetOf("png")
+        override fun getValue() = MediaMimeTypeHelper.arraySetOf("png")
         override fun getKey() = "image/png"
     },
 
     GIF {
-        override fun getValue() = MimeTypeManager.arraySetOf("gif")
+        override fun getValue() = MediaMimeTypeHelper.arraySetOf("gif")
         override fun getKey() = "image/gif"
     },
 
     BMP {
-        override fun getValue() = MimeTypeManager.arraySetOf("bmp")
+        override fun getValue() = MediaMimeTypeHelper.arraySetOf("bmp")
         override fun getKey() = "image/x-ms-bmp"
     },
 
     WEBP {
-        override fun getValue() = MimeTypeManager.arraySetOf("webp")
+        override fun getValue() = MediaMimeTypeHelper.arraySetOf("webp")
         override fun getKey() = "image/webp"
     },
 
@@ -49,47 +49,47 @@ enum class EMimeType {
     ////////////////////////////////////////////////////////////////////////
 
     MPEG {
-        override fun getValue() = MimeTypeManager.arraySetOf("mpg")
+        override fun getValue() = MediaMimeTypeHelper.arraySetOf("mpg")
         override fun getKey() = "video/mpeg"
     },
 
     MP4 {
-        override fun getValue() = MimeTypeManager.arraySetOf("m4v", "mp4")
+        override fun getValue() = MediaMimeTypeHelper.arraySetOf("m4v", "mp4")
         override fun getKey() = "video/mp4"
     },
 
     QUICKTIME {
-        override fun getValue() = MimeTypeManager.arraySetOf("mov")
+        override fun getValue() = MediaMimeTypeHelper.arraySetOf("mov")
         override fun getKey() = "video/quicktime"
     },
 
     THREEGPP {
-        override fun getValue() = MimeTypeManager.arraySetOf("3gp", "3gpp")
+        override fun getValue() = MediaMimeTypeHelper.arraySetOf("3gp", "3gpp")
         override fun getKey() = "video/3gpp"
     },
 
     THREEGPP2 {
-        override fun getValue() = MimeTypeManager.arraySetOf("3g2", "3gpp2")
+        override fun getValue() = MediaMimeTypeHelper.arraySetOf("3g2", "3gpp2")
         override fun getKey() = "video/3gpp2"
     },
 
     MKV {
-        override fun getValue() = MimeTypeManager.arraySetOf("mkv")
+        override fun getValue() = MediaMimeTypeHelper.arraySetOf("mkv")
         override fun getKey() = "video/x-matroska"
     },
 
     WEBM {
-        override fun getValue() = MimeTypeManager.arraySetOf("webm")
+        override fun getValue() = MediaMimeTypeHelper.arraySetOf("webm")
         override fun getKey() = "video/webm"
     },
 
     TS {
-        override fun getValue() = MimeTypeManager.arraySetOf("ts")
+        override fun getValue() = MediaMimeTypeHelper.arraySetOf("ts")
         override fun getKey() = "video/mp2ts"
     },
 
     AVI {
-        override fun getValue() = MimeTypeManager.arraySetOf("avi")
+        override fun getValue() = MediaMimeTypeHelper.arraySetOf("avi")
         override fun getKey() = "video/avi"
     };
 
