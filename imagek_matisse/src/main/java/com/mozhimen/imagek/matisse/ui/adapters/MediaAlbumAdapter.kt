@@ -54,7 +54,7 @@ class MediaAlbumAdapter(
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return when (viewType) {
             VIEW_TYPE_CAPTURE -> {
-                val v = layoutInflater.inflate(R.layout.item_photo_capture, parent, false)
+                val v = layoutInflater.inflate(R.layout.item_media_capture_photo, parent, false)
                 CaptureViewHolder(v).run {
                     itemView.setOnClickListener {
                         if (it.context is OnPhotoCapture) (it.context as OnPhotoCapture).capture()
@@ -131,7 +131,7 @@ class MediaAlbumAdapter(
         val spanCount = layoutManager.spanCount
         val screenWidth = context.resources.displayMetrics.widthPixels
         val availableWidth = screenWidth - context.resources.getDimensionPixelSize(
-            R.dimen.media_grid_spacing
+            R.dimen.spacing_media_grid
         ) * (spanCount - 1)
 
         imageResize = availableWidth / spanCount

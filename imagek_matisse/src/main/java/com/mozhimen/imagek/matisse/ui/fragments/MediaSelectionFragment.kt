@@ -84,7 +84,7 @@ class MediaSelectionFragment : Fragment(), IAlbumLoadListener, MediaAlbumAdapter
         }
 
         recyclerview.layoutManager = GridLayoutManager(requireContext(), spanCount)
-        val spacing = resources.getDimensionPixelSize(R.dimen.media_grid_spacing)
+        val spacing = resources.getDimensionPixelSize(R.dimen.spacing_media_grid)
         recyclerview.addItemDecoration(MediaGridInset(spanCount, spacing, false))
         recyclerview.itemAnimator?.changeDuration = 0
         recyclerview.adapter = adapter

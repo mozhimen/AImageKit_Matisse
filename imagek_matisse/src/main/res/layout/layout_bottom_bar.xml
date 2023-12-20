@@ -43,7 +43,7 @@
             android:layout_width="16dp"
             android:layout_height="16dp"
             android:layout_gravity="center_vertical"
-            android:src="@drawable/ic_preview_radio_off" />
+            android:src="@drawable/matisse_ic_preview_radio_off" />
 
         <TextView
             style="@style/singleLineText"
@@ -61,7 +61,7 @@
             style="@style/singleLineText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/preview_bottom_size"
+            android:textColor="@color/cok_tran_38_61f"
             android:textSize="16sp"
             android:visibility="gone"
             tools:text="ff"

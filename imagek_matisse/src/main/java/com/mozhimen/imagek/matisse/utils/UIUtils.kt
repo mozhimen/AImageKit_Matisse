@@ -130,31 +130,6 @@ private fun getDisplayMetrics(context: Context?): DisplayMetrics {
     return mResources.displayMetrics
 }
 
-/**
- * 获取屏幕的宽度px
- *
- * @param context 上下文
- * @return 屏幕宽px
- */
-fun getScreenWidth(context: Context): Int {
-    val windowManager = context.getSystemService(Context.WINDOW_SERVICE) as WindowManager
-    val outMetrics = DisplayMetrics()// 创建了一张白纸
-    windowManager.defaultDisplay.getMetrics(outMetrics)// 给白纸设置宽高
-    return outMetrics.widthPixels
-}
-
-/**
- * 获取屏幕的高度px
- * @param context 上下文
- * @return 屏幕高px
- */
-fun getScreenHeight(context: Context): Int {
-    val windowManager = context.getSystemService(Context.WINDOW_SERVICE) as WindowManager
-    val outMetrics = DisplayMetrics()// 创建了一张白纸
-    windowManager.defaultDisplay.getMetrics(outMetrics)// 给白纸设置宽高
-    return outMetrics.heightPixels
-}
-
 fun setOnClickListener(clickListener: View.OnClickListener, vararg view: View) {
     view.forEach {
         it.setOnClickListener(clickListener)

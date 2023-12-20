@@ -7,6 +7,7 @@
     <attr name="Navigation_Height" format="dimension" />
     <!--顶部导航条背景色-->
     <attr name="Navigation_Background" format="reference|color" />
+
     <!--顶部导航条返回按钮资源图-->
     <attr name="Navigation_ResBack" format="reference" />
     <!--返回按钮文字 当无文字是可设置为空字符串 如下-->
@@ -15,14 +16,19 @@
     <attr name="Navigation_TextColorBack" format="reference|color" />
     <!--返回按钮文字大小-->
     <attr name="Navigation_TextSizeBack" format="dimension" />
+    <attr name="Navigation_TextStyleBack" format="integer" />
+
     <attr name="Navigation_TextTitle" format="reference" />
     <attr name="Navigation_TextColorTitle" format="reference|color" />
     <attr name="Navigation_TextSizeTitle" format="dimension" />
+    <attr name="Navigation_TextStyleTitle" format="integer" />
+
     <attr name="Navigation_TextSure" format="reference" />
     <!--确定按钮颜色-->
     <attr name="Navigation_TextColorSure" format="reference|color" />
     <!--确认按钮文字大小-->
     <attr name="Navigation_TextSizeSure" format="dimension" />
+    <attr name="Navigation_TextStyleSure" format="integer" />
 
     <!--//////////////////////////////////////////////////////////////////////-->
     <!--Preview-->

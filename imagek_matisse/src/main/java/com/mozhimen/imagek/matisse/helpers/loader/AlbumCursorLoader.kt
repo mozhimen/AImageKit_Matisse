@@ -9,10 +9,10 @@ import android.database.MergeCursor
 import android.net.Uri
 import android.provider.MediaStore
 import androidx.loader.content.CursorLoader
+import com.mozhimen.basick.utilk.android.os.UtilKBuildVersion
 import com.mozhimen.imagek.matisse.helpers.MimeTypeManager
 import com.mozhimen.imagek.matisse.mos.Album
 import com.mozhimen.imagek.matisse.mos.SelectionSpec
-import com.mozhimen.imagek.matisse.utils.Platform.beforeAndroidTen
 import java.util.*
 
 /**
@@ -20,7 +20,7 @@ import java.util.*
  * Created by Leo on 2018/8/29 on 14:28.
  */
 class AlbumCursorLoader(context: Context, selection: String, selectionArgs: Array<out String>) : CursorLoader(
-    context, QUERY_URI, if (beforeAndroidTen()) PROJECTION else PROJECTION_29,
+    context, QUERY_URI, if (UtilKBuildVersion.isBeforeV_29_10_Q()) PROJECTION else PROJECTION_29,
     selection, selectionArgs, BUCKET_ORDER_BY
 ) {
 
@@ -45,7 +45,7 @@ class AlbumCursorLoader(context: Context, selection: String, selectionArgs: Arra
         ///////////////////////////////////////////////////////////////////////
 
         fun newInstance(context: Context): CursorLoader {
-            var selection = if (beforeAndroidTen())
+            var selection = if (UtilKBuildVersion.isBeforeV_29_10_Q())
                 SELECTION_FOR_SINGLE_MEDIA_TYPE
             else
                 SELECTION_FOR_SINGLE_MEDIA_TYPE_29
@@ -59,7 +59,7 @@ class AlbumCursorLoader(context: Context, selection: String, selectionArgs: Arra
                     getSelectionArgsForSingleMediaType(MediaStore.Files.FileColumns.MEDIA_TYPE_VIDEO)
 
                 else -> {
-                    selection = if (beforeAndroidTen()) SELECTION else SELECTION_29
+                    selection = if (UtilKBuildVersion.isBeforeV_29_10_Q()) SELECTION else SELECTION_29
                     selectionArgs = SELECTION_ARGS
                 }
             }
@@ -105,7 +105,7 @@ class AlbumCursorLoader(context: Context, selection: String, selectionArgs: Arra
     override fun loadInBackground(): Cursor {
         val albums = super.loadInBackground()
         val allAlbum = MatrixCursor(COLUMNS)
-        return if (beforeAndroidTen()) loadBelowAndroidQ(albums, allAlbum)
+        return if (UtilKBuildVersion.isBeforeV_29_10_Q()) loadBelowAndroidQ(albums, allAlbum)
         else loadAboveAndroidQ(albums, allAlbum)
     }
 

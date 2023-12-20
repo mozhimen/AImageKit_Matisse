@@ -26,13 +26,13 @@ import it.sephiroth.android.library.imagezoom.ImageViewTouch
  * author: Leo </br>
  * since V 2.1 </br>
  */
-class PicturePreviewItemFragment : Fragment() {
+class MediaPicturePreviewFragment : Fragment() {
 
     companion object {
         private const val ARGS_ITEM = "args_item"
 
-        fun newInstance(item: MediaItem): PicturePreviewItemFragment {
-            val fragment = PicturePreviewItemFragment()
+        fun newInstance(item: MediaItem): MediaPicturePreviewFragment {
+            val fragment = MediaPicturePreviewFragment()
             val bundle = Bundle()
             bundle.putParcelable(ARGS_ITEM, item)
             fragment.arguments = bundle
@@ -42,7 +42,7 @@ class PicturePreviewItemFragment : Fragment() {
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
-    ): View = inflater.inflate(R.layout.fragment_picture_preview_item, container, false)
+    ): View = inflater.inflate(R.layout.fragment_preview_media_picture, container, false)
 
     override fun onViewCreated(contentView: View, savedInstanceState: Bundle?) {
         super.onViewCreated(contentView, savedInstanceState)

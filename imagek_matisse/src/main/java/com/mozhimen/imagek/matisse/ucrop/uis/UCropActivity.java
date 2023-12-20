@@ -83,10 +83,19 @@ public class UCropActivity extends BaseActivity implements View.OnClickListener 
     }
 
     @Override
+    public void initFlag() {
+        try {
+            getSelectionSpec().getOnLoadStatusBarListener().invoke(this);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
     public void configActivity() {
         super.configActivity();
         try {
-            getSelectionSpec().getOnLoadStatusBarListener().invoke(this, findViewById(R.id.toolbar));
+            getSelectionSpec().getOnLoadToolbarListener().invoke(this, (View) findViewById(R.id.toolbar));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -296,7 +305,7 @@ public class UCropActivity extends BaseActivity implements View.OnClickListener 
 
     protected void exitAnimation() {
         int exitAnimation = getIntent().getIntExtra(UCrop.EXTRA_WINDOW_EXIT_ANIMATION, 0);
-        overridePendingTransition(R.anim.ucrop_anim_fade_in, exitAnimation != 0 ? exitAnimation : R.anim.ucrop_close);
+        overridePendingTransition(R.anim.ucrop_anim_fade_in, exitAnimation != 0 ? exitAnimation : R.anim.ucrop_anim_close);
     }
 
     @IntDef({NONE, SCALE, ROTATE, ALL})

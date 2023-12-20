@@ -3,6 +3,6 @@
     android:id="@+id/recyclerview"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/white"
+    android:background="@color/cok_white"
     android:overScrollMode="never"
     android:scrollbars="none" />

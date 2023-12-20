@@ -1,14 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
+
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.CAMERA" />
 
     <application>
-        <activity android:name=".ui.activities.MediaPreviewActivity" />
-        <activity android:name=".ui.activities.AlbumPreviewActivity" />
-        <activity android:name=".ui.activities.MatisseActivity" />
-        <activity android:name=".ucrop.uis.UCropActivity" />
-        <activity android:name=".ucrop.uis.PictureMultiCuttingActivity" />
+        <activity
+            android:name=".ui.activities.MediaPreviewActivity"
+            android:launchMode="singleTask" />
+        <activity
+            android:name=".ui.activities.AlbumPreviewActivity"
+            android:launchMode="singleTask" />
+        <activity
+            android:name=".ui.activities.MatisseActivity"
+            android:launchMode="singleTask" />
+        <activity
+            android:name=".ucrop.uis.UCropActivity"
+            android:launchMode="singleTask" />
+        <activity
+            android:name=".ucrop.uis.PictureMultiCuttingActivity"
+            android:launchMode="singleTask" />
     </application>
 </manifest>

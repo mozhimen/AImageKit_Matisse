@@ -5,6 +5,10 @@
         <item name="android:ellipsize">end</item>
     </style>
 
+    <!--//////////////////////////////////////////////////////////////////////-->
+    <!--ucrop-->
+    <!--//////////////////////////////////////////////////////////////////////-->
+
     <style name="ucrop_ImageViewWidgetIcon">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
@@ -33,7 +37,7 @@
         <item name="android:layout_height">@dimen/ucrop_height_crop_aspect_ratio_text</item>
         <item name="android:layout_gravity">center</item>
         <item name="android:duplicateParentState">true</item>
-        <item name="android:textColor">@color/ucrop_scale_text_view_selector</item>
+        <item name="android:textColor">@color/ucrop_selector_color_text_scale</item>
     </style>
 
     <style name="ucrop_TextViewWidgetText">

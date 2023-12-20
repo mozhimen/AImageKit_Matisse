@@ -4,13 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <com.mozhimen.imagek.matisse.widgets.photoview.PhotoView
-        android:id="@+id/preview_image"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
-
-    <com.mozhimen.imagek.matisse.widgets.longimage.SubsamplingScaleImageView
-        android:id="@+id/longImg"
+    <it.sephiroth.android.library.imagezoom.ImageViewTouch
+        android:id="@+id/image_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
@@ -19,7 +14,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:src="@drawable/ic_play_circle_outline_white_48dp"
+        android:src="@drawable/matisse_c_play_circle_outline_white_48dp"
         tools:ignore="ContentDescription" />
 
 </FrameLayout>

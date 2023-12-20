@@ -12,14 +12,15 @@ import com.mozhimen.imagek.matisse.R
 import com.mozhimen.imagek.matisse.mos.Album
 import com.mozhimen.imagek.matisse.mos.SelectionSpec
 import com.mozhimen.imagek.matisse.widgets.CheckRadioView
+import java.lang.ref.WeakReference
 
 class FolderMediaItemAdapter(var context: Context, var mCurrentPosition: Int) :
     RecyclerView.Adapter<FolderMediaItemAdapter.FolderViewHolder>() {
 
-    var albumList = arrayListOf<Album>()
     private var inflater: LayoutInflater
-    var itemClickListener: OnItemClickListener? = null
     private var placeholder: Drawable?
+    var albumList = arrayListOf<Album>()
+    var itemClickListener: OnItemClickListener? = null
 
     /////////////////////////////////////////////////////////////////
 
@@ -47,13 +48,13 @@ class FolderMediaItemAdapter(var context: Context, var mCurrentPosition: Int) :
         // do not need to load animated Gif
         val mContext = holder.ivBucketCover.context
         SelectionSpec.getInstance().imageEngine?.loadThumbnail(
-            mContext, mContext.resources.getDimensionPixelSize(R.dimen.media_grid_size),
+            mContext, mContext.resources.getDimensionPixelSize(R.dimen.size_media_grid),
             placeholder, holder.ivBucketCover, album.getCoverPath()
         )
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = FolderViewHolder(
-        parent, inflater.inflate(R.layout.item_album_folder, parent, false)
+        parent, inflater.inflate(R.layout.item_media_folder, parent, false)
     )
 
     override fun getItemCount() = albumList.size

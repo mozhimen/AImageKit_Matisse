@@ -4,7 +4,6 @@ import android.app.Activity
 import android.content.pm.ActivityInfo
 import android.os.Bundle
 import androidx.annotation.CallSuper
-import androidx.appcompat.app.AppCompatActivity
 import com.mozhimen.basick.elemk.androidx.appcompat.commons.IActivity
 import com.mozhimen.imagek.matisse.R
 import com.mozhimen.imagek.matisse.annors.AFormType
@@ -12,8 +11,9 @@ import com.mozhimen.imagek.matisse.mos.IncapableCause
 import com.mozhimen.imagek.matisse.mos.SelectionSpec
 import com.mozhimen.imagek.matisse.utils.handleCause
 import com.mozhimen.imagek.matisse.utils.obtainAttrString
+import com.mozhimen.basick.elemk.androidx.appcompat.bases.BaseActivity
 
-abstract class BaseActivity : AppCompatActivity(), IActivity {
+abstract class BaseActivity : BaseActivity(), IActivity {
 
     lateinit var activity: Activity
     var selectionSpec: SelectionSpec? = null
@@ -23,7 +23,7 @@ abstract class BaseActivity : AppCompatActivity(), IActivity {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         selectionSpec = SelectionSpec.getInstance()
-        setTheme(selectionSpec?.themeRes ?: R.style.Matisse_Default)
+        setTheme(selectionSpec?.themeRes ?: R.style.ImageKMatisse_Default)
         super.onCreate(savedInstanceState)
         if (safeCancelActivity()) return
         activity = this

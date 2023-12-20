@@ -8,7 +8,7 @@ import androidx.viewpager.widget.PagerAdapter
 import com.mozhimen.imagek.matisse.R
 import com.mozhimen.imagek.matisse.mos.MediaItem
 
-class PicturePreviewPagerAdapter(listener: OnPrimaryItemSetListener?) : PagerAdapter() {
+class MediaPicturePreviewPagerAdapter(listener: OnPrimaryItemSetListener?) : PagerAdapter() {
 
     /**
      * 最大缓存图片数量
@@ -49,7 +49,7 @@ class PicturePreviewPagerAdapter(listener: OnPrimaryItemSetListener?) : PagerAda
         var contentView = mCacheView?.get(position)
         if (contentView == null) {
             contentView = LayoutInflater.from(container.context)
-                .inflate(R.layout.fragment_preview_item, container, false)
+                .inflate(R.layout.item_media_preview, container, false)
             items[position].run {
 
             }

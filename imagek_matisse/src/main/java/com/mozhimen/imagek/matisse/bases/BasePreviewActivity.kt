@@ -8,6 +8,7 @@ import android.view.WindowManager
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.viewpager.widget.ViewPager
+import com.mozhimen.basick.utilk.android.os.UtilKBuildVersion
 import com.mozhimen.imagek.matisse.R
 import com.mozhimen.imagek.matisse.annors.AFormType
 import com.mozhimen.imagek.matisse.cons.CImageKMatisse
@@ -16,12 +17,11 @@ import com.mozhimen.imagek.matisse.mos.IncapableCause
 import com.mozhimen.imagek.matisse.mos.MediaItem
 import com.mozhimen.imagek.matisse.ucrop.UCrop
 import com.mozhimen.imagek.matisse.ui.adapters.PreviewPagerAdapter
-import com.mozhimen.imagek.matisse.ui.fragments.PicturePreviewItemFragment
+import com.mozhimen.imagek.matisse.ui.fragments.MediaPicturePreviewFragment
 import com.mozhimen.imagek.matisse.widgets.CheckRadioView
 import com.mozhimen.imagek.matisse.widgets.CheckView
 import com.mozhimen.imagek.matisse.widgets.PreviewViewPager
 import com.mozhimen.imagek.matisse.utils.PhotoMetadataUtils
-import com.mozhimen.imagek.matisse.utils.Platform
 import com.mozhimen.imagek.matisse.utils.countOverMaxSize
 import com.mozhimen.imagek.matisse.utils.finishIntentFromCropSuccess
 import com.mozhimen.imagek.matisse.utils.finishIntentFromPreviewApply
@@ -55,14 +55,23 @@ open class BasePreviewActivity : BaseActivity(), View.OnClickListener, ViewPager
     ////////////////////////////////////////////////////////////////////////////////////////////
 
     override fun initFlag() {
-        selectionSpec?.onLoadStatusBarListener?.invoke(this, null)
+        try {
+            selectionSpec?.onLoadStatusBarListener?.invoke(this)
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
     }
 
     override fun configActivity() {
         super.configActivity()
         initView()
+        try {
+            selectionSpec?.onLoadToolbarListener?.invoke(this, null)
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
 
-        if (Platform.hasKitKat19()) {
+        if (UtilKBuildVersion.isAfterV_19_44_K()) {
             window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
         }
 
@@ -76,7 +85,7 @@ open class BasePreviewActivity : BaseActivity(), View.OnClickListener, ViewPager
         }
     }
 
-    override fun getResourceLayoutId() = R.layout.activity_media_preview
+    override fun getResourceLayoutId() = R.layout.activity_preview
 
     override fun setViewData() {
         _buttonPreview.setText(getAttrString(R.attr.Preview_TextBack, R.string.button_back))
@@ -119,7 +128,7 @@ open class BasePreviewActivity : BaseActivity(), View.OnClickListener, ViewPager
                 (adapter.instantiateItem(
                     pager,
                     previousPos
-                ) as PicturePreviewItemFragment).resetView()
+                ) as MediaPicturePreviewFragment).resetView()
                 val item = adapter.getMediaItem(position)
                 if (selectionSpec?.isCountable() == true) {
                     val checkedNum = mediaSelectionProxy.checkedNumOf(item)
@@ -284,6 +293,7 @@ open class BasePreviewActivity : BaseActivity(), View.OnClickListener, ViewPager
                     )
                     isEnabled = false
                 }
+
                 1 -> {
                     isEnabled = true
 
@@ -297,6 +307,7 @@ open class BasePreviewActivity : BaseActivity(), View.OnClickListener, ViewPager
                         ).plus("(").plus(selectedCount.toString()).plus(")")
                     }
                 }
+
                 else -> {
                     isEnabled = true
                     text = getString(

@@ -26,11 +26,11 @@ class CheckRadioView : AppCompatImageView {
         val ta: TypedArray = context?.theme?.obtainStyledAttributes(intArrayOf(R.attr.ItemCheckView_Theme)) ?: return
         val selectedColor = ta.getColor(
             0, ResourcesCompat.getColor(
-                resources, R.color.selector_base_text, context.theme
+                resources, R.color.matisse_selector_color_text_base, context.theme
             )
         )
         val unSelectUdColor = ResourcesCompat.getColor(
-            resources, R.color.check_original_radio_disable, context.theme
+            resources, com.mozhimen.uicorek.R.color.cok_gray_808080, context.theme
         )
         ta.recycle()
 
@@ -41,11 +41,11 @@ class CheckRadioView : AppCompatImageView {
 
     fun setChecked(enable: Boolean) {
         if (enable) {
-            setImageResource(R.drawable.ic_preview_radio_on)
+            setImageResource(R.drawable.matisse_ic_preview_radio_on)
             mDrawable = drawable
             mDrawable?.colorFilter = selectedColorFilter
         } else {
-            setImageResource(R.drawable.ic_preview_radio_off)
+            setImageResource(R.drawable.matisse_ic_preview_radio_off)
             mDrawable = drawable
             mDrawable?.colorFilter = unSelectUdColorFilter
         }

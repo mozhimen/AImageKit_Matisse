@@ -62,14 +62,14 @@ class CheckView : View {
         val ta: TypedArray =
             context.theme.obtainStyledAttributes(intArrayOf(R.attr.ItemCheckView_BorderColor))
         val defaultColor = ResourcesCompat.getColor(
-            context.resources, R.color.item_checkCircle_borderColor, context.theme
+            context.resources, R.color.color_item_checkCircle_borderColor, context.theme
         )
         val color = ta.getColor(0, defaultColor)
         ta.recycle()
         strokePaint?.color = color
 
         checkDrawable = ResourcesCompat.getDrawable(
-            context.resources, R.drawable.ic_check_white_18dp, context.theme
+            context.resources, R.drawable.matisse_ic_check_white_18dp, context.theme
         )
     }
 
@@ -196,7 +196,7 @@ class CheckView : View {
             val ta: TypedArray =
                 context.theme.obtainStyledAttributes(intArrayOf(R.attr.ItemCheckView_BackgroundColor))
             val defaultColor = ResourcesCompat.getColor(
-                context.resources, R.color.selector_base_text, context.theme
+                context.resources, R.color.matisse_selector_color_text_base, context.theme
             )
             val color = ta.getColor(0, defaultColor)
             ta.recycle()
@@ -216,8 +216,8 @@ class CheckView : View {
             val stop2 = outerRadius / gradientRadius
             val stop3 = 1f
 
-            val shadow = ContextCompat.getColor(context, R.color.shadow)
-            val shadowHint = ContextCompat.getColor(context, R.color.shadow_hint)
+            val shadow = ContextCompat.getColor(context, com.mozhimen.uicorek.R.color.cok_tran_05_0d0)
+            val shadowHint = ContextCompat.getColor(context, com.mozhimen.uicorek.R.color.cok_transparent)
             shadowPaint?.shader = (RadialGradient(
                 halfDensitySize, halfDensitySize, kdensity.times(gradientRadius),
                 intArrayOf(shadowHint, shadow, shadow, shadowHint),

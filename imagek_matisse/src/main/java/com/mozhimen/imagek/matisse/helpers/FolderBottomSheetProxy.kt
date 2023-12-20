@@ -1,35 +1,46 @@
 package com.mozhimen.imagek.matisse.helpers
 
-import android.content.Context
+import android.app.Activity
 import android.database.Cursor
 import android.net.Uri
 import android.os.Environment
+import androidx.fragment.app.FragmentActivity
+import androidx.lifecycle.LifecycleOwner
+import com.mozhimen.basick.elemk.androidx.lifecycle.bases.BaseWakeBefDestroyLifecycleObserver
+import com.mozhimen.basick.elemk.androidx.lifecycle.bases.BaseWakeBefPauseLifecycleObserver
+import com.mozhimen.basick.lintk.optin.OptInApiCall_BindLifecycle
+import com.mozhimen.basick.lintk.optin.OptInApiInit_ByLazy
 import com.mozhimen.imagek.matisse.R
 import com.mozhimen.imagek.matisse.commons.IFolderBottomSheetListener
 import com.mozhimen.imagek.matisse.mos.Album
-import com.mozhimen.imagek.matisse.ui.fragments.FolderBottomSheet
+import com.mozhimen.imagek.matisse.ui.fragments.FolderBottomSheetDialogFragment
 
+@OptInApiInit_ByLazy
+@OptInApiCall_BindLifecycle
 class FolderBottomSheetProxy(
-    private var _context: Context, private var _folderBottomSheetListener: IFolderBottomSheetListener
-) {
+    private var _fragmentActivity: FragmentActivity
+) : BaseWakeBefDestroyLifecycleObserver() {
+    companion object {
+        const val TAG_FOLDER_BOTTOM_SHEET = "Folder"
+    }
+
+    //////////////////////////////////////////////////////////////
+
     private var _folderCursor: Cursor? = null
     private var _folderList: ArrayList<Album>? = null
-    private var _folderBottomSheet: FolderBottomSheet? = null
+    private var _folderBottomSheetDialogFragment: FolderBottomSheetDialogFragment? = null
     private var _lastFolderCheckedPosition = 0
 
     //////////////////////////////////////////////////////////
 
-    fun createFolderSheetDialog() {
-        _folderBottomSheet = FolderBottomSheet.instance(
-            _context, _lastFolderCheckedPosition, "Folder"
-        )
-
-        _folderBottomSheet?.folderBottomSheetListener = _folderBottomSheetListener
+    fun createFolderSheetDialog(listener: IFolderBottomSheetListener) {
+        _folderBottomSheetDialogFragment = FolderBottomSheetDialogFragment.newInstance(_lastFolderCheckedPosition)
+        _folderBottomSheetDialogFragment!!.show(_fragmentActivity.supportFragmentManager, TAG_FOLDER_BOTTOM_SHEET)
+        _folderBottomSheetDialogFragment!!.folderBottomSheetListener = listener
     }
 
     fun readAlbumFromCursor(): ArrayList<Album>? {
-        if (_folderList?.size ?: 0 > 0) return _folderList
-
+        if ((_folderList?.size ?: 0) > 0) return _folderList
         if (_folderCursor == null) return null
 
         var allFolderCoverPath: Uri? = null
@@ -48,7 +59,7 @@ class FolderBottomSheetProxy(
             allFolderCount += album.getCount()
         }
         _folderList?.add(
-            0, Album(allFolderCoverPath, _context.getString(R.string.album_name_all), allFolderCount)
+            0, Album(allFolderCoverPath, _fragmentActivity.getString(R.string.album_name_all), allFolderCount)
         )
         return _folderList
     }
@@ -73,7 +84,7 @@ class FolderBottomSheetProxy(
 //            }
 
             // Pictures目录手动添加一张图片
-            filter { Environment.DIRECTORY_PICTURES == it.getDisplayName(_context) }.forEach {
+            filter { Environment.DIRECTORY_PICTURES == it.getDisplayName(_fragmentActivity) }.forEach {
                 it.addCaptureCount()
                 it.setCoverPath(capturePath)
             }
@@ -98,9 +109,16 @@ class FolderBottomSheetProxy(
     fun getAlbumFolderList() = _folderList
 
     fun clearFolderSheetDialog() {
-        if (_folderBottomSheet != null && _folderBottomSheet?.adapter != null) {
+        if (_folderBottomSheetDialogFragment != null && _folderBottomSheetDialogFragment?.folderMediaItemAdapter != null) {
             _folderCursor = null
-            _folderBottomSheet?.adapter?.setListData(null)
+            _folderBottomSheetDialogFragment?.folderMediaItemAdapter?.setListData(null)
         }
+    }
+
+    //////////////////////////////////////////////////////////////
+
+    override fun onPause(owner: LifecycleOwner) {
+        _folderBottomSheetDialogFragment = null
+        super.onPause(owner)
     }
 }

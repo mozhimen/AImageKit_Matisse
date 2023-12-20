@@ -13,6 +13,7 @@ import com.mozhimen.imagek.matisse.commons.IOnCheckedListener
 import com.mozhimen.imagek.matisse.commons.IOnSelectedListener
 import com.mozhimen.imagek.matisse.cons.EMimeType
 import com.mozhimen.imagek.matisse.commons.IOnLoadStatusBarListener
+import com.mozhimen.imagek.matisse.commons.IOnLoadToolBarListener
 import com.mozhimen.imagek.matisse.commons.IOnNoticeEventListener
 import com.mozhimen.imagek.matisse.ui.activities.MatisseActivity
 import java.io.File
@@ -275,8 +276,14 @@ class ImageKMatisseSelectionBuilder(
     /**
      * set Status Bar
      */
-    fun setOnLoadStatusBarListener(statusBarFunction: IOnLoadStatusBarListener?): ImageKMatisseSelectionBuilder =
-        this.apply { _selectionSpec.onLoadStatusBarListener = statusBarFunction }
+    fun setOnLoadStatusBarListener(listener: IOnLoadStatusBarListener?): ImageKMatisseSelectionBuilder =
+        this.apply { _selectionSpec.onLoadStatusBarListener = listener }
+
+    /**
+     * set ToolBar
+     */
+    fun setOnLoadToolbarListener(listener: IOnLoadToolBarListener?): ImageKMatisseSelectionBuilder =
+        this.apply { _selectionSpec.onLoadToolbarListener = listener }
 
     /**
      * set last choose pictures ids

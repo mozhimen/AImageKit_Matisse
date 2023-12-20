@@ -20,7 +20,7 @@
         android:layout_gravity="end|bottom"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
-        android:src="@drawable/ic_gif"
+        android:src="@drawable/matisse_ic_gif"
         android:visibility="gone" />
 
     <TextView
@@ -30,7 +30,7 @@
         android:layout_gravity="end|bottom"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
-        android:textColor="@android:color/white"
+        android:textColor="@color/cok_white"
         android:textSize="12sp"
         android:visibility="gone" />
 

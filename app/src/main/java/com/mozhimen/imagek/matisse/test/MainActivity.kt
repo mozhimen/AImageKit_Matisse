@@ -5,8 +5,6 @@ import android.content.Context
 import android.content.Intent
 import android.content.pm.ActivityInfo
 import android.os.Bundle
-import com.bumptech.glide.load.resource.bitmap.CircleCrop
-import com.bumptech.glide.request.RequestOptions
 import com.mozhimen.basick.elemk.androidx.appcompat.bases.BaseActivityVB
 import com.mozhimen.basick.elemk.commons.I_Listener
 import com.mozhimen.basick.utilk.android.content.UtilKPackage
@@ -19,10 +17,14 @@ import com.mozhimen.imagek.matisse.ImageKMatisseSelectionBuilder
 import com.mozhimen.imagek.matisse.cons.CImageKMatisse
 import com.mozhimen.imagek.matisse.test.databinding.ActivityMainBinding
 import com.mozhimen.manifestk.xxpermission.XXPermissionUtil
+import com.mozhimen.basick.utilk.android.net.uri2strFilePathName
+import com.mozhimen.uicorek.adaptk.systembar.cons.CProperty
+import com.mozhimen.uicorek.adaptk.systembar.cons.CPropertyOr
+import com.mozhimen.uicorek.adaptk.systembar.initAdaptKSystemBar
 
 class MainActivity : BaseActivityVB<ActivityMainBinding>() {
     private var _selectionBuilder: ImageKMatisseSelectionBuilder? = null
-
+    private var _imagePathName:String? = ""
     override fun initData(savedInstanceState: Bundle?) {
         startPermissionReadWrite(this) {
             super.initData(savedInstanceState)
@@ -53,15 +55,9 @@ class MainActivity : BaseActivityVB<ActivityMainBinding>() {
         // 获取uri返回值  裁剪结果不返回uri
         val uriList = ImageKMatisse.obtainResult(data)
         uriList?.ifNotEmpty {
-            val selectedPhotoPath =
-                UriHelper.uriToFile(this@UserInformationEditingActivity, it[0])?.absolutePath
-            if (!selectedPhotoPath.isNullOrEmpty()) {
-                mLastSelectedPhotoPath = selectedPhotoPath
-                GlideApp
-                    .with(this@UserInformationEditingActivity)
-                    .load(selectedPhotoPath)
-                    .apply(RequestOptions.bitmapTransform(CircleCrop()))
-                    .into(mBinding.userHeadImg)
+            _imagePathName = it[0].uri2strFilePathName()
+            if (!_imagePathName.isNullOrEmpty()) {
+                com.mozhimen.basick.imagek.glide.ImageKGlide.loadImageCircleGlide(vb.mainImg,_imagePathName, com.mozhimen.uicorek.R.color.cok_gray_4c4c4c,com.mozhimen.uicorek.R.color.cok_gray_4c4c4c)
             }
         }
     }
@@ -70,7 +66,7 @@ class MainActivity : BaseActivityVB<ActivityMainBinding>() {
         _selectionBuilder =
             ImageKMatisse.from(this)
                 .select(MimeTypeManager.ofImage())
-                .setThemeRes(com.mozhimen.imagek.matisse.R.style.Matisse_Default)
+                .setThemeRes(com.mozhimen.imagek.matisse.R.style.ImageKMatisse_Default)
                 .setCountable(false)
                 .setMaxSelectable(1)
                 .setIsCapture(false)
@@ -81,20 +77,20 @@ class MainActivity : BaseActivityVB<ActivityMainBinding>() {
                 .setImageEngine(Glide4ImageEngine())
                 .setIsCrop(true)
                 .setIsCircleCrop(true)
-                .setOnLoadStatusBarListener { activity, view ->
-//                    params.initAdaptKSystemBar(CProperty.IMMERSED_HARD_STICKY)
+                .setOnLoadStatusBarListener { activity ->
+                    activity.initAdaptKSystemBar(CPropertyOr.NORMAL or CPropertyOr.THEME_DARK or CPropertyOr.THEME_CUSTOM)
                 }
-//                .setStatusBarFuture { params, view ->
-//                    // 外部设置状态栏
-//                    ImmersionBar.with(params)?.run {
-//                        statusBarDarkFont(true)
-//                        view?.apply { titleBar(this) }
-//                        init()
-//                    }
-//
-//                    // 外部可隐藏Matisse界面中的标题栏
-//                    // view?.visibility = if (isDarkStatus) View.VISIBLE else View.GONE
-//                }
+/*                .setStatusBarFuture { params, view ->
+                    // 外部设置状态栏
+                    ImmersionBar.with(params)?.run {
+                        statusBarDarkFont(true)
+                        view?.apply { titleBar(this) }
+                        init()
+                    }
+
+                    // 外部可隐藏Matisse界面中的标题栏
+                    // view?.visibility = if (isDarkStatus) View.VISIBLE else View.GONE
+                }*/
 
     }
 

@@ -688,7 +688,7 @@ public class PictureMultiCuttingActivity extends AppCompatActivity {
 
     protected void exitAnimation() {
         int exitAnimation = getIntent().getIntExtra(UCropMulti.EXTRA_WINDOW_EXIT_ANIMATION, 0);
-        overridePendingTransition(R.anim.ucrop_anim_fade_in, exitAnimation != 0 ? exitAnimation : R.anim.ucrop_close);
+        overridePendingTransition(R.anim.ucrop_anim_fade_in, exitAnimation != 0 ? exitAnimation : R.anim.ucrop_anim_close);
     }
 
     public int dip2px(float dpValue) {

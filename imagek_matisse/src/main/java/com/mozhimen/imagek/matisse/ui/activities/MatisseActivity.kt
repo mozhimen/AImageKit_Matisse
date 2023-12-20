@@ -32,6 +32,8 @@ import com.mozhimen.imagek.matisse.ui.adapters.FolderMediaItemAdapter
 import com.mozhimen.imagek.matisse.ui.fragments.MediaSelectionFragment
 import com.mozhimen.imagek.matisse.widgets.CheckRadioView
 import com.mozhimen.basick.elemk.android.provider.MediaStoreCaptureProxy
+import com.mozhimen.basick.lintk.optin.OptInApiCall_BindLifecycle
+import com.mozhimen.basick.lintk.optin.OptInApiInit_ByLazy
 import com.mozhimen.imagek.matisse.utils.countOverMaxSize
 import com.mozhimen.imagek.matisse.utils.finishIntentFromCrop
 import com.mozhimen.imagek.matisse.utils.gotoImageCrop
@@ -39,6 +41,7 @@ import com.mozhimen.imagek.matisse.utils.handleIntentFromPreview
 import com.mozhimen.imagek.matisse.utils.handlePreviewIntent
 import com.mozhimen.imagek.matisse.utils.setOnClickListener
 import com.mozhimen.imagek.matisse.utils.setViewVisible
+import java.lang.ref.WeakReference
 
 /**
  * desc：入口</br>
@@ -53,7 +56,8 @@ class MatisseActivity : BaseActivity(), MediaSelectionFragment.IMediaSelectionPr
     private var _mediaStoreCaptureProxy: MediaStoreCaptureProxy? = null
     private var _albumLoadProxy: AlbumLoadProxy? = null
     private lateinit var _mediaSelectionProxy: MediaSelectionProxy
-    private lateinit var _folderBottomSheetProxy: FolderBottomSheetProxy
+    @OptIn(OptInApiInit_ByLazy::class, OptInApiCall_BindLifecycle::class)
+    private val _folderBottomSheetProxy: FolderBottomSheetProxy by lazy { FolderBottomSheetProxy(this) }
 
     //////////////////////////////////////////////////////////
 
@@ -94,6 +98,7 @@ class MatisseActivity : BaseActivity(), MediaSelectionFragment.IMediaSelectionPr
         }
     }
 
+    @OptIn(OptInApiInit_ByLazy::class, OptInApiCall_BindLifecycle::class)
     private var _folderBottomSheetListener = object : IFolderBottomSheetListener {
         override fun initData(adapter: FolderMediaItemAdapter) {
             adapter.setListData(_folderBottomSheetProxy.readAlbumFromCursor())
@@ -131,12 +136,21 @@ class MatisseActivity : BaseActivity(), MediaSelectionFragment.IMediaSelectionPr
     }
 
     override fun initFlag() {
-        selectionSpec?.onLoadStatusBarListener?.invoke(this, _toolbar)
+        try {
+            selectionSpec?.onLoadStatusBarListener?.invoke(this)
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
     }
 
     override fun configActivity() {
         super.configActivity()
         initView()
+        try {
+            selectionSpec?.onLoadToolbarListener?.invoke(this, _toolbar)
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
 
         if (selectionSpec?.capture == true) {
             _mediaStoreCaptureProxy = MediaStoreCaptureProxy(this)
@@ -148,11 +162,12 @@ class MatisseActivity : BaseActivity(), MediaSelectionFragment.IMediaSelectionPr
 
     override fun getResourceLayoutId() = R.layout.activity_matisse
 
+    @OptIn(OptInApiInit_ByLazy::class, OptInApiCall_BindLifecycle::class)
     override fun setViewData() {
         _buttonApply.setText(getAttrString(R.attr.BottomBarAlbum_Text, R.string.album_name_all))
         _mediaSelectionProxy = MediaSelectionProxy(this).apply { onCreate(savedInstanceState) }
         _albumLoadProxy = AlbumLoadProxy(this, _albumLoadListener)
-        _folderBottomSheetProxy = FolderBottomSheetProxy(this, _folderBottomSheetListener)
+        _folderBottomSheetProxy.bindLifecycle(this@MatisseActivity)
         updateBottomToolbar()
     }
 
@@ -187,6 +202,7 @@ class MatisseActivity : BaseActivity(), MediaSelectionFragment.IMediaSelectionPr
                 if (cropPath != null) finishIntentFromCrop(activity, cropPath)
                 else doActivityResultFromPreview(data)
             }
+
             CImageKMatisse.REQUEST_CODE_CAPTURE -> doActivityResultFromCapture()
             CImageKMatisse.REQUEST_CODE_CROP -> {
                 data?.run {
@@ -194,6 +210,7 @@ class MatisseActivity : BaseActivity(), MediaSelectionFragment.IMediaSelectionPr
                     finishIntentFromCrop(activity, resultUri)
                 }
             }
+
             CImageKMatisse.REQUEST_CODE_CROP_ERROR -> {
                 data?.run {
                     val cropError = UCrop.getError(data)?.message ?: ""
@@ -203,6 +220,7 @@ class MatisseActivity : BaseActivity(), MediaSelectionFragment.IMediaSelectionPr
         }
     }
 
+    @OptIn(OptInApiInit_ByLazy::class, OptInApiCall_BindLifecycle::class)
     override fun onClick(v: View?) {
         when (v) {
             _buttonBack -> onBackPressed()
@@ -216,6 +234,7 @@ class MatisseActivity : BaseActivity(), MediaSelectionFragment.IMediaSelectionPr
                     activity, _mediaSelectionProxy.getDataWithBundle(), _isOriginalEnable
                 )
             }
+
             _buttonComplete -> {
                 if (_mediaSelectionProxy.count() == 0) {
                     handleCauseTips(getString(R.string.please_select_media_resource))
@@ -252,7 +271,7 @@ class MatisseActivity : BaseActivity(), MediaSelectionFragment.IMediaSelectionPr
                     return
                 }
 
-                _folderBottomSheetProxy.createFolderSheetDialog()
+                _folderBottomSheetProxy.createFolderSheetDialog(_folderBottomSheetListener)
             }
         }
     }
@@ -373,9 +392,7 @@ class MatisseActivity : BaseActivity(), MediaSelectionFragment.IMediaSelectionPr
             setViewVisible(false, _viewEmpty)
             setViewVisible(true, _viewContainer)
             val fragment = MediaSelectionFragment.newInstance(album)
-            supportFragmentManager.beginTransaction()
-                .replace(_viewContainer.id, fragment, MediaSelectionFragment::class.java.simpleName)
-                .commitAllowingStateLoss()
+            supportFragmentManager.beginTransaction().replace(_viewContainer.id, fragment, MediaSelectionFragment::class.java.simpleName).commitAllowingStateLoss()
         }
     }
 }

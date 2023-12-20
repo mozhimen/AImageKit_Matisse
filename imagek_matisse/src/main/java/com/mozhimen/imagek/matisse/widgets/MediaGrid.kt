@@ -31,7 +31,7 @@ class MediaGrid : SquareFrameLayout, View.OnClickListener {
     constructor(context: Context?, attrs: AttributeSet?, defStyleAttr: Int) : super(
         context, attrs, defStyleAttr
     ) {
-        LayoutInflater.from(context).inflate(R.layout.view_media_grid_content, this, true)
+        LayoutInflater.from(context).inflate(R.layout.merge_media_grid_content, this, true)
         media_thumbnail = findViewById(R.id.media_thumbnail)
         check_view = findViewById(R.id.check_view)
         video_duration = findViewById(R.id.video_duration)

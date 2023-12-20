@@ -5,12 +5,12 @@ package com.mozhimen.imagek.matisse.utils
 import android.app.Activity
 import android.content.Intent
 import android.net.Uri
+import com.mozhimen.basick.utilk.android.os.UtilKBuildVersion
 import com.mozhimen.imagek.matisse.cons.CImageKMatisse
 import com.mozhimen.imagek.matisse.mos.MediaItem
 import com.mozhimen.imagek.matisse.mos.SelectionSpec
 import com.mozhimen.imagek.matisse.helpers.MediaSelectionProxy
 import com.mozhimen.imagek.matisse.ucrop.UCrop
-import com.mozhimen.imagek.matisse.utils.Platform.aboveAndroidTen
 import java.io.File
 
 /**
@@ -41,7 +41,7 @@ fun startCrop(activity: Activity, originalPath: Uri) {
         .setShowCropFrame(true)
         .setShowCropGrid(!spec.isCircleCrop)
 
-    val isAndroidQ = aboveAndroidTen()
+    val isAndroidQ = UtilKBuildVersion.isAfterV_29_10_Q()
     val imgType = if (isAndroidQ)
         getLastImgSuffix(getMimeType(activity, originalPath))
     else {

@@ -1,81 +1,85 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <style name="Animation.Bottom" parent="Theme.AppCompat.Light.Dialog">
-        <item name="android:windowEnterAnimation">@anim/bottom_up_in</item>
-        <item name="android:windowExitAnimation">@anim/bottom_down_out</item>
+        <item name="android:windowEnterAnimation">@anim/matisse_anim_bottom_up_in</item>
+        <item name="android:windowExitAnimation">@anim/matisse_anim_bottom_down_out</item>
     </style>
 
-    <style name="Matisse.Default" parent="Theme.AppCompat.Light.NoActionBar">
-        <!--状态栏相关-->
-        <item name="colorPrimary">@color/primary</item>
+    <style name="ImageKMatisse.Default" parent="Theme.AppCompat.Light.NoActionBar">
+        <!--        &lt;!&ndash;状态栏相关&ndash;&gt;
+                <item name="colorPrimary">@color/primary</item>-->
         <!--状态栏颜色-->
-        <item name="colorPrimaryDark">@color/primary_dark</item>
+        <item name="colorPrimaryDark">@color/color_white</item>-->
 
         <!--//////////////////////////////////////////////////////////////////////-->
         <!--NavigationBar-->
         <!--//////////////////////////////////////////////////////////////////////-->
 
-        <item name="Navigation_Height">@dimen/navigation_height</item>
-        <item name="Navigation_Background">@color/navigation_bg</item>
-        <item name="Navigation_ResBack">@drawable/icon_arrow_right_white</item>
+        <item name="Navigation_Height">@dimen/height_navigation</item>
+        <item name="Navigation_Background">@color/color_white</item>
+        <item name="Navigation_ResBack">@drawable/matisse_ic_arrow_right_white</item>
 
         <item name="Navigation_TextBack">@string/button_null</item>
-        <item name="Navigation_TextColorBack">@color/color_base</item>
-        <item name="Navigation_TextSizeBack">@dimen/text_back</item>
+        <item name="Navigation_TextColorBack">@color/color_black</item>
+        <item name="Navigation_TextSizeBack">@dimen/size_text_back</item>
+        <item name="Navigation_TextStyleBack">0</item>
 
         <item name="Navigation_TextTitle">@string/button_preview</item>
-        <item name="Navigation_TextColorTitle">@color/color_base</item>
-        <item name="Navigation_TextSizeTitle">@dimen/text_title</item>
+        <item name="Navigation_TextColorTitle">@color/color_black</item>
+        <item name="Navigation_TextSizeTitle">@dimen/size_text_title</item>
+        <item name="Navigation_TextStyleTitle">1</item>
 
         <item name="Navigation_TextSure">@string/button_sure</item>
-        <item name="Navigation_TextColorSure">@color/color_base</item>
-        <item name="Navigation_TextSizeSure">@dimen/text_sure</item>
+        <item name="Navigation_TextColorSure">@color/color_black</item>
+        <item name="Navigation_TextSizeSure">@dimen/size_text_sure</item>
+        <item name="Navigation_TextStyleSure">0</item>
 
         <!--//////////////////////////////////////////////////////////////////////-->
         <!--Preview-->
         <!--//////////////////////////////////////////////////////////////////////-->
 
-        <item name="Preview_Background">@color/preview_bg</item>
+        <item name="Preview_Background">@color/color_black</item>
         <item name="Preview_TextBack">@string/button_back</item>
         <item name="Preview_TextConfirm">@string/button_sure_default</item>
 
         <!--//////////////////////////////////////////////////////////////////////-->
         <!--BottomBar-->
         <!--//////////////////////////////////////////////////////////////////////-->
-        <item name="BottomBar_Height">@dimen/bottom_tool_height</item>
-        <item name="BottomBar_Background">@color/bottomTool_bg</item>
+        <item name="BottomBar_Height">@dimen/height_bottom</item>
+        <item name="BottomBar_Background">@color/color_white</item>
 
         <item name="BottomBarPreview_Text">@string/button_preview</item>
-        <item name="BottomBarPreview_TextColor">@color/text_preview</item>
-        <item name="BottomBarPreview_TextSize">@dimen/text_preview</item>
-
-        <item name="BottomBarOriginal_Text">@string/button_original</item>
-        <item name="BottomBarOriginal_TextColor">@color/text_original</item>
-        <item name="BottomBarOriginal_TextSize">@dimen/text_original</item>
+        <item name="BottomBarPreview_TextColor">@color/color_text_preview</item>
+        <item name="BottomBarPreview_TextSize">@dimen/size_text_preview</item>
 
         <item name="BottomBarAlbum_Text">@string/album_name_all</item>
-        <item name="BottomBarAlbum_TextColor">@color/text_album</item>
-        <item name="BottomBarAlbum_TextSize">@dimen/text_album</item>
+        <item name="BottomBarAlbum_TextColor">@color/color_text_album</item>
+        <item name="BottomBarAlbum_TextSize">@dimen/size_text_album</item>
+
+        <item name="BottomBarOriginal_Text">@string/button_original</item>
+        <item name="BottomBarOriginal_TextColor">@color/color_text_original</item>
+        <item name="BottomBarOriginal_TextSize">@dimen/size_text_original</item>
 
         <!--//////////////////////////////////////////////////////////////////////-->
         <!--EmptyBar-->
         <!--//////////////////////////////////////////////////////////////////////-->
         <item name="EmptyBar_Text">@string/empty_text</item>
-        <item name="EmptyBar_TextColor">@color/text_empty</item>
-        <item name="EmptyBar_TextSize">@dimen/text_empty</item>
-        <item name="EmptyBar_Res">@drawable/ic_empty_zhihu</item>
+        <item name="EmptyBar_TextColor">@color/color_text_empty</item>
+        <item name="EmptyBar_TextSize">@dimen/size_text_empty</item>
+        <item name="EmptyBar_Res">@drawable/matisse_ic_empty_zhihu</item>
 
         <!--//////////////////////////////////////////////////////////////////////-->
         <!--Item-->
         <!--//////////////////////////////////////////////////////////////////////-->
 
-        <item name="ItemPhoto_TextColor">@color/text_camera</item>
-        <item name="ItemPhoto_TextSize">@dimen/text_camera</item>
-        <item name="ItemAlbum_TextColor">@color/text_item_album</item>
-        <item name="ItemAlbum_TextSize">@dimen/text_item_album</item>
-        <item name="ItemCheckView_BackgroundColor">@color/selector_base_text</item>
-        <item name="ItemCheckView_BorderColor">@color/item_checkCircle_borderColor</item>
-        <item name="ItemCheckView_Theme">@color/selector_base_text</item>
+        <item name="ItemPhoto_TextColor">@color/color_text_camera</item>
+        <item name="ItemPhoto_TextSize">@dimen/size_text_camera</item>
+        <item name="ItemAlbum_TextColor">@color/color_item_text_album</item>
+        <item name="ItemAlbum_TextSize">@dimen/size_text_item_album</item>
+        <item name="ItemCheckView_BackgroundColor">@color/matisse_selector_color_text_base</item>
+        <item name="ItemCheckView_BorderColor">@color/color_item_checkCircle_borderColor</item>
+        <item name="ItemCheckView_Theme">@color/matisse_selector_color_text_base</item>
 
         <!--图片加载占位图-->
         <!--<item name="Item_placeholder">@drawable/zhihu_item_placeholder</item>-->

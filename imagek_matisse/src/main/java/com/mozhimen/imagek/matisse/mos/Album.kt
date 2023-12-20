@@ -8,6 +8,7 @@ import android.os.Parcel
 import android.os.Parcelable
 import com.mozhimen.imagek.matisse.R
 import com.mozhimen.imagek.matisse.helpers.loader.AlbumCursorLoader
+import java.lang.ref.WeakReference
 
 class Album() : Parcelable {
     private var id = ""

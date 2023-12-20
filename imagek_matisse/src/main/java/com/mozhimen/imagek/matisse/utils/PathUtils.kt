@@ -12,6 +12,7 @@ import android.provider.DocumentsContract
 import android.provider.MediaStore
 import android.text.TextUtils
 import androidx.core.content.FileProvider
+import com.mozhimen.basick.utilk.android.os.UtilKBuildVersion
 import java.io.File
 import java.text.SimpleDateFormat
 import java.util.*
@@ -28,7 +29,7 @@ fun getPath(context: Context?, uri: Uri?): String? {
     if (uri == null || context == null) return ""
 
     // DocumentProvider
-    if (Platform.hasKitKat19() && DocumentsContract.isDocumentUri(context, uri)) {
+    if (UtilKBuildVersion.isAfterV_19_44_K() && DocumentsContract.isDocumentUri(context, uri)) {
         // ExternalStorageProvider
         if (isExternalStorageDocument(uri)) {
             val docId = DocumentsContract.getDocumentId(uri)

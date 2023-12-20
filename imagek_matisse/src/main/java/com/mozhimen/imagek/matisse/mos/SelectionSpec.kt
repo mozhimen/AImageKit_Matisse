@@ -13,6 +13,7 @@ import com.mozhimen.imagek.matisse.commons.IOnCheckedListener
 import com.mozhimen.imagek.matisse.commons.IOnSelectedListener
 import java.io.File
 import com.mozhimen.basick.elemk.android.provider.MediaStoreCaptureProxy.CaptureStrategy
+import com.mozhimen.imagek.matisse.commons.IOnLoadToolBarListener
 
 /**
  * Describe : Builder to get config values
@@ -31,8 +32,9 @@ class SelectionSpec {
     var gridExpectedSize = 0
     var spanCount = 3
     var captureStrategy: CaptureStrategy? = null
+
     @StyleRes
-    var themeRes = R.style.Matisse_Default
+    var themeRes = R.style.ImageKMatisse_Default
     var orientation = 0
     var originalable = false
     var originalMaxSize = 0
@@ -44,7 +46,8 @@ class SelectionSpec {
     var cropCacheFolder: File? = null               // 裁剪后文件保存路径
     var hasInited = false                           // 是否初始化完成
     var onNoticeEventListener: IOnNoticeEventListener? = null// 库内提示具体回调
-    var onLoadStatusBarListener: IOnLoadStatusBarListener? = null// 状态栏处理回调
+    var onLoadStatusBarListener: IOnLoadStatusBarListener? = null//
+    var onLoadToolbarListener: IOnLoadToolBarListener? = null
     var lastChoosePictureIdsOrUris: ArrayList<String>? = null   // 上次选中的图片Id
 
     class InstanceHolder {
@@ -65,7 +68,7 @@ class SelectionSpec {
     fun reset() {
         mimeTypeSet = null
         mediaTypeExclusive = false
-        themeRes = R.style.Matisse_Default
+        themeRes = R.style.ImageKMatisse_Default
         orientation = 0
         countable = false
         maxSelectable = 1
@@ -85,6 +88,7 @@ class SelectionSpec {
         originalMaxSize = Integer.MAX_VALUE
         onNoticeEventListener = null
         onLoadStatusBarListener = null
+        onLoadToolbarListener = null
         lastChoosePictureIdsOrUris = null
     }
 
