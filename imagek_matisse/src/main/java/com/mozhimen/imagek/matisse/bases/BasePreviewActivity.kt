@@ -15,9 +15,8 @@ import com.mozhimen.imagek.matisse.cons.CImageKMatisse
 import com.mozhimen.imagek.matisse.helpers.MediaSelectionProxy
 import com.mozhimen.imagek.matisse.mos.IncapableCause
 import com.mozhimen.imagek.matisse.mos.Media
-import com.mozhimen.imagek.matisse.ucrop.UCrop
-import com.mozhimen.imagek.matisse.ui.adapters.MediaPreviewPagerAdapter
-import com.mozhimen.imagek.matisse.ui.fragments.MediaImagePreviewFragment
+import com.mozhimen.imagek.matisse.uis.adapters.MediaPreviewPagerAdapter
+import com.mozhimen.imagek.matisse.uis.fragments.MediaImagePreviewFragment
 import com.mozhimen.imagek.matisse.widgets.CheckRadioView
 import com.mozhimen.imagek.matisse.widgets.CheckView
 import com.mozhimen.imagek.matisse.widgets.PreviewViewPager
@@ -28,6 +27,7 @@ import com.mozhimen.imagek.matisse.utils.finishIntentFromPreviewApply
 import com.mozhimen.imagek.matisse.utils.gotoImageCrop
 import com.mozhimen.imagek.matisse.utils.setOnClickListener
 import com.mozhimen.imagek.matisse.utils.setViewVisible
+import com.mozhimen.imagek.ucrop.UCrop
 
 /**
  * desc：BasePreviewActivity</br>
@@ -159,13 +159,9 @@ open class BasePreviewActivity : BaseActivity(), View.OnClickListener, ViewPager
                     val item = mediaSelectionProxy.items()[0]
 
                     if (selection?.isSupportCrop(item) == true) {
-                        item.getContentUri().apply {
-                            gotoImageCrop(this@BasePreviewActivity, arrayListOf(this))
-                        }
+                        item.getContentUri().apply { gotoImageCrop(this@BasePreviewActivity, arrayListOf(this)) }
                     } else {
-                        finishIntentFromPreviewApply(
-                            activity, true, mediaSelectionProxy, _isOriginalEnable
-                        )
+                        finishIntentFromPreviewApply(activity, true, mediaSelectionProxy, _isOriginalEnable)
                     }
                 } else {
                     finishIntentFromPreviewApply(activity, true, mediaSelectionProxy, _isOriginalEnable)
@@ -177,12 +173,12 @@ open class BasePreviewActivity : BaseActivity(), View.OnClickListener, ViewPager
                 if (count <= 0) {
                     _isOriginalEnable = !_isOriginalEnable
                     _checkRadioViewOriginal?.setChecked(_isOriginalEnable)
-                    selection?.onCheckedListener?.onCheck(_isOriginalEnable)
+                    selection?.mediaCheckedListener?.onCheck(_isOriginalEnable)
                     return
                 }
 
                 handleCauseTips(
-                    getString(R.string.error_over_original_count, count, selection?.originalMaxSize),
+                    getString(R.string.error_over_original_count, count, selection?.imageOriginalMaxSize),
                     AFormType.DIALOG
                 )
             }
@@ -209,7 +205,7 @@ open class BasePreviewActivity : BaseActivity(), View.OnClickListener, ViewPager
 
                 updateApplyButton()
 
-                selection?.onSelectedListener?.onSelected(
+                selection?.mediaSelectedListener?.onSelected(
                     mediaSelectionProxy.asListOfUri(), mediaSelectionProxy.asListOfString()
                 )
             }
@@ -249,7 +245,7 @@ open class BasePreviewActivity : BaseActivity(), View.OnClickListener, ViewPager
             _layoutOriginal?.apply {
                 if (isVideo()) {
                     setViewVisible(false, this)
-                } else if (selection?.originalable == true) {
+                } else if (selection?.imageOriginalEnable == true) {
                     setViewVisible(true, this)
                 }
             }
@@ -273,7 +269,7 @@ open class BasePreviewActivity : BaseActivity(), View.OnClickListener, ViewPager
 
         setApplyText(selectedCount)
 
-        if (selection?.originalable == true) {
+        if (selection?.imageOriginalEnable == true) {
             setViewVisible(true, _layoutOriginal)
             updateOriginalState()
         } else {
@@ -320,7 +316,7 @@ open class BasePreviewActivity : BaseActivity(), View.OnClickListener, ViewPager
         _checkRadioViewOriginal?.setChecked(_isOriginalEnable)
         if (countOverMaxSize(mediaSelectionProxy) > 0 || _isOriginalEnable) {
             handleCauseTips(
-                getString(R.string.error_over_original_size, selection?.originalMaxSize),
+                getString(R.string.error_over_original_size, selection?.imageOriginalMaxSize),
                 AFormType.DIALOG
             )
             _checkRadioViewOriginal?.setChecked(false)

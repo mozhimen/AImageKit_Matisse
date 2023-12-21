@@ -16,19 +16,31 @@
     <attr name="Navigation_TextColorBack" format="reference|color" />
     <!--返回按钮文字大小-->
     <attr name="Navigation_TextSizeBack" format="dimension" />
-    <attr name="Navigation_TextStyleBack" format="integer" />
+    <attr name="Navigation_TextStyleBack">
+        <flag name="normal" value="0" />
+        <flag name="bold" value="1" />
+        <flag name="italic" value="2" />
+    </attr>
 
     <attr name="Navigation_TextTitle" format="reference" />
     <attr name="Navigation_TextColorTitle" format="reference|color" />
     <attr name="Navigation_TextSizeTitle" format="dimension" />
-    <attr name="Navigation_TextStyleTitle" format="integer" />
+    <attr name="Navigation_TextStyleTitle">
+        <flag name="normal" value="0" />
+        <flag name="bold" value="1" />
+        <flag name="italic" value="2" />
+    </attr>
 
     <attr name="Navigation_TextSure" format="reference" />
     <!--确定按钮颜色-->
     <attr name="Navigation_TextColorSure" format="reference|color" />
     <!--确认按钮文字大小-->
     <attr name="Navigation_TextSizeSure" format="dimension" />
-    <attr name="Navigation_TextStyleSure" format="integer" />
+    <attr name="Navigation_TextStyleSure">
+        <flag name="normal" value="0" />
+        <flag name="bold" value="1" />
+        <flag name="italic" value="2" />
+    </attr>
 
     <!--//////////////////////////////////////////////////////////////////////-->
     <!--Preview-->
@@ -92,7 +104,7 @@
     <attr name="ItemCheckView_BorderColor" format="reference|color" />
     <attr name="ItemCheckView_NumColor" format="reference|color" />
     <!--原图radio控件颜色-->
-    <attr name="ItemCheckView_Theme" format="reference|color" />
+    <attr name="ItemCheckRadioView_Theme" format="reference|color" />
 
     <attr name="ItemImage_ResPlaceholder" format="reference|color" />
 

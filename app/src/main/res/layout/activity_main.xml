@@ -16,7 +16,6 @@
             android:layout_height="@dimen/dp_100"
             android:layout_marginBottom="@dimen/dp_020"
             android:contentDescription="picture"
-            android:scaleType="centerCrop"
             app:layout_constraintBottom_toTopOf="@id/main_btn_select"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

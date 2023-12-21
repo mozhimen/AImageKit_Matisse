@@ -11,7 +11,7 @@ import com.mozhimen.basick.lintk.optin.OptInApiInit_ByLazy
 import com.mozhimen.imagek.matisse.R
 import com.mozhimen.imagek.matisse.commons.IAlbumBottomSheetListener
 import com.mozhimen.imagek.matisse.mos.Album
-import com.mozhimen.imagek.matisse.ui.fragments.AlbumSelectionBottomSheetDialogFragment
+import com.mozhimen.imagek.matisse.uis.fragments.AlbumSelectionBottomSheetDialogFragment
 
 @OptInApiInit_ByLazy
 @OptInApiCall_BindLifecycle

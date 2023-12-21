@@ -15,7 +15,7 @@ import com.mozhimen.imagek.matisse.cons.EMimeType
 import com.mozhimen.imagek.matisse.commons.ILoadStatusBarListener
 import com.mozhimen.imagek.matisse.commons.ILoadToolBarListener
 import com.mozhimen.imagek.matisse.commons.INoticeEventListener
-import com.mozhimen.imagek.matisse.ui.activities.MatisseActivity
+import com.mozhimen.imagek.matisse.uis.activities.MatisseActivity
 import java.io.File
 
 /**
@@ -26,7 +26,9 @@ import java.io.File
  * @param mimeTypes MIME type set to select.
  */
 class ImageKMatisseSelectionBuilder(
-    private val _imageKMatisse: ImageKMatisse, mimeTypes: Set<EMimeType>, mediaTypeExclusive: Boolean
+    private val _imageKMatisse: ImageKMatisse,
+    mimeTypes: Set<EMimeType>,
+    mediaTypeExclusive: Boolean
 ) {
     private val _selection: Selection = Selection.getCleanInstance()
 
@@ -55,6 +57,18 @@ class ImageKMatisseSelectionBuilder(
         this.apply { _selection.themeRes = themeRes }
 
     /**
+     * Set the desired orientation of this activity.
+     * 设置此活动所需的方向。
+     * 强制屏幕方向
+     * @param orientation An orientation constant as used in [AScreenOrientation].
+     * Default value is [android.content.pm.ActivityInfo.SCREEN_ORIENTATION_PORTRAIT].
+     * @return [ImageKMatisseSelectionBuilder] for fluent API.
+     * @see Activity.setRequestedOrientation
+     */
+    fun setOrientation(@AScreenOrientation orientation: Int): ImageKMatisseSelectionBuilder =
+        this.apply { _selection.orientation = orientation }
+
+    /**
      * Show a auto-increased number or a check mark when user select media.
      * 设置选中计数方式
      * @param countable true for a auto-increased number from 1, false for a check mark. Default
@@ -79,10 +93,10 @@ class ImageKMatisseSelectionBuilder(
         this.apply {
             if (!_selection.mediaTypeExclusive) return this
             require(maxSelectable >= 1) { "maxSelectable must be greater than or equal to one" }
-            check(!(_selection.maxImageSelectable > 0 || _selection.maxVideoSelectable > 0)) {
+            check(!(_selection.imageMaxSelectable > 0 || _selection.videoMaxSelectable > 0)) {
                 "already set maxImageSelectable and maxVideoSelectable"
             }
-            _selection.maxSelectable = maxSelectable
+            _selection.mediaMaxSelectable = maxSelectable
         }
 
     /**
@@ -99,114 +113,9 @@ class ImageKMatisseSelectionBuilder(
             require(!(maxImageSelectable < 1 || maxVideoSelectable < 1)) {
                 "mediaTypeExclusive must be false and max selectable must be greater than or equal to one"
             }
-            _selection.maxSelectable = -1
-            _selection.maxImageSelectable = maxImageSelectable
-            _selection.maxVideoSelectable = maxVideoSelectable
-        }
-
-    /**
-     * Add filter to filter each selecting item.
-     *
-     * @param mediaFilter [BaseMediaFilter]
-     * @return [ImageKMatisseSelectionBuilder] for fluent API.
-     */
-    fun addMediaFilter(mediaFilter: BaseMediaFilter): ImageKMatisseSelectionBuilder =
-        this.apply {
-            if (_selection.mediaFilters == null) _selection.mediaFilters = mutableListOf()
-            _selection.mediaFilters?.add(mediaFilter)
-        }
-
-    /////////////////////////////////////////////////////////////////////////////////
-
-    /**
-     * Determines whether the photo capturing is enabled or not on the media grid view.
-     * If this value is set true, photo capturing entry will appear only on All Media's page.
-     * 是否开启内部拍摄
-     * @param enable Whether to enable capturing or not. Default value is false;
-     * @return [ImageKMatisseSelectionBuilder] for fluent API.
-     */
-    fun setIsCapture(enable: Boolean): ImageKMatisseSelectionBuilder =
-        this.apply { _selection.capture = enable }
-
-    /**
-     * Show a original photo check options.Let users decide whether use original photo after select
-     * 显示原始照片检查选项。让用户选择后决定是否使用原图
-     * @param enable Whether to enable original photo or not
-     * @return [ImageKMatisseSelectionBuilder] for fluent API.
-     */
-    fun setOriginalCheckEnable(enable: Boolean): ImageKMatisseSelectionBuilder =
-        this.apply { _selection.originalable = enable }
-
-    /**
-     * Maximum original size,the unit is MB. Only useful when {link@originalEnable} set true
-     * 最大原始大小，单位为MB。仅当flink@originalEnable)设置为true时有效
-     * @param size Maximum original size. Default value is Integer.MAX_VALUE
-     * @return [ImageKMatisseSelectionBuilder] for fluent API.
-     */
-    fun setOriginalMaxSize(size: Int): ImageKMatisseSelectionBuilder =
-        this.apply { _selection.originalMaxSize = size }
-
-    /**
-     * 为保存照片的位置提供捕获策略，包括内部和外部存储，以及[androidx.core.content.FileProvider]的权限。
-     * Capture strategy provided for the location to save photos including internal and external
-     * storage and also a authority for [androidx.core.content.FileProvider].
-     * 拍照设置Strategy
-     * @param captureStrategy [CaptureStrategy], needed only when capturing is enabled.
-     * @return [ImageKMatisseSelectionBuilder] for fluent API.
-     */
-    fun setCaptureStrategy(captureStrategy: MediaStoreCaptureProxy.CaptureStrategy): ImageKMatisseSelectionBuilder =
-        this.apply { _selection.captureStrategy = captureStrategy }
-
-    /////////////////////////////////////////////////////////////////////////////////
-
-    /**
-     * Set the desired orientation of this activity.
-     * 设置此活动所需的方向。
-     * 强制屏幕方向
-     * @param orientation An orientation constant as used in [AScreenOrientation].
-     * Default value is [android.content.pm.ActivityInfo.SCREEN_ORIENTATION_PORTRAIT].
-     * @return [ImageKMatisseSelectionBuilder] for fluent API.
-     * @see Activity.setRequestedOrientation
-     */
-    fun setOrientation(@AScreenOrientation orientation: Int): ImageKMatisseSelectionBuilder =
-        this.apply { _selection.orientation = orientation }
-
-    /**
-     * Set a fixed span count for the media grid. Same for different screen orientations.
-     * This will be ignored when [.gridExpectedSize] is set.
-     * [get gridExpectedSize first]
-     * 为媒体网格设置一个固定的跨度计数。对于不同的屏幕方向也是一样。
-     * @param spanCount Requested span count.
-     * @return [ImageKMatisseSelectionBuilder] for fluent API.
-     */
-    fun setSpanCount(spanCount: Int): ImageKMatisseSelectionBuilder =
-        this.apply {
-            if (_selection.gridExpectedSize > 0) return this
-            _selection.spanCount = spanCount
-        }
-
-    /**
-     * Set expected size for media grid to adapt to different screen sizes. This won't necessarily
-     * be applied cause the media grid should fill the view container. The measured media grid's
-     * size will be as close to this value as possible.
-     * 设置媒体网格的预期大小，以适应不同的屏幕尺寸。这并不一定会被应用，因为媒体网格应该填充视图容器。被测量的媒体网格的大小将尽可能接近这个值。
-     *
-     * @param sizePx Expected media grid size in pixel.
-     * @return [ImageKMatisseSelectionBuilder] for fluent API.
-     */
-    fun setExpectedGridSize(sizePx: Int): ImageKMatisseSelectionBuilder =
-        this.apply { _selection.gridExpectedSize = sizePx }
-
-    /**
-     * Photo thumbnail's scale compared to the View's size. It should be a float value in (0.0,1.0].
-     * 图片显示压缩比
-     * @param scale Thumbnail's scale in (0.0, 1.0]. Default value is 0.5.
-     * @return [ImageKMatisseSelectionBuilder] for fluent API.
-     */
-    fun setThumbnailScale(scale: Float): ImageKMatisseSelectionBuilder =
-        this.apply {
-            require(!(scale <= 0f || scale > 1f)) { "Thumbnail scale must be between (0.0, 1.0]" }
-            _selection.thumbnailScale = scale
+            _selection.mediaMaxSelectable = -1
+            _selection.imageMaxSelectable = maxImageSelectable
+            _selection.videoMaxSelectable = maxVideoSelectable
         }
 
     /**
@@ -222,50 +131,6 @@ class ImageKMatisseSelectionBuilder(
             _selection.imageEngine = imageEngine
             _selection.imageEngine?.init(_imageKMatisse.activity?.applicationContext!!)
         }
-
-    /**
-     * 设置开启裁剪
-     * Whether to support crop
-     * If this value is set true, it will support function crop.
-     * @param crop Whether to support crop or not. Default value is false;
-     * @return [ImageKMatisseSelectionBuilder] for fluent API.
-     */
-    fun setIsCrop(crop: Boolean): ImageKMatisseSelectionBuilder =
-        this.apply { _selection.isCrop = crop }
-
-    /**
-     * isCircleCrop
-     * default is RECTANGLE CROP
-     */
-    fun setIsCircleCrop(isCircle: Boolean): ImageKMatisseSelectionBuilder =
-        this.apply { _selection.isCircleCrop = isCircle }
-
-    /**
-     * provide file to save image after crop
-     */
-    fun setCropCacheFolder(cropCacheFolder: File): ImageKMatisseSelectionBuilder =
-        this.apply { _selection.cropCacheFolder = cropCacheFolder }
-
-    /**
-     * Set listener for callback immediately when user select or unselect something.
-     *
-     * It's a redundant API with [ImageKMatisse.obtainResult],
-     * we only suggest you to use this API when you need to do something immediately.
-     *
-     * @param listener [IMediaSelectedListener]
-     * @return [ImageKMatisseSelectionBuilder] for fluent API.
-     */
-    fun setOnSelectedListener(listener: IMediaSelectedListener?): ImageKMatisseSelectionBuilder =
-        this.apply { _selection.onSelectedListener = listener }
-
-    /**
-     * Set listener for callback immediately when user check or uncheck original.
-     *
-     * @param listener [IMediaSelectedListener]
-     * @return [ImageKMatisseSelectionBuilder] for fluent API.
-     */
-    fun setOnCheckedListener(listener: IMediaCheckedListener?): ImageKMatisseSelectionBuilder =
-        this.apply { _selection.onCheckedListener = listener }
 
     /**
      * set notice type for matisse
@@ -291,8 +156,156 @@ class ImageKMatisseSelectionBuilder(
      * 预选中上次带回的图片
      * 注：暂时无法保持预选中图片的顺序
      */
-    fun setLastChoosePicturesIdOrUri(list: ArrayList<String>?): ImageKMatisseSelectionBuilder =
-        this.apply { _selection.lastChoosePictureIdsOrUris = list }
+    fun setLastChooseMediaIdsOrUris(list: ArrayList<String>?): ImageKMatisseSelectionBuilder =
+        this.apply { _selection.lastChooseMediaIdsOrUris = list }
+
+    /////////////////////////////////////////////////////////////////////////////////
+
+    /**
+     * Add filter to filter each selecting item.
+     *
+     * @param mediaFilter [BaseMediaFilter]
+     * @return [ImageKMatisseSelectionBuilder] for fluent API.
+     */
+    fun addMediaFilter(mediaFilter: BaseMediaFilter): ImageKMatisseSelectionBuilder =
+        this.apply {
+            if (_selection.mediaFilters == null) _selection.mediaFilters = mutableListOf()
+            _selection.mediaFilters?.add(mediaFilter)
+        }
+
+    /**
+     * Determines whether the photo capturing is enabled or not on the media grid view.
+     * If this value is set true, photo capturing entry will appear only on All Media's page.
+     * 是否开启内部拍摄
+     * @param enable Whether to enable capturing or not. Default value is false;
+     * @return [ImageKMatisseSelectionBuilder] for fluent API.
+     */
+    fun setMediaCaptureEnable(enable: Boolean): ImageKMatisseSelectionBuilder =
+        this.apply { _selection.mediaCaptureEnable = enable }
+
+    /**
+     * 为保存照片的位置提供捕获策略，包括内部和外部存储，以及[androidx.core.content.FileProvider]的权限。
+     * Capture strategy provided for the location to save photos including internal and external
+     * storage and also a authority for [androidx.core.content.FileProvider].
+     * 拍照设置Strategy
+     * @param captureStrategy [CaptureStrategy], needed only when capturing is enabled.
+     * @return [ImageKMatisseSelectionBuilder] for fluent API.
+     */
+    fun setMediaCaptureStrategy(captureStrategy: MediaStoreCaptureProxy.CaptureStrategy): ImageKMatisseSelectionBuilder =
+        this.apply { _selection.mediaCaptureStrategy = captureStrategy }
+
+    /**
+     * Set listener for callback immediately when user select or unselect something.
+     *
+     * It's a redundant API with [ImageKMatisse.obtainResult],
+     * we only suggest you to use this API when you need to do something immediately.
+     *
+     * @param listener [IMediaSelectedListener]
+     * @return [ImageKMatisseSelectionBuilder] for fluent API.
+     */
+    fun setMediaSelectedListener(listener: IMediaSelectedListener?): ImageKMatisseSelectionBuilder =
+        this.apply { _selection.mediaSelectedListener = listener }
+
+    /**
+     * Set listener for callback immediately when user check or uncheck original.
+     *
+     * @param listener [IMediaSelectedListener]
+     * @return [ImageKMatisseSelectionBuilder] for fluent API.
+     */
+    fun setMediaCheckedListener(listener: IMediaCheckedListener?): ImageKMatisseSelectionBuilder =
+        this.apply { _selection.mediaCheckedListener = listener }
+
+    /**
+     * Show a original photo check options.Let users decide whether use original photo after select
+     * 显示原始照片检查选项。让用户选择后决定是否使用原图
+     * @param enable Whether to enable original photo or not
+     * @return [ImageKMatisseSelectionBuilder] for fluent API.
+     */
+    fun setImageOriginalEnable(enable: Boolean): ImageKMatisseSelectionBuilder =
+        this.apply { _selection.imageOriginalEnable = enable }
+
+    /**
+     * Maximum original size,the unit is MB. Only useful when {link@originalEnable} set true
+     * 最大原始大小，单位为MB。仅当flink@originalEnable)设置为true时有效
+     * @param size Maximum original size. Default value is Integer.MAX_VALUE
+     * @return [ImageKMatisseSelectionBuilder] for fluent API.
+     */
+    fun setImageOriginalMaxSize(size: Int): ImageKMatisseSelectionBuilder =
+        this.apply { _selection.imageOriginalMaxSize = size }
+
+    /**
+     * Photo thumbnail's scale compared to the View's size. It should be a float value in (0.0,1.0].
+     * 图片显示压缩比
+     * @param scale Thumbnail's scale in (0.0, 1.0]. Default value is 0.5.
+     * @return [ImageKMatisseSelectionBuilder] for fluent API.
+     */
+    fun setImageThumbnailScale(scale: Float): ImageKMatisseSelectionBuilder =
+        this.apply {
+            require(!(scale <= 0f || scale > 1f)) { "Thumbnail scale must be between (0.0, 1.0]" }
+            _selection.imageThumbnailScale = scale
+        }
+
+    /**
+     * 设置开启裁剪
+     * Whether to support crop
+     * If this value is set true, it will support function crop.
+     * @param enable Whether to support crop or not. Default value is false;
+     * @return [ImageKMatisseSelectionBuilder] for fluent API.
+     */
+    fun setImageCropEnable(enable: Boolean): ImageKMatisseSelectionBuilder =
+        this.apply { _selection.imageCropEnable = enable }
+
+    /**
+     * isCircleCrop
+     * default is RECTANGLE CROP
+     */
+    fun setImageCropFrameIsCircle(enable: Boolean): ImageKMatisseSelectionBuilder =
+        this.apply { _selection.imageCropFrameIsCircle = enable }
+
+    fun setImageCropFrameCanDrag(enable: Boolean): ImageKMatisseSelectionBuilder =
+        this.apply { _selection.imageCropFrameCanDrag = enable }
+
+    fun setImageCropFrameCanAutoSize(enable: Boolean): ImageKMatisseSelectionBuilder =
+        this.apply { _selection.imageCropFrameCanAutoSize = enable }
+
+    fun setImageCropFrameRectVisible(enable: Boolean): ImageKMatisseSelectionBuilder =
+        this.apply { _selection.imageCropFrameRectVisible = enable }
+
+    /**
+     * provide file to save image after crop
+     */
+    fun setImageCropCacheFolder(cropCacheFolder: File): ImageKMatisseSelectionBuilder =
+        this.apply { _selection.imageCropCacheFolder = cropCacheFolder }
+
+    ///////////////////////////////////////////////////////
+
+    /**
+     * Set a fixed span count for the media grid. Same for different screen orientations.
+     * This will be ignored when [.gridExpectedSize] is set.
+     * [get gridExpectedSize first]
+     * 为媒体网格设置一个固定的跨度计数。对于不同的屏幕方向也是一样。
+     * @param spanCount Requested span count.
+     * @return [ImageKMatisseSelectionBuilder] for fluent API.
+     */
+    fun setGridSpanCount(spanCount: Int): ImageKMatisseSelectionBuilder =
+        this.apply {
+            if (_selection.gridExpectedSize > 0) return this
+            _selection.gridSpanCount = spanCount
+        }
+
+    /**
+     * Set expected size for media grid to adapt to different screen sizes. This won't necessarily
+     * be applied cause the media grid should fill the view container. The measured media grid's
+     * size will be as close to this value as possible.
+     * 设置媒体网格的预期大小，以适应不同的屏幕尺寸。这并不一定会被应用，因为媒体网格应该填充视图容器。被测量的媒体网格的大小将尽可能接近这个值。
+     *
+     * @param sizePx Expected media grid size in pixel.
+     * @return [ImageKMatisseSelectionBuilder] for fluent API.
+     */
+    fun setGridExpectedSize(sizePx: Int): ImageKMatisseSelectionBuilder =
+        this.apply { _selection.gridExpectedSize = sizePx }
+
+    /////////////////////////////////////////////////////////////////////////////////
 
     /**
      * Start to select media and wait for result.

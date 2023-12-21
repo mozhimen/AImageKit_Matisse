@@ -7,19 +7,16 @@
 
     <application>
         <activity
-            android:name=".ui.activities.MediaPreviewActivity"
+            android:name=".uis.activities.MediaSelectionPreviewActivity"
             android:launchMode="singleTask" />
         <activity
-            android:name=".ui.activities.AlbumPreviewActivity"
+            android:name=".uis.activities.AlbumPreviewActivity"
             android:launchMode="singleTask" />
         <activity
-            android:name=".ui.activities.MatisseActivity"
+            android:name=".uis.activities.MatisseActivity"
             android:launchMode="singleTask" />
         <activity
-            android:name=".ucrop.uis.UCropActivity"
-            android:launchMode="singleTask" />
-        <activity
-            android:name=".ucrop.uis.PictureMultiCuttingActivity"
+            android:name=".uis.activities.UCropActivity"
             android:launchMode="singleTask" />
     </application>
 </manifest>

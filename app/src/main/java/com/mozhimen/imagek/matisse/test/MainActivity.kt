@@ -56,7 +56,7 @@ class MainActivity : BaseActivityVB<ActivityMainBinding>() {
         uriList?.ifNotEmpty {
             _imagePathName = it[0].uri2strFilePathName()
             if (!_imagePathName.isNullOrEmpty()) {
-                com.mozhimen.basick.imagek.glide.ImageKGlide.loadImageCircleGlide(vb.mainImg,_imagePathName, com.mozhimen.uicorek.R.color.cok_gray_4c4c4c,com.mozhimen.uicorek.R.color.cok_gray_4c4c4c)
+                com.mozhimen.basick.imagek.glide.ImageKGlide.loadImageCircleGlide(vb.mainImg,_imagePathName, com.mozhimen.uicorek.R.color.cok_white,com.mozhimen.uicorek.R.color.cok_white)
             }
         }
     }
@@ -66,19 +66,23 @@ class MainActivity : BaseActivityVB<ActivityMainBinding>() {
             ImageKMatisse.from(this)
                 .select(MediaMimeTypeHelper.ofImage())
                 .setThemeRes(com.mozhimen.imagek.matisse.R.style.ImageKMatisse_Default)
+                .setOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT)
                 .setCountable(false)
                 .setMaxSelectable(1)
-                .setIsCapture(false)
-                .setCaptureStrategy(MediaStoreCaptureProxy.CaptureStrategy(true, "${UtilKPackage.getPackageName()}.provider"))
-                .setOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT)
-                .setSpanCount(3)
-                .setThumbnailScale(0.8f)
-                .setImageEngine(GlideImageEngine())
-                .setIsCrop(true)
-                .setIsCircleCrop(true)
+                .setMediaCaptureEnable(false)
+                .setMediaCaptureStrategy(MediaStoreCaptureProxy.CaptureStrategy(true, "${UtilKPackage.getPackageName()}.provider"))
                 .setOnLoadStatusBarListener { activity ->
                     activity.initAdaptKSystemBar(CPropertyOr.NORMAL or CPropertyOr.THEME_DARK or CPropertyOr.THEME_CUSTOM)
                 }
+                .setImageThumbnailScale(0.8f)
+                .setImageEngine(GlideImageEngine())
+                .setImageCropEnable(true)
+                .setImageCropFrameIsCircle(true)
+                .setImageCropFrameRectVisible(false)
+                .setImageCropFrameCanDrag(true)
+                .setImageCropFrameCanAutoSize(false)
+                .setGridSpanCount(3)
+
 /*                .setStatusBarFuture { params, view ->
                     // 外部设置状态栏
                     ImmersionBar.with(params)?.run {

@@ -1,6 +1,6 @@
 package com.mozhimen.imagek.matisse.cons
 
-import com.mozhimen.imagek.matisse.ucrop.UCrop
+import com.mozhimen.imagek.ucrop.UCrop
 
 object CImageKMatisse {
     const val EXTRA_RESULT_SELECTION = "extra_result_selection"

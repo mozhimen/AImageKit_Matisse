@@ -23,16 +23,13 @@ class CheckRadioView : AppCompatImageView {
     }
 
     private fun init() {
-        val ta: TypedArray = context?.theme?.obtainStyledAttributes(intArrayOf(R.attr.ItemCheckView_Theme)) ?: return
-        val selectedColor = ta.getColor(
-            0, ResourcesCompat.getColor(
-                resources, R.color.matisse_selector_color_text_base, context.theme
-            )
+        val typedArray: TypedArray = context?.theme?.obtainStyledAttributes(intArrayOf(R.attr.ItemCheckRadioView_Theme)) ?: return
+        val selectedColor =
+            typedArray.getColor(0, ResourcesCompat.getColor(resources, R.color.matisse_selector_color_text_gray, context.theme)
         )
-        val unSelectUdColor = ResourcesCompat.getColor(
-            resources, com.mozhimen.uicorek.R.color.cok_gray_808080, context.theme
-        )
-        ta.recycle()
+        val unSelectUdColor =
+            ResourcesCompat.getColor(resources, com.mozhimen.uicorek.R.color.cok_gray_808080, context.theme)
+        typedArray.recycle()
 
         selectedColorFilter = PorterDuffColorFilter(selectedColor, PorterDuff.Mode.SRC_IN)
         unSelectUdColorFilter = PorterDuffColorFilter(unSelectUdColor, PorterDuff.Mode.SRC_IN)

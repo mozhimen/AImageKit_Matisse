@@ -128,12 +128,12 @@ class MediaSelectionProxy(private var _context: Context) {
     fun maxSelectableReached(item: Media?): Boolean {
         if (!spec.isMediaTypeExclusive()) {
             if (item?.isImage() == true) {
-                return spec.maxImageSelectable == imageItems?.size
+                return spec.imageMaxSelectable == imageItems?.size
             } else if (item?.isVideo() == true) {
-                return spec.maxVideoSelectable == videoItems?.size
+                return spec.videoMaxSelectable == videoItems?.size
             }
         }
-        return spec.maxSelectable == _items.size
+        return spec.mediaMaxSelectable == _items.size
     }
 
     fun getCollectionType() = collectionType
@@ -238,13 +238,13 @@ class MediaSelectionProxy(private var _context: Context) {
     private fun currentMaxSelectable(item: Media?): Int {
         if (!spec.isMediaTypeExclusive()) {
             if (item?.isImage() == true) {
-                return spec.maxImageSelectable
+                return spec.imageMaxSelectable
             } else if (item?.isVideo() == true) {
-                return spec.maxVideoSelectable
+                return spec.videoMaxSelectable
             }
         }
 
-        return spec.maxSelectable
+        return spec.mediaMaxSelectable
     }
 
     /**

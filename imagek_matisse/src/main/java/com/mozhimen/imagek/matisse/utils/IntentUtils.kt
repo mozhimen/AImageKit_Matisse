@@ -10,7 +10,8 @@ import com.mozhimen.imagek.matisse.cons.CImageKMatisse
 import com.mozhimen.imagek.matisse.mos.Media
 import com.mozhimen.imagek.matisse.mos.Selection
 import com.mozhimen.imagek.matisse.helpers.MediaSelectionProxy
-import com.mozhimen.imagek.matisse.ucrop.UCrop
+import com.mozhimen.imagek.matisse.uis.activities.UCropActivity
+import com.mozhimen.imagek.ucrop.UCrop
 import java.io.File
 
 /**
@@ -34,12 +35,12 @@ fun startCrop(activity: Activity, originalPath: Uri) {
     val selection = Selection.getInstance()
 
     val options = UCrop.Options()
-        .setCircleDimmedLayer(selection.isCircleCrop)
-        .setDragFrameEnabled(true)
+        .setCircleDimmedLayer(selection.imageCropFrameIsCircle)
+        .setDragFrameEnabled(selection.imageCropFrameCanAutoSize)
+        .setShowCropFrame(selection.imageCropFrameRectVisible)
+        .setShowCropGrid(!selection.imageCropFrameIsCircle)
         .setCompressionQuality(50)
-        .setFreeStyleCropEnabled(true)
-        .setShowCropFrame(true)
-        .setShowCropGrid(!selection.isCircleCrop)
+        .setFreeStyleCropEnabled(selection.imageCropFrameCanAutoSize)
 
     val isAndroidQ = UtilKBuildVersion.isAfterV_29_10_Q()
     val imgType = if (isAndroidQ)
@@ -55,7 +56,7 @@ fun startCrop(activity: Activity, originalPath: Uri) {
     UCrop.of(originalPath, Uri.fromFile(file))
         .withAspectRatio(1f, 1f)
         .withOptions(options)
-        .start(activity)
+        .start(activity, UCropActivity::class.java)
 }
 
 /**

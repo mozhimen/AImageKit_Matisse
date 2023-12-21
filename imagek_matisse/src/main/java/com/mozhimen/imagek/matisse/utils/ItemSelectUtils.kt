@@ -13,7 +13,7 @@ fun countOverMaxSize(selectedCollection: MediaSelectionProxy): Int {
     var count = 0
     selectedCollection.asList().filter { it.isImage() }.forEach {
         val size = PhotoMetadataUtils.getSizeInMB(it.size)
-        if (size > Selection.getInstance().originalMaxSize) count++
+        if (size > Selection.getInstance().imageOriginalMaxSize) count++
     }
     return count
 }

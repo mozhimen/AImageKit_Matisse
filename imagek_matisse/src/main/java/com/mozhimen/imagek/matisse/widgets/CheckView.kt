@@ -62,7 +62,7 @@ class CheckView : View {
         val ta: TypedArray =
             context.theme.obtainStyledAttributes(intArrayOf(R.attr.ItemCheckView_BorderColor))
         val defaultColor = ResourcesCompat.getColor(
-            context.resources, R.color.color_item_checkCircle_borderColor, context.theme
+            context.resources, R.color.matisse_selector_color_text_white, context.theme
         )
         val color = ta.getColor(0, defaultColor)
         ta.recycle()
@@ -193,13 +193,12 @@ class CheckView : View {
             backgroundPaint = Paint()
             backgroundPaint?.isAntiAlias = true
             backgroundPaint?.style = Paint.Style.FILL
-            val ta: TypedArray =
+            val typedArray: TypedArray =
                 context.theme.obtainStyledAttributes(intArrayOf(R.attr.ItemCheckView_BackgroundColor))
-            val defaultColor = ResourcesCompat.getColor(
-                context.resources, R.color.matisse_selector_color_text_base, context.theme
-            )
-            val color = ta.getColor(0, defaultColor)
-            ta.recycle()
+            val defaultColor =
+                ResourcesCompat.getColor(context.resources, R.color.matisse_selector_color_text_gray, context.theme)
+            val color = typedArray.getColor(0, defaultColor)
+            typedArray.recycle()
             backgroundPaint?.color = color
         }
     }

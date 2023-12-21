@@ -23,17 +23,17 @@
         <item name="Navigation_TextBack">@string/button_null</item>
         <item name="Navigation_TextColorBack">@color/color_black</item>
         <item name="Navigation_TextSizeBack">@dimen/size_text_back</item>
-        <item name="Navigation_TextStyleBack">0</item>
+        <item name="Navigation_TextStyleBack">normal</item>
 
         <item name="Navigation_TextTitle">@string/button_preview</item>
         <item name="Navigation_TextColorTitle">@color/color_black</item>
         <item name="Navigation_TextSizeTitle">@dimen/size_text_title</item>
-        <item name="Navigation_TextStyleTitle">1</item>
+        <item name="Navigation_TextStyleTitle">bold</item>
 
         <item name="Navigation_TextSure">@string/button_sure</item>
         <item name="Navigation_TextColorSure">@color/color_black</item>
         <item name="Navigation_TextSizeSure">@dimen/size_text_sure</item>
-        <item name="Navigation_TextStyleSure">0</item>
+        <item name="Navigation_TextStyleSure">normal</item>
 
         <!--//////////////////////////////////////////////////////////////////////-->
         <!--Preview-->
@@ -73,13 +73,16 @@
         <!--Item-->
         <!--//////////////////////////////////////////////////////////////////////-->
 
-        <item name="ItemPhoto_TextColor">@color/color_text_camera</item>
-        <item name="ItemPhoto_TextSize">@dimen/size_text_camera</item>
+        <item name="ItemPhoto_TextColor">@color/color_item_text_photo</item>
+        <item name="ItemPhoto_TextSize">@dimen/size_item_text_photo</item>
+
         <item name="ItemAlbum_TextColor">@color/color_item_text_album</item>
-        <item name="ItemAlbum_TextSize">@dimen/size_text_item_album</item>
-        <item name="ItemCheckView_BackgroundColor">@color/matisse_selector_color_text_base</item>
-        <item name="ItemCheckView_BorderColor">@color/color_item_checkCircle_borderColor</item>
-        <item name="ItemCheckView_Theme">@color/matisse_selector_color_text_base</item>
+        <item name="ItemAlbum_TextSize">@dimen/size_item_text_album</item>
+
+        <item name="ItemCheckView_BackgroundColor">@color/matisse_selector_color_text_gray</item>
+        <item name="ItemCheckView_BorderColor">@color/matisse_selector_color_text_white</item>
+
+        <item name="ItemCheckRadioView_Theme">@color/matisse_selector_color_text_gray</item>
 
         <!--图片加载占位图-->
         <!--<item name="Item_placeholder">@drawable/zhihu_item_placeholder</item>-->

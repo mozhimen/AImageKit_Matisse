@@ -3,7 +3,7 @@ package com.mozhimen.imagek.matisse.helpers
 import android.os.Bundle
 import com.mozhimen.imagek.matisse.commons.IAlbumLoadListener
 import com.mozhimen.imagek.matisse.helpers.loader.AlbumLoadCursorLoaderCallbacks
-import com.mozhimen.imagek.matisse.ui.activities.MatisseActivity
+import com.mozhimen.imagek.matisse.uis.activities.MatisseActivity
 
 class AlbumLoadProxy(private var _matisseActivity: MatisseActivity, private var _albumLoadListener: IAlbumLoadListener) {
 

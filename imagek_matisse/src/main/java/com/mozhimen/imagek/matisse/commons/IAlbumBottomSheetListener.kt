@@ -1,7 +1,7 @@
 package com.mozhimen.imagek.matisse.commons
 
 import com.mozhimen.imagek.matisse.mos.Album
-import com.mozhimen.imagek.matisse.ui.adapters.AlbumSelectionAdapter
+import com.mozhimen.imagek.matisse.uis.adapters.AlbumSelectionAdapter
 
 /**
  * @ClassName IFolderBottomSheetListener
