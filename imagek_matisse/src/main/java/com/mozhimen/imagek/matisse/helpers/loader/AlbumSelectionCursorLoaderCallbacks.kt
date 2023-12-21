@@ -13,7 +13,7 @@ import java.lang.ref.WeakReference
 class AlbumSelectionCursorLoaderCallbacks : LoaderManager.LoaderCallbacks<Cursor> {
 
     companion object {
-        const val LOADER_ID = 2
+//        const val LOADER_ID = 2
 
         const val ARGS_ALBUM = "args_album"
         const val ARGS_ENABLE_CAPTURE = "args_enable_capture"
@@ -21,6 +21,7 @@ class AlbumSelectionCursorLoaderCallbacks : LoaderManager.LoaderCallbacks<Cursor
 
     //////////////////////////////////////////////////////////
 
+    private var _loaderId = 2
     private var _contextRef: WeakReference<Context>? = null
     private var _loaderManager: LoaderManager? = null
     private var _albumLoadListener: IAlbumLoadListener? = null
@@ -52,19 +53,20 @@ class AlbumSelectionCursorLoaderCallbacks : LoaderManager.LoaderCallbacks<Cursor
     }
 
     fun onDestroy() {
-        _loaderManager?.destroyLoader(LOADER_ID)
-        if (_albumLoadListener != null) _albumLoadListener = null
+        _loaderManager?.destroyLoader(_loaderId)
+        if (_albumLoadListener != null)
+            _albumLoadListener = null
     }
 
-    fun load(target: Album) {
-        load(target, false)
+    fun loadAlbum(album: Album) {
+        loadAlbum(album, false)
     }
 
-    fun load(album: Album, enableCapture: Boolean) {
+    fun loadAlbum(album: Album, enableCapture: Boolean) {
         val args = Bundle().apply {
             putParcelable(ARGS_ALBUM, album)
             putBoolean(ARGS_ENABLE_CAPTURE, enableCapture)
         }
-        _loaderManager?.initLoader(LOADER_ID, args, this)
+        _loaderManager?.initLoader(album.getId().toInt().also { _loaderId = it }, args, this)
     }
 }

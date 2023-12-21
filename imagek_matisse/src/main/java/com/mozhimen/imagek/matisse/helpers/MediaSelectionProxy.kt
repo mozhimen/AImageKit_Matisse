@@ -66,11 +66,12 @@ class MediaSelectionProxy(private var _context: Context) {
         outState?.putInt(STATE_COLLECTION_TYPE, collectionType)
     }
 
-    fun getDataWithBundle() = Bundle().run {
-        putParcelableArrayList(STATE_SELECTION, ArrayList(_items))
-        putInt(STATE_COLLECTION_TYPE, collectionType)
-        this
-    }
+    fun getDataWithBundle(): Bundle =
+        Bundle().run {
+            putParcelableArrayList(STATE_SELECTION, ArrayList(_items))
+            putInt(STATE_COLLECTION_TYPE, collectionType)
+            this
+        }
 
     fun setDefaultSelection(uris: List<Media>) {
         _items.addAll(uris)

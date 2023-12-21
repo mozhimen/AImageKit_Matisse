@@ -63,11 +63,13 @@ class MediaSelectionAdapter(
                 val v = _layoutInflater.inflate(R.layout.item_media_capture_photo, parent, false)
                 CaptureViewHolder(v).run {
                     itemView.setOnClickListener {
-                        if (it.context is IMediaPhotoCapture) (it.context as IMediaPhotoCapture).onCapture()
+                        if (it.context is IMediaPhotoCapture)
+                            (it.context as IMediaPhotoCapture).onCapture()
                     }
                     this
                 }
             }
+
             else -> {
                 val v = _layoutInflater.inflate(R.layout.item_media_grid, parent, false)
                 MediaViewHolder(v)
@@ -80,6 +82,7 @@ class MediaSelectionAdapter(
             when (this) {
                 is CaptureViewHolder ->
                     setTextDrawable(itemView.context, hint, R.attr.ItemPhoto_TextColor)
+
                 is MediaViewHolder -> {
                     val item = Media.valueOf(cursor, position)
                     mediaGrid.preBindMedia(

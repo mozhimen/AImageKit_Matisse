@@ -324,7 +324,7 @@ class MatisseActivity : BaseActivity(),
                     AlbumSelectionFragment::class.java.simpleName
                 )
                 if (albumSelectionFragment is AlbumSelectionFragment) {
-                    albumSelectionFragment.refreshMediaGrid()
+                    albumSelectionFragment.refreshSelectionAdapter()
                 }
                 updateBottomToolbar()
             }

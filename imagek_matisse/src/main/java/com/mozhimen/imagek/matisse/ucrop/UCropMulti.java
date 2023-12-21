@@ -34,10 +34,10 @@ import java.util.Locale;
  */
 public class UCropMulti {
 
+    private static final String EXTRA_PREFIX = "com.mozhimen.imagek.matisse";
+
     public static final int REQUEST_MULTI_CROP = 609;
     public static final int RESULT_ERROR = 96;
-
-    private static final String EXTRA_PREFIX = "cn.niucoo.niucoapp";
 
     public static final String EXTRA_INPUT_URI = EXTRA_PREFIX + ".InputUri";
     public static final String EXTRA_OUTPUT_URI = EXTRA_PREFIX + ".OutputUri";

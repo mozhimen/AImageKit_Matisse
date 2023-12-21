@@ -37,7 +37,6 @@ class AlbumSelectionCursorLoader(
             MediaStore.Files.FileColumns.MEDIA_TYPE_IMAGE.toString(),
             MediaStore.Files.FileColumns.MEDIA_TYPE_VIDEO.toString()
         )
-        // ===========================================================
 
         // === params for album ALL && showSingleMediaType: true ===
         private const val SELECTION_ALL_FOR_SINGLE_MEDIA_TYPE = (
@@ -60,14 +59,10 @@ class AlbumSelectionCursorLoader(
             )
         }
 
-        // ===============================================================
-
         // === params for ordinary album && showSingleMediaType: true ===
         private const val SELECTION_ALBUM_FOR_SINGLE_MEDIA_TYPE = (
                 MediaStore.Files.FileColumns.MEDIA_TYPE
                         + "=? AND bucket_id=? AND " + MediaStore.MediaColumns.SIZE + ">0")
-
-        // ===============================================================
 
         private const val ORDER_BY = MediaStore.Images.Media.DATE_TAKEN + " DESC"
 

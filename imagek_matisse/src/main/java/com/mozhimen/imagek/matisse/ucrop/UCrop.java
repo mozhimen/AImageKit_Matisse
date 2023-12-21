@@ -32,10 +32,12 @@ import java.util.Locale;
  */
 public class UCrop {
 
+    private static final String EXTRA_PREFIX = "com.mozhimen.imagek.matisse";
+
+    //////////////////////////////////////////////////////////////////////////////////////
+
     public static final int REQUEST_CROP = 69;
     public static final int RESULT_ERROR = 96;
-
-    private static final String EXTRA_PREFIX = "cn.niucoo.niucooapp";
 
     public static final String EXTRA_INPUT_URI = EXTRA_PREFIX + ".InputUri";
     public static final String EXTRA_OUTPUT_URI = EXTRA_PREFIX + ".OutputUri";
@@ -45,16 +47,14 @@ public class UCrop {
     public static final String EXTRA_OUTPUT_OFFSET_X = EXTRA_PREFIX + ".OffsetX";
     public static final String EXTRA_OUTPUT_OFFSET_Y = EXTRA_PREFIX + ".OffsetY";
     public static final String EXTRA_ERROR = EXTRA_PREFIX + ".Error";
-
     public static final String EXTRA_ASPECT_RATIO_X = EXTRA_PREFIX + ".AspectRatioX";
     public static final String EXTRA_ASPECT_RATIO_Y = EXTRA_PREFIX + ".AspectRatioY";
-
     public static final String EXTRA_MAX_SIZE_X = EXTRA_PREFIX + ".MaxSizeX";
     public static final String EXTRA_MAX_SIZE_Y = EXTRA_PREFIX + ".MaxSizeY";
-
     public static final String EXTRA_WINDOW_EXIT_ANIMATION = EXTRA_PREFIX + ".WindowAnimation";
-
     public static final String EXTRA_NAV_BAR_COLOR = EXTRA_PREFIX + ".navBarColor";
+
+    //////////////////////////////////////////////////////////////////////////////////////
 
     private Intent mCropIntent;
     private Bundle mCropOptionsBundle;
@@ -238,6 +238,8 @@ public class UCrop {
         return mCropIntent;
     }
 
+    //////////////////////////////////////////////////////////////////////////////////////
+
     /**
      * Class that helps to setup advanced configs that are not commonly used.
      * Use it with method {@link #withOptions(Options)}
@@ -292,7 +294,11 @@ public class UCrop {
 
         public static final String EXTRA_DRAG_CROP_FRAME = EXTRA_PREFIX + ".DragCropFrame";
 
+        //////////////////////////////////////////////////////////////////////////////////////
+
         private final Bundle mOptionBundle;
+
+        //////////////////////////////////////////////////////////////////////////////////////
 
         public Options() {
             mOptionBundle = new Bundle();
@@ -305,6 +311,7 @@ public class UCrop {
 
         /**
          * Set one of {@link Bitmap.CompressFormat} that will be used to save resulting Bitmap.
+         * 设置{@link Bitmap.CompressFormat}中的一个，用于保存生成的位图。
          */
         public Options setCompressionFormat(@NonNull Bitmap.CompressFormat format) {
             mOptionBundle.putString(EXTRA_COMPRESSION_FORMAT_NAME, format.name());
@@ -313,6 +320,7 @@ public class UCrop {
 
         /**
          * Set compression quality [0-100] that will be used to save resulting Bitmap.
+         * 设置压缩质量[0-100]，用于保存生成的位图。
          */
         public Options setCompressionQuality(@IntRange(from = 0) int compressQuality) {
             mOptionBundle.putInt(EXTRA_COMPRESSION_QUALITY, compressQuality);
@@ -321,6 +329,7 @@ public class UCrop {
 
         /**
          * Choose what set of gestures will be enabled on each tab - if any.
+         * 选择要在每个选项卡上启用的手势集-如果有的话。
          */
         public Options setAllowedGestures(@UCropActivity.GestureTypes int tabScale,
                                           @UCropActivity.GestureTypes int tabRotate,
@@ -331,7 +340,7 @@ public class UCrop {
 
         /**
          * This method sets multiplier that is used to calculate max image scale from min image scale.
-         *
+         * 该方法设置用于从最小图像尺度计算最大图像尺度的乘数。
          * @param maxScaleMultiplier - (minScale * maxScaleMultiplier) = maxScale
          */
         public Options setMaxScaleMultiplier(@FloatRange(from = 1.0, fromInclusive = false) float maxScaleMultiplier) {
@@ -341,7 +350,7 @@ public class UCrop {
 
         /**
          * This method sets animation duration for image to wrap the crop bounds
-         *
+         * 此方法设置图像环绕裁剪边界的动画持续时间
          * @param durationMillis - duration in milliseconds
          */
         public Options setImageToCropBoundsAnimDuration(@IntRange(from = 100) int durationMillis) {
@@ -351,7 +360,7 @@ public class UCrop {
 
         /**
          * Setter for max size for both width and height of bitmap that will be decoded from an input Uri and used in the view.
-         *
+         * 设置位图的宽度和高度的最大大小，将从输入Uri解码并在视图中使用
          * @param maxBitmapSize - size in pixels
          */
         public Options setMaxBitmapSize(@IntRange(from = 100) int maxBitmapSize) {
@@ -360,7 +369,7 @@ public class UCrop {
         }
 
         /**
-         * @param color - desired color of dimmed area around the crop bounds
+         * @param color - desired color of dimmed area around the crop bounds 作物边界周围暗淡区域的所需颜色
          */
         public Options setDimmedLayerColor(@ColorInt int color) {
             mOptionBundle.putInt(EXTRA_DIMMED_LAYER_COLOR, color);
@@ -368,7 +377,7 @@ public class UCrop {
         }
 
         /**
-         * @param isCircle - set it to true if you want dimmed layer to have an circle inside
+         * @param isCircle - set it to true if you want dimmed layer to have an circle inside 设置为true，如果你想暗层有一个圆圈在里面
          */
         public Options setCircleDimmedLayer(boolean isCircle) {
             mOptionBundle.putBoolean(EXTRA_CIRCLE_DIMMED_LAYER, isCircle);
@@ -376,7 +385,7 @@ public class UCrop {
         }
 
         /**
-         * @param show - set to true if you want to see a crop frame rectangle on top of an image
+         * @param show - set to true if you want to see a crop frame rectangle on top of an image 如果您想在图像顶部看到裁剪框矩形，请设置为true
          */
         public Options setShowCropFrame(boolean show) {
             mOptionBundle.putBoolean(EXTRA_SHOW_CROP_FRAME, show);
@@ -384,7 +393,7 @@ public class UCrop {
         }
 
         /**
-         * @param color - desired color of crop frame
+         * @param color - desired color of crop frame 裁切框所需颜色
          */
         public Options setCropFrameColor(@ColorInt int color) {
             mOptionBundle.putInt(EXTRA_CROP_FRAME_COLOR, color);
@@ -392,7 +401,7 @@ public class UCrop {
         }
 
         /**
-         * @param width - desired width of crop frame line in pixels
+         * @param width - desired width of crop frame line in pixels 裁切帧线的所需宽度(以像素为单位)
          */
         public Options setCropFrameStrokeWidth(@IntRange(from = 0) int width) {
             mOptionBundle.putInt(EXTRA_CROP_FRAME_STROKE_WIDTH, width);
@@ -400,7 +409,7 @@ public class UCrop {
         }
 
         /**
-         * @param show - set to true if you want to see a crop grid/guidelines on top of an image
+         * @param show - set to true if you want to see a crop grid/guidelines on top of an image 如果你想在图像的顶部看到裁剪网格/指导线，设置为true
          */
         public Options setShowCropGrid(boolean show) {
             mOptionBundle.putBoolean(EXTRA_SHOW_CROP_GRID, show);
@@ -416,7 +425,7 @@ public class UCrop {
         }
 
         /**
-         * @param count - crop grid rows count.
+         * @param count - crop grid rows count. -作物网格行计数。
          */
         public Options setCropGridRowCount(@IntRange(from = 0) int count) {
             mOptionBundle.putInt(EXTRA_CROP_GRID_ROW_COUNT, count);
@@ -424,7 +433,7 @@ public class UCrop {
         }
 
         /**
-         * @param count - crop grid columns count.
+         * @param count - crop grid columns count. 裁剪网格列计数。
          */
         public Options setCropGridColumnCount(@IntRange(from = 0) int count) {
             mOptionBundle.putInt(EXTRA_CROP_GRID_COLUMN_COUNT, count);
@@ -432,7 +441,7 @@ public class UCrop {
         }
 
         /**
-         * @param color - desired color of crop grid/guidelines
+         * @param color - desired color of crop grid/guidelines 期望的裁剪网格/指导线颜色
          */
         public Options setCropGridColor(@ColorInt int color) {
             mOptionBundle.putInt(EXTRA_CROP_GRID_COLOR, color);
@@ -440,7 +449,7 @@ public class UCrop {
         }
 
         /**
-         * @param width - desired width of crop grid lines in pixels
+         * @param width - desired width of crop grid lines in pixels 所需的裁剪网格线宽度(以像素为单位)
          */
         public Options setCropGridStrokeWidth(@IntRange(from = 0) int width) {
             mOptionBundle.putInt(EXTRA_CROP_GRID_STROKE_WIDTH, width);
@@ -448,7 +457,7 @@ public class UCrop {
         }
 
         /**
-         * @param color - desired resolved color of the toolbar
+         * @param color - desired resolved color of the toolbar 工具栏所需的已解析颜色
          */
         public Options setToolbarColor(@ColorInt int color) {
             mOptionBundle.putInt(EXTRA_TOOL_BAR_COLOR, color);
@@ -456,7 +465,7 @@ public class UCrop {
         }
 
         /**
-         * @param color - desired resolved color of the statusbar
+         * @param color - desired resolved color of the statusbar 状态栏所需的解析颜色
          */
         public Options setStatusBarColor(@ColorInt int color) {
             mOptionBundle.putInt(EXTRA_STATUS_BAR_COLOR, color);
@@ -464,7 +473,7 @@ public class UCrop {
         }
 
         /**
-         * @param color - desired resolved color of the active and selected widget (default is orange) and progress wheel middle line
+         * @param color - desired resolved color of the active and selected widget (default is orange) and progress wheel middle line 状态栏所需的解析颜色
          */
         public Options setActiveWidgetColor(@ColorInt int color) {
             mOptionBundle.putInt(EXTRA_UCROP_COLOR_WIDGET_ACTIVE, color);
@@ -472,7 +481,7 @@ public class UCrop {
         }
 
         /**
-         * @param color - desired resolved color of Toolbar text and buttons (default is darker orange)
+         * @param color - desired resolved color of Toolbar text and buttons (default is darker orange) 工具栏文本和按钮的理想颜色(默认为深橙色)
          */
         public Options setToolbarWidgetColor(@ColorInt int color) {
             mOptionBundle.putInt(EXTRA_UCROP_WIDGET_COLOR_TOOLBAR, color);
@@ -480,7 +489,7 @@ public class UCrop {
         }
 
         /**
-         * @param openWhiteStatusBar - Change the status bar font color
+         * @param openWhiteStatusBar - Change the status bar font color —修改状态栏字体颜色
          */
         public Options isOpenWhiteStatusBar(boolean openWhiteStatusBar) {
             mOptionBundle.putBoolean(EXTRA_UCROP_WIDGET_CROP_OPEN_WHITE_STATUSBAR, openWhiteStatusBar);
@@ -488,7 +497,7 @@ public class UCrop {
         }
 
         /**
-         * @param text - desired text for Toolbar title
+         * @param text - desired text for Toolbar title 工具栏标题所需的文本
          */
         public Options setToolbarTitle(@Nullable String text) {
             mOptionBundle.putString(EXTRA_UCROP_TITLE_TEXT_TOOLBAR, text);
@@ -496,15 +505,15 @@ public class UCrop {
         }
 
         /**
-         * @param drawable - desired drawable for the Toolbar left cancel icon
+         * @param drawable - desired drawable for the Toolbar left cancel icon 所需绘制的工具栏左取消icom
          */
         public Options setToolbarCancelDrawable(@DrawableRes int drawable) {
             mOptionBundle.putInt(EXTRA_UCROP_WIDGET_CANCEL_DRAWABLE, drawable);
             return this;
         }
 
-        /**
-         * @param drawable - desired drawable for the Toolbar right crop icon
+         /**
+         * @param drawable - desired drawable for the Toolbar right crop icon 所需绘制工具栏右侧裁剪图标
          */
         public Options setToolbarCropDrawable(@DrawableRes int drawable) {
             mOptionBundle.putInt(EXTRA_UCROP_WIDGET_CROP_DRAWABLE, drawable);
@@ -512,7 +521,7 @@ public class UCrop {
         }
 
         /**
-         * @param color - desired resolved color of logo fill (default is darker grey)
+         * @param color - desired resolved color of logo fill (default is darker grey) 理想的Logo填充颜色(默认为深灰色)
          */
         public Options setLogoColor(@ColorInt int color) {
             mOptionBundle.putInt(EXTRA_UCROP_LOGO_COLOR, color);
@@ -520,7 +529,7 @@ public class UCrop {
         }
 
         /**
-         * @param -set cuts path
+         * @param -set cuts path 设置切割路径
          */
         public Options setCutListData(ArrayList<String> list) {
             mOptionBundle.putStringArrayList(EXTRA_CUT_CROP, list);
@@ -528,7 +537,7 @@ public class UCrop {
         }
 
         /**
-         * @param enabled - set to true to let user resize crop bounds (disabled by default)
+         * @param enabled - set to true to let user resize crop bounds (disabled by default) 设置为true允许用户调整裁剪边界大小(默认禁用)
          */
         public Options setFreeStyleCropEnabled(boolean enabled) {
             mOptionBundle.putBoolean(EXTRA_FREE_STYLE_CROP, enabled);
@@ -536,7 +545,7 @@ public class UCrop {
         }
 
         /**
-         * @param statusFont - Set status bar black
+         * @param statusFont - Set status bar black 设置状态栏为黑色
          */
         public Options setStatusFont(boolean statusFont) {
             mOptionBundle.putBoolean(EXTRA_FREE_STATUS_FONT, statusFont);
@@ -545,6 +554,7 @@ public class UCrop {
 
         /**
          * Pass an ordered list of desired aspect ratios that should be available for a user.
+         * 传递用户可用的所需长宽比的有序列表。
          *
          * @param selectedByDefault - index of aspect ratio option that is selected by default (starts with 0).
          * @param aspectRatio       - list of aspect ratio options that are available to user
@@ -562,6 +572,7 @@ public class UCrop {
 
         /**
          * @param color - desired background color that should be applied to the root view
+         * 应该应用于根视图的所需背景色
          */
         public Options setRootViewBackgroundColor(@ColorInt int color) {
             mOptionBundle.putInt(EXTRA_UCROP_ROOT_VIEW_BACKGROUND_COLOR, color);
@@ -571,6 +582,7 @@ public class UCrop {
         /**
          * Set an aspect ratio for crop bounds.
          * User won't see the menu with other ratios options.
+         * 设置裁剪边界的宽高比。用户将看不到其他比例选项的菜单。
          *
          * @param x aspect ratio X
          * @param y aspect ratio Y
@@ -584,6 +596,7 @@ public class UCrop {
         /**
          * Set an aspect ratio for crop bounds that is evaluated from source image width and height.
          * User won't see the menu with other ratios options.
+         * 设置从源图像宽度和高度计算的裁剪边界的宽高比。用户将看不到其他比例选项的菜单。
          */
         public Options useSourceImageAspectRatio() {
             mOptionBundle.putFloat(EXTRA_ASPECT_RATIO_X, 0);
@@ -593,6 +606,7 @@ public class UCrop {
 
         /**
          * Set maximum size for result cropped image.
+         * 设置结果裁剪图像的最大尺寸。
          *
          * @param width  max cropped image width
          * @param height max cropped image height
@@ -604,7 +618,7 @@ public class UCrop {
         }
 
         /**
-         * @param activityCropExitAnimation activity exit animation
+         * @param activityCropExitAnimation activity exit animation 活动退出动画
          */
         public Options setCropExitAnimation(@AnimRes int activityCropExitAnimation) {
             mOptionBundle.putInt(EXTRA_WINDOW_EXIT_ANIMATION, activityCropExitAnimation);
@@ -612,12 +626,11 @@ public class UCrop {
         }
 
         /**
-         * @param navBarColor set NavBar Color
+         * @param navBarColor set NavBar Color 活动退出动画
          */
         public Options setNavBarColor(@ColorInt int navBarColor) {
             mOptionBundle.putInt(EXTRA_NAV_BAR_COLOR, navBarColor);
             return this;
         }
     }
-
 }

@@ -23,7 +23,7 @@ class AlbumPreviewActivity : BasePreviewActivity(), IAlbumLoadListener {
         super.setViewData()
         _albumSelectionCursorLoaderCallbacks.onCreate(this, this)
         val album = intent.getParcelableExtra<Album>(CImageKMatisse.EXTRA_ALBUM) ?: return
-        _albumSelectionCursorLoaderCallbacks.load(album)
+        _albumSelectionCursorLoaderCallbacks.loadAlbum(album)
         val item = intent.getParcelableExtra<Media>(CImageKMatisse.EXTRA_ITEM)
         checkView?.apply {
             if (selection?.isCountable() == true) {

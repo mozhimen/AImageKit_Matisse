@@ -31,15 +31,15 @@ fun startCrop(activity: Activity, originalPath: Uri) {
 
     val path = getPath(activity, originalPath) ?: ""
 
-    val spec = Selection.getInstance()
+    val selection = Selection.getInstance()
 
     val options = UCrop.Options()
-        .setCircleDimmedLayer(spec.isCircleCrop)
+        .setCircleDimmedLayer(selection.isCircleCrop)
         .setDragFrameEnabled(true)
         .setCompressionQuality(50)
         .setFreeStyleCropEnabled(true)
         .setShowCropFrame(true)
-        .setShowCropGrid(!spec.isCircleCrop)
+        .setShowCropGrid(!selection.isCircleCrop)
 
     val isAndroidQ = UtilKBuildVersion.isAfterV_29_10_Q()
     val imgType = if (isAndroidQ)

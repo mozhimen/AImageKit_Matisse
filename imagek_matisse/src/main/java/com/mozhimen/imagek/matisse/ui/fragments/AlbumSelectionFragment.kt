@@ -71,6 +71,7 @@ class AlbumSelectionFragment : BaseFragment(), IAlbumLoadListener, IMediaCheckSe
         return binding.root
     }
 
+    @Deprecated("Deprecated in Java")
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         val recyclerview = _vb?.recyclerview
@@ -96,7 +97,7 @@ class AlbumSelectionFragment : BaseFragment(), IAlbumLoadListener, IMediaCheckSe
         recyclerview.itemAnimator?.changeDuration = 0
         recyclerview.adapter = _mediaSelectionAdapter
         _albumSelectionCursorLoaderCallbacks.onCreate(requireActivity(), this)
-        _albumSelectionCursorLoaderCallbacks.load(_album, selection.capture)
+        _albumSelectionCursorLoaderCallbacks.loadAlbum(_album, selection.capture)
     }
 
     //////////////////////////////////////////////////////////////////////
@@ -122,14 +123,14 @@ class AlbumSelectionFragment : BaseFragment(), IAlbumLoadListener, IMediaCheckSe
     }
 
     override fun onDestroyView() {
-        super.onDestroyView()
         _albumSelectionCursorLoaderCallbacks.onDestroy()
+        super.onDestroyView()
     }
 
     //////////////////////////////////////////////////////////////////////
 
     @SuppressLint("NotifyDataSetChanged")
-    fun refreshMediaGrid() {
+    fun refreshSelectionAdapter() {
         _mediaSelectionAdapter.notifyDataSetChanged()
     }
 }
