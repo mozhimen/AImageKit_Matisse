@@ -4,9 +4,8 @@ import android.os.Bundle
 import android.util.DisplayMetrics
 import android.view.*
 import android.widget.FrameLayout
-import androidx.appcompat.app.AppCompatDialogFragment
 import com.google.android.material.bottomsheet.BottomSheetBehavior
-import com.mozhimen.basick.elemk.androidx.appcompat.bases.BaseAppCompatDialogFragment
+import com.mozhimen.basick.elemk.androidx.appcompat.bases.official.BaseAppCompatDialogFragment
 import com.mozhimen.imagek.matisse.R
 
 abstract class BaseBottomSheetDialogFragment : BaseAppCompatDialogFragment() {

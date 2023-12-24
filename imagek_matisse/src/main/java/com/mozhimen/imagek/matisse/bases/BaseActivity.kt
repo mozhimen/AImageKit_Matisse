@@ -11,7 +11,7 @@ import com.mozhimen.imagek.matisse.mos.IncapableCause
 import com.mozhimen.imagek.matisse.mos.Selection
 import com.mozhimen.imagek.matisse.utils.handleCause
 import com.mozhimen.imagek.matisse.utils.obtainAttrString
-import com.mozhimen.basick.elemk.androidx.appcompat.bases.BaseActivity
+import com.mozhimen.basick.elemk.androidx.appcompat.bases.official.BaseActivity
 
 abstract class BaseActivity : BaseActivity(), IActivity {
 
