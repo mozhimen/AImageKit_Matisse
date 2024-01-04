@@ -2,6 +2,7 @@ package com.mozhimen.imagek.matisse.widgets
 
 import android.content.Context
 import android.util.AttributeSet
+import android.view.MotionEvent
 import android.view.View
 import androidx.viewpager.widget.ViewPager
 import it.sephiroth.android.library.imagezoom.ImageViewTouch
@@ -16,5 +17,14 @@ class PreviewViewPager(context: Context, attributes: AttributeSet) : ViewPager(c
             return v.canScroll(dx) || super.canScroll(v, checkV, dx, x, y)
         }
         return super.canScroll(v, checkV, dx, x, y)
+    }
+
+    override fun onInterceptTouchEvent(ev: MotionEvent?): Boolean {
+        return try {
+            super.onInterceptTouchEvent(ev)
+        } catch (e: Exception) {
+            e.printStackTrace()
+            false
+        }
     }
 }
