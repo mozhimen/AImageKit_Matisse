@@ -10,7 +10,7 @@ android {
 
     defaultConfig {
         applicationId "com.mozhimen.imagek.matisse.test"
-        minSdk 24
+        minSdk 19
         targetSdk 33
         versionCode 1
         versionName "1.0"
@@ -43,7 +43,7 @@ dependencies {
     implementation 'com.google.android.material:material:1.9.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
     implementation project(':imagek_matisse')
-    implementation project(':AManifestKit_XXPermission:manifestK_xxpermission')
+    implementation project(':AManifestKit_XXPermissions:manifestK_xxpermissions')
     implementation project(':SwiftKit:basick')
     implementation project(':SwiftKit:uicorek')
     implementation project(':SwiftKit:debugk')

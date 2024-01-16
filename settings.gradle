@@ -30,9 +30,10 @@ include ':SwiftKit:debugk'
 include ':SwiftKit:underlayk'
 include ':SwiftKit:componentk'
 //AManifestKit_XXPermission
-include(':AManifestKit_XXPermission')
-project(':AManifestKit_XXPermission').projectDir = new File("D:\\WorkSpace\\GitHub\\AManifestKit_XXPermission")
-include(':AManifestKit_XXPermission:manifestK_xxpermission')
+include(':AManifestKit_XXPermissions')
+project(':AManifestKit_XXPermissions').projectDir = new File("D:\\WorkSpace\\GitHub\\AManifestKit_XXPermissions")
+include(':AManifestKit_XXPermissions:manifestK_xxpermissions')
+include(':AManifestKit_XXPermissions:library')
 //AImageKit_Ucrop
 include(':AImageKit_Ucrop')
 project(':AImageKit_Ucrop').projectDir = new File("D:\\WorkSpace\\GitHub\\AImageKit_Ucrop")
