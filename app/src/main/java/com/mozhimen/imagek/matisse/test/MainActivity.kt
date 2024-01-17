@@ -5,7 +5,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.pm.ActivityInfo
 import android.os.Bundle
-import com.mozhimen.basick.elemk.androidx.appcompat.bases.BaseActivityVB
+import com.mozhimen.basick.elemk.androidx.appcompat.bases.databinding.BaseActivityVB
 import com.mozhimen.basick.elemk.commons.I_Listener
 import com.mozhimen.basick.utilk.android.content.UtilKPackage
 import com.mozhimen.imagek.matisse.impls.GlideImageEngine
@@ -16,7 +16,7 @@ import com.mozhimen.basick.utilk.kotlin.collections.ifNotEmpty
 import com.mozhimen.imagek.matisse.ImageKMatisseSelectionBuilder
 import com.mozhimen.imagek.matisse.cons.CImageKMatisse
 import com.mozhimen.imagek.matisse.test.databinding.ActivityMainBinding
-import com.mozhimen.manifestk.xxpermission.XXPermissionUtil
+import com.mozhimen.manifestk.xxpermissions.XXPermissionsUtil
 import com.mozhimen.basick.utilk.android.net.uri2strFilePathName
 import com.mozhimen.uicorek.adaptk.systembar.cons.CPropertyOr
 import com.mozhimen.uicorek.adaptk.systembar.initAdaptKSystemBar
@@ -98,15 +98,15 @@ class MainActivity : BaseActivityVB<ActivityMainBinding>() {
     }
 
     private fun startPermissionReadWrite(context: Context, allGrant: I_Listener? = null) {
-        if (XXPermissionUtil.hasReadWritePermission(context)) {
+        if (XXPermissionsUtil.hasReadWritePermission(context)) {
             allGrant?.invoke()
         } else {
-            XXPermissionUtil.requestReadWritePermission(context,
+            XXPermissionsUtil.requestReadWritePermission(context,
                 onGranted = {
                     allGrant?.invoke()
                 },
                 onDenied = {
-                    XXPermissionUtil.startSettingManageStorage(context)
+                    XXPermissionsUtil.startSettingManageStorage(context)
                 }
             )
         }

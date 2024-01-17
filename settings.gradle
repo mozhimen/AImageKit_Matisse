@@ -32,7 +32,7 @@ include ':SwiftKit:componentk'
 //AManifestKit_XXPermission
 include(':AManifestKit_XXPermissions')
 project(':AManifestKit_XXPermissions').projectDir = new File("D:\\WorkSpace\\GitHub\\AManifestKit_XXPermissions")
-include(':AManifestKit_XXPermissions:manifestK_xxpermissions')
+include(':AManifestKit_XXPermissions:manifestk_xxpermissions')
 include(':AManifestKit_XXPermissions:library')
 //AImageKit_Ucrop
 include(':AImageKit_Ucrop')
