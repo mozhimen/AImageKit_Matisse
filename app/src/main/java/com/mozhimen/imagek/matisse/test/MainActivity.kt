@@ -1,5 +1,6 @@
 package com.mozhimen.imagek.matisse.test
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
@@ -16,8 +17,10 @@ import com.mozhimen.basick.utilk.kotlin.collections.ifNotEmpty
 import com.mozhimen.imagek.matisse.ImageKMatisseSelectionBuilder
 import com.mozhimen.imagek.matisse.cons.CImageKMatisse
 import com.mozhimen.imagek.matisse.test.databinding.ActivityMainBinding
-import com.mozhimen.manifestk.xxpermissions.XXPermissionsUtil
 import com.mozhimen.basick.utilk.android.net.uri2strFilePathName
+import com.mozhimen.manifestk.xxpermissions.XXPermissionsCheckUtil
+import com.mozhimen.manifestk.xxpermissions.XXPermissionsNavHostUtil
+import com.mozhimen.manifestk.xxpermissions.XXPermissionsRequestUtil
 import com.mozhimen.uicorek.adaptk.systembar.cons.CPropertyOr
 import com.mozhimen.uicorek.adaptk.systembar.initAdaptKSystemBar
 
@@ -97,16 +100,17 @@ class MainActivity : BaseActivityVB<ActivityMainBinding>() {
 
     }
 
+    @SuppressLint("MissingPermission")
     private fun startPermissionReadWrite(context: Context, allGrant: I_Listener? = null) {
-        if (XXPermissionsUtil.hasReadWritePermission(context)) {
+        if (XXPermissionsCheckUtil.hasReadWritePermission(context)) {
             allGrant?.invoke()
         } else {
-            XXPermissionsUtil.requestReadWritePermission(context,
+            XXPermissionsRequestUtil.requestReadWritePermission(context,
                 onGranted = {
                     allGrant?.invoke()
                 },
                 onDenied = {
-                    XXPermissionsUtil.startSettingManageStorage(context)
+                    XXPermissionsNavHostUtil.startSettingManageStorage(context)
                 }
             )
         }
