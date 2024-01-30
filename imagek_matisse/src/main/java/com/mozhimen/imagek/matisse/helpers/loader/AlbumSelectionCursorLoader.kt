@@ -6,6 +6,7 @@ import android.database.MatrixCursor
 import android.database.MergeCursor
 import android.provider.MediaStore
 import androidx.loader.content.CursorLoader
+import com.mozhimen.basick.utilk.android.content.UtilKPackage
 import com.mozhimen.imagek.matisse.mos.Album
 import com.mozhimen.imagek.matisse.mos.Media
 import com.mozhimen.imagek.matisse.mos.Selection
@@ -122,7 +123,7 @@ class AlbumSelectionCursorLoader(
 
     override fun loadInBackground(): Cursor? {
         val result = super.loadInBackground()
-        if (!enableCapture || !UtilKPackageManager.hasBackCamera(context)) {
+        if (!enableCapture || !UtilKPackage.hasBackCamera(context)) {
             return result
         }
         val dummy = MatrixCursor(PROJECTION)

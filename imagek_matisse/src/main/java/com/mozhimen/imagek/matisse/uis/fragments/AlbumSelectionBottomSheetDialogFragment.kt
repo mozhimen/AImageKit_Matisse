@@ -44,7 +44,7 @@ class AlbumSelectionBottomSheetDialogFragment : BaseBottomSheetDialogFragment() 
     override fun getContentView(inflater: LayoutInflater, container: ViewGroup): View {
         if (_containerView == null) {
             _containerView = inflater.inflate(R.layout.fragment_dialog_bottom_sheet_album, container, false)
-            setDefaultHeight(UtilKScreen.getHeightOfDefaultDisplay() / 2)
+            setDefaultHeight(UtilKScreen.getHeight_ofDefMetrics() / 2)
             initView()
         } else {
             if (_containerView?.parent != null) {
@@ -61,7 +61,7 @@ class AlbumSelectionBottomSheetDialogFragment : BaseBottomSheetDialogFragment() 
         _recyclerView = _containerView?.findViewById(R.id.recyclerview)!!
         _recyclerView.layoutManager = LinearLayoutManager(context)
         _recyclerView.setHasFixedSize(true)
-        _recyclerView.layoutParams.height = UtilKScreen.getHeightOfDefaultDisplay() / 2
+        _recyclerView.layoutParams.height = UtilKScreen.getHeight_ofDefMetrics() / 2
         albumSelectionAdapter = AlbumSelectionAdapter(requireContext(), _currentPosition).apply {
             _recyclerView.adapter = this
             folderBottomSheetListener?.onInitData(this)
