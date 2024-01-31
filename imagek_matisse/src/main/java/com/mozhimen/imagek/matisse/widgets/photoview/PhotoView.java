@@ -23,6 +23,7 @@ import android.net.Uri;
 import android.util.AttributeSet;
 import android.view.GestureDetector;
 
+import androidx.annotation.DrawableRes;
 import androidx.appcompat.widget.AppCompatImageView;
 
 import com.mozhimen.imagek.matisse.widgets.photoview.commons.IOnMatrixChangedListener;
@@ -118,8 +119,8 @@ public class PhotoView extends AppCompatImageView {
     }
 
     @Override
-    public void setImageResource(int resId) {
-        super.setImageResource(resId);
+    public void setImageResource(@DrawableRes  int intResDrawable) {
+        super.setImageResource(intResDrawable);
         if (attacher != null) {
             attacher.update();
         }
