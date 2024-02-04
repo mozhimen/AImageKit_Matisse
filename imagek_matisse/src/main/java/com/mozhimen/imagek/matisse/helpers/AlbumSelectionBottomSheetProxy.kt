@@ -6,15 +6,15 @@ import android.os.Environment
 import androidx.fragment.app.FragmentActivity
 import androidx.lifecycle.LifecycleOwner
 import com.mozhimen.basick.elemk.androidx.lifecycle.bases.BaseWakeBefDestroyLifecycleObserver
-import com.mozhimen.basick.lintk.optin.OptInApiCall_BindLifecycle
-import com.mozhimen.basick.lintk.optin.OptInApiInit_ByLazy
+import com.mozhimen.basick.lintk.optins.OApiCall_BindLifecycle
+import com.mozhimen.basick.lintk.optins.OApiInit_ByLazy
 import com.mozhimen.imagek.matisse.R
 import com.mozhimen.imagek.matisse.commons.IAlbumBottomSheetListener
 import com.mozhimen.imagek.matisse.mos.Album
 import com.mozhimen.imagek.matisse.uis.fragments.AlbumSelectionBottomSheetDialogFragment
 
-@OptInApiInit_ByLazy
-@OptInApiCall_BindLifecycle
+@OApiInit_ByLazy
+@OApiCall_BindLifecycle
 class AlbumSelectionBottomSheetProxy(
     private var _fragmentActivity: FragmentActivity
 ) : BaseWakeBefDestroyLifecycleObserver() {

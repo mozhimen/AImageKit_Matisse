@@ -31,8 +31,8 @@ import com.mozhimen.imagek.matisse.uis.adapters.AlbumSelectionAdapter
 import com.mozhimen.imagek.matisse.uis.fragments.AlbumSelectionFragment
 import com.mozhimen.imagek.matisse.widgets.CheckRadioView
 import com.mozhimen.basick.elemk.android.provider.MediaStoreCaptureProxy
-import com.mozhimen.basick.lintk.optin.OptInApiCall_BindLifecycle
-import com.mozhimen.basick.lintk.optin.OptInApiInit_ByLazy
+import com.mozhimen.basick.lintk.optins.OApiCall_BindLifecycle
+import com.mozhimen.basick.lintk.optins.OApiInit_ByLazy
 import com.mozhimen.imagek.matisse.commons.IMediaCheckSelectSateListener
 import com.mozhimen.imagek.matisse.commons.IMediaClickListener
 import com.mozhimen.imagek.matisse.commons.IMediaPhotoCapture
@@ -62,7 +62,7 @@ class MatisseActivity : BaseActivity(),
     private var _albumLoadProxy: AlbumLoadProxy? = null
     private lateinit var _mediaSelectionProxy: MediaSelectionProxy
 
-    @OptIn(OptInApiInit_ByLazy::class, OptInApiCall_BindLifecycle::class)
+    @OptIn(OApiInit_ByLazy::class, OApiCall_BindLifecycle::class)
     private val _albumSelectionBottomSheetProxy: AlbumSelectionBottomSheetProxy by lazy { AlbumSelectionBottomSheetProxy(this) }
 
     //////////////////////////////////////////////////////////
@@ -84,7 +84,7 @@ class MatisseActivity : BaseActivity(),
 
     //////////////////////////////////////////////////////////
 
-    @OptIn(OptInApiInit_ByLazy::class, OptInApiCall_BindLifecycle::class)
+    @OptIn(OApiInit_ByLazy::class, OApiCall_BindLifecycle::class)
     private var _albumLoadListener = object : IAlbumLoadListener {
         override fun onAlbumStart() {
             // do nothing
@@ -107,7 +107,7 @@ class MatisseActivity : BaseActivity(),
         }
     }
 
-    @OptIn(OptInApiInit_ByLazy::class, OptInApiCall_BindLifecycle::class)
+    @OptIn(OApiInit_ByLazy::class, OApiCall_BindLifecycle::class)
     private var _folderBottomSheetListener = object : IAlbumBottomSheetListener {
         override fun onInitData(adapter: AlbumSelectionAdapter) {
             adapter.setListData(_albumSelectionBottomSheetProxy.readAlbumFromCursor())
@@ -171,7 +171,7 @@ class MatisseActivity : BaseActivity(),
 
     override fun getResourceLayoutId() = R.layout.activity_matisse
 
-    @OptIn(OptInApiInit_ByLazy::class, OptInApiCall_BindLifecycle::class)
+    @OptIn(OApiInit_ByLazy::class, OApiCall_BindLifecycle::class)
     override fun setViewData() {
         _buttonApply.setText(getAttrString(R.attr.BottomBarAlbum_Text, R.string.album_name_all))
         _mediaSelectionProxy = MediaSelectionProxy(this).apply { onCreate(savedInstanceState) }
@@ -226,7 +226,7 @@ class MatisseActivity : BaseActivity(),
         }
     }
 
-    @OptIn(OptInApiInit_ByLazy::class, OptInApiCall_BindLifecycle::class)
+    @OptIn(OApiInit_ByLazy::class, OApiCall_BindLifecycle::class)
     override fun onClick(v: View?) {
         when (v) {
             _buttonBack -> onBackPressed()
@@ -332,7 +332,7 @@ class MatisseActivity : BaseActivity(),
     /**
      * 处理拍照的[onActivityResult]
      */
-    @OptIn(OptInApiInit_ByLazy::class, OptInApiCall_BindLifecycle::class)
+    @OptIn(OApiInit_ByLazy::class, OApiCall_BindLifecycle::class)
     private fun doActivityResultFromCapture() {
         val capturePathUri = _mediaStoreCaptureProxy?.getCurrentPhotoUri() ?: return
         val capturePath = _mediaStoreCaptureProxy?.getCurrentPhotoStrPath() ?: return
