@@ -33,6 +33,7 @@ import com.mozhimen.imagek.matisse.widgets.CheckRadioView
 import com.mozhimen.basick.elemk.android.provider.MediaStoreCaptureProxy
 import com.mozhimen.basick.lintk.optins.OApiCall_BindLifecycle
 import com.mozhimen.basick.lintk.optins.OApiInit_ByLazy
+import com.mozhimen.basick.lintk.optins.permission.OPermission_QUERY_ALL_PACKAGES
 import com.mozhimen.imagek.matisse.commons.IMediaCheckSelectSateListener
 import com.mozhimen.imagek.matisse.commons.IMediaClickListener
 import com.mozhimen.imagek.matisse.commons.IMediaPhotoCapture
@@ -191,6 +192,7 @@ class MatisseActivity : BaseActivity(),
         )
     }
 
+    @OptIn(OPermission_QUERY_ALL_PACKAGES::class)
     override fun onCapture() {
         _mediaStoreCaptureProxy?.dispatchCaptureIntent(this, CImageKMatisse.REQUEST_CODE_CAPTURE)
     }
