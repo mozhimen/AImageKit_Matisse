@@ -21,8 +21,8 @@ import com.mozhimen.basick.utilk.android.net.uri2strFilePathName
 import com.mozhimen.manifestk.xxpermissions.XXPermissionsCheckUtil
 import com.mozhimen.manifestk.xxpermissions.XXPermissionsNavHostUtil
 import com.mozhimen.manifestk.xxpermissions.XXPermissionsRequestUtil
-import com.mozhimen.uicorek.adaptk.systembar.cons.CPropertyOr
-import com.mozhimen.uicorek.adaptk.systembar.initAdaptKSystemBar
+import com.mozhimen.adaptk.systembar.cons.CPropertyOr
+import com.mozhimen.adaptk.systembar.initAdaptKSystemBar
 
 class MainActivity : BaseActivityVB<ActivityMainBinding>() {
     private var _selectionBuilder: ImageKMatisseSelectionBuilder? = null
