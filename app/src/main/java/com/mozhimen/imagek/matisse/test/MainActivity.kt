@@ -6,7 +6,7 @@ import android.content.Context
 import android.content.Intent
 import android.content.pm.ActivityInfo
 import android.os.Bundle
-import com.mozhimen.basick.elemk.androidx.appcompat.bases.databinding.BaseActivityVB
+import com.mozhimen.basick.elemk.androidx.appcompat.bases.databinding.BaseActivityVDB
 import com.mozhimen.basick.elemk.commons.I_Listener
 import com.mozhimen.basick.utilk.android.content.UtilKPackage
 import com.mozhimen.imagek.matisse.impls.GlideImageEngine
@@ -24,7 +24,7 @@ import com.mozhimen.manifestk.xxpermissions.XXPermissionsRequestUtil
 import com.mozhimen.adaptk.systembar.cons.CPropertyOr
 import com.mozhimen.adaptk.systembar.initAdaptKSystemBar
 
-class MainActivity : BaseActivityVB<ActivityMainBinding>() {
+class MainActivity : BaseActivityVDB<ActivityMainBinding>() {
     private var _selectionBuilder: ImageKMatisseSelectionBuilder? = null
     private var _imagePathName:String? = ""
     override fun initData(savedInstanceState: Bundle?) {
@@ -35,7 +35,7 @@ class MainActivity : BaseActivityVB<ActivityMainBinding>() {
 
     override fun initView(savedInstanceState: Bundle?) {
         createMatisse()
-        vb.mainBtnSelect.setOnClickListener {
+        vdb.mainBtnSelect.setOnClickListener {
             _selectionBuilder?.forResult(CImageKMatisse.REQUEST_CODE_CHOOSE)
         }
     }
@@ -59,7 +59,7 @@ class MainActivity : BaseActivityVB<ActivityMainBinding>() {
         uriList?.ifNotEmpty {
             _imagePathName = it[0].uri2strFilePathName()
             if (!_imagePathName.isNullOrEmpty()) {
-                com.mozhimen.basick.imagek.glide.ImageKGlide.loadImageCircleGlide(vb.mainImg,_imagePathName, com.mozhimen.uicorek.R.color.cok_white,com.mozhimen.uicorek.R.color.cok_white)
+                com.mozhimen.basick.imagek.glide.ImageKGlide.loadImageCircleGlide(vdb.mainImg,_imagePathName, com.mozhimen.uicorek.R.color.cok_white,com.mozhimen.uicorek.R.color.cok_white)
             }
         }
     }
