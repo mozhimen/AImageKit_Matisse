@@ -25,7 +25,7 @@ include ':imagek_matisse'
 include ':SwiftKit'
 project(':SwiftKit').projectDir = new File("C:\\Users\\${System.getenv().get("USERNAME")}\\Documents\\GitHub\\SwiftKit")
 include ':SwiftKit:basick'
-include ':SwiftKit:uicorek'
+include ':SwiftKit:xmlk'
 //AManifestKit_XXPermission
 include(':AManifestKit_XXPermissions')
 project(':AManifestKit_XXPermissions').projectDir = new File("D:\\WorkSpace\\GitHub\\AManifestKit_XXPermissions")

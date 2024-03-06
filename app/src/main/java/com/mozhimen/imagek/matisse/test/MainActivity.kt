@@ -59,7 +59,7 @@ class MainActivity : BaseActivityVDB<ActivityMainBinding>() {
         uriList?.ifNotEmpty {
             _imagePathName = it[0].uri2strFilePathName()
             if (!_imagePathName.isNullOrEmpty()) {
-                com.mozhimen.basick.imagek.glide.ImageKGlide.loadImageCircleGlide(vdb.mainImg,_imagePathName, com.mozhimen.uicorek.R.color.cok_white,com.mozhimen.uicorek.R.color.cok_white)
+                com.mozhimen.basick.imagek.glide.ImageKGlide.loadImageCircleGlide(vdb.mainImg,_imagePathName, com.mozhimen.xmlk.R.color.cok_white,com.mozhimen.xmlk.R.color.cok_white)
             }
         }
     }

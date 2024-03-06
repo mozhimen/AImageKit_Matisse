@@ -47,7 +47,7 @@ dependencies {
     implementation project(':imagek_matisse')
     implementation project(':AManifestKit_XXPermissions:manifestK_xxpermissions')
     implementation project(':SwiftKit:basick')
-    implementation project(':SwiftKit:uicorek')
+    implementation project(':SwiftKit:xmlk')
 
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
