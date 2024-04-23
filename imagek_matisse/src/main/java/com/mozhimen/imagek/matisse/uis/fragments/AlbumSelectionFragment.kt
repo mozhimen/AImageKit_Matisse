@@ -5,6 +5,7 @@ import android.content.Context
 import android.database.Cursor
 import android.os.Bundle
 import android.util.Log
+import com.mozhimen.basick.utilk.android.util.UtilKLogWrapper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -77,7 +78,7 @@ class AlbumSelectionFragment : BaseFragment(), IAlbumLoadListener, IMediaCheckSe
         val recyclerview = _vb?.recyclerview
         recyclerview ?: return
         _album = arguments?.getParcelable(CImageKMatisse.EXTRA_ALBUM)!!
-        Log.d(TAG, "onActivityCreated: _album $_album")
+        UtilKLogWrapper.d(TAG, "onActivityCreated: _album $_album")
 
         _mediaSelectionAdapter = MediaSelectionAdapter(requireContext(), _mediaSelectionProvider.provideMediaSelectionProxy(), recyclerview)
         _mediaSelectionAdapter.onMediaCheckSelectSateListener = this

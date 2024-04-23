@@ -2,6 +2,7 @@ package com.mozhimen.imagek.matisse.uis.fragments
 
 import android.os.Bundle
 import android.util.Log
+import com.mozhimen.basick.utilk.android.util.UtilKLogWrapper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -70,7 +71,7 @@ class AlbumSelectionBottomSheetDialogFragment : BaseBottomSheetDialogFragment() 
                 override fun onItemClick(view: View, position: Int) {
                     dismiss()
                     if (albumList.isNotEmpty()){
-                        Log.d(TAG, "onItemClick: albumList size ${albumList.size}")
+                        UtilKLogWrapper.d(TAG, "onItemClick: albumList size ${albumList.size}")
                     }
                     folderBottomSheetListener?.onItemClick(albumList[position], position)
                 }

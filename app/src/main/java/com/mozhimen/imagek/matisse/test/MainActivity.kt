@@ -44,7 +44,7 @@ class MainActivity : BaseActivityVDB<ActivityMainBinding>() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode != Activity.RESULT_OK) return
-        android.util.Log.d(TAG, "onActivityResult: requestCode $requestCode, resultCode $resultCode")
+        android.util.UtilKLogWrapper.d(TAG, "onActivityResult: requestCode $requestCode, resultCode $resultCode")
         when (requestCode) {
             CImageKMatisse.REQUEST_CODE_CHOOSE -> doActivityResultForChoose(data)
 //            ImageKMatisseCons.REQUEST_CODE_CAPTURE -> doActivityResultForCapture()
