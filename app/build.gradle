@@ -48,6 +48,8 @@ dependencies {
     implementation project(':AManifestKit_XXPermissions:manifestK_xxpermissions')
     implementation project(':SwiftKit:basick')
     implementation project(':SwiftKit:xmlk')
+    implementation project(':AAdaptKit:adaptk_systembar')
+    implementation project(':AImageKit:imagek_glide')
 
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'

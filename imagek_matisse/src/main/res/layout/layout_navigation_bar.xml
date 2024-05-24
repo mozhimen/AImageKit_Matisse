@@ -32,7 +32,7 @@
     <TextView
         android:id="@+id/title"
         style="@style/singleLineText"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:foreground="?selectableItemBackground"
@@ -42,8 +42,9 @@
         android:textSize="?attr/Navigation_TextSizeTitle"
         android:textStyle="?attr/Navigation_TextStyleTitle"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toRightOf="@id/button_back"
+        app:layout_constraintRight_toLeftOf="@id/button_complete"
+        tools:text="11111111111111111111111111111111111"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView

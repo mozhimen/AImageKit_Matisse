@@ -23,6 +23,11 @@ import com.mozhimen.manifestk.xxpermissions.XXPermissionsNavHostUtil
 import com.mozhimen.manifestk.xxpermissions.XXPermissionsRequestUtil
 import com.mozhimen.adaptk.systembar.cons.CPropertyOr
 import com.mozhimen.adaptk.systembar.initAdaptKSystemBar
+import com.mozhimen.basick.lintk.optins.permission.OPermission_MANAGE_EXTERNAL_STORAGE
+import com.mozhimen.basick.lintk.optins.permission.OPermission_READ_EXTERNAL_STORAGE
+import com.mozhimen.basick.lintk.optins.permission.OPermission_WRITE_EXTERNAL_STORAGE
+import com.mozhimen.basick.utilk.android.util.UtilKLogWrapper
+import com.mozhimen.imagek.glide.ImageKGlide
 
 class MainActivity : BaseActivityVDB<ActivityMainBinding>() {
     private var _selectionBuilder: ImageKMatisseSelectionBuilder? = null
@@ -44,7 +49,7 @@ class MainActivity : BaseActivityVDB<ActivityMainBinding>() {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (resultCode != Activity.RESULT_OK) return
-        android.util.UtilKLogWrapper.d(TAG, "onActivityResult: requestCode $requestCode, resultCode $resultCode")
+        UtilKLogWrapper.d(TAG, "onActivityResult: requestCode $requestCode, resultCode $resultCode")
         when (requestCode) {
             CImageKMatisse.REQUEST_CODE_CHOOSE -> doActivityResultForChoose(data)
 //            ImageKMatisseCons.REQUEST_CODE_CAPTURE -> doActivityResultForCapture()
@@ -59,7 +64,7 @@ class MainActivity : BaseActivityVDB<ActivityMainBinding>() {
         uriList?.ifNotEmpty {
             _imagePathName = it[0].uri2strFilePathName()
             if (!_imagePathName.isNullOrEmpty()) {
-                com.mozhimen.basick.imagek.glide.ImageKGlide.loadImageCircleGlide(vdb.mainImg,_imagePathName, com.mozhimen.xmlk.R.color.cok_white,com.mozhimen.xmlk.R.color.cok_white)
+                ImageKGlide.loadImageCircle_ofGlide(vdb.mainImg,_imagePathName, com.mozhimen.xmlk.R.color.cok_white,com.mozhimen.xmlk.R.color.cok_white)
             }
         }
     }
@@ -100,6 +105,7 @@ class MainActivity : BaseActivityVDB<ActivityMainBinding>() {
 
     }
 
+    @OptIn(OPermission_READ_EXTERNAL_STORAGE::class, OPermission_WRITE_EXTERNAL_STORAGE::class, OPermission_MANAGE_EXTERNAL_STORAGE::class)
     @SuppressLint("MissingPermission")
     private fun startPermissionReadWrite(context: Context, allGrant: I_Listener? = null) {
         if (XXPermissionsCheckUtil.hasReadWritePermission(context)) {
