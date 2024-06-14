@@ -34,6 +34,7 @@ import com.mozhimen.basick.elemk.android.provider.MediaStoreCaptureProxy
 import com.mozhimen.basick.lintk.optins.OApiCall_BindLifecycle
 import com.mozhimen.basick.lintk.optins.OApiInit_ByLazy
 import com.mozhimen.basick.lintk.optins.permission.OPermission_QUERY_ALL_PACKAGES
+import com.mozhimen.basick.utilk.kotlin.UtilKLazyJVM.lazy_ofNone
 import com.mozhimen.imagek.matisse.commons.IMediaCheckSelectSateListener
 import com.mozhimen.imagek.matisse.commons.IMediaClickListener
 import com.mozhimen.imagek.matisse.commons.IMediaPhotoCapture
@@ -64,7 +65,7 @@ class MatisseActivity : BaseActivity(),
     private lateinit var _mediaSelectionProxy: MediaSelectionProxy
 
     @OptIn(OApiInit_ByLazy::class, OApiCall_BindLifecycle::class)
-    private val _albumSelectionBottomSheetProxy: AlbumSelectionBottomSheetProxy by lazy { AlbumSelectionBottomSheetProxy(this) }
+    private val _albumSelectionBottomSheetProxy: AlbumSelectionBottomSheetProxy by lazy_ofNone { AlbumSelectionBottomSheetProxy(this) }
 
     //////////////////////////////////////////////////////////
 
