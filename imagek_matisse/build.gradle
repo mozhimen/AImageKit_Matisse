@@ -49,6 +49,7 @@ dependencies {
     implementation project(':SwiftKit:basick')
     implementation project(':SwiftKit:xmlk')
     implementation project(':AImageKit_Ucrop:imagek_ucrop')
+    implementation project(':AXmlKit:pagerk')
 
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
