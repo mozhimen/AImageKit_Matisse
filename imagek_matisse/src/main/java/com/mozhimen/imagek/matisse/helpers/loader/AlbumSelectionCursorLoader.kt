@@ -123,7 +123,7 @@ class AlbumSelectionCursorLoader(
 
     override fun loadInBackground(): Cursor? {
         val result = super.loadInBackground()
-        if (!enableCapture || !UtilKPackage.hasBackCamera(context)) {
+        if (!enableCapture || !UtilKPackage.hasBackCamera()) {
             return result
         }
         val dummy = MatrixCursor(PROJECTION)
