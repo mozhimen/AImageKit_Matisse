@@ -8,7 +8,7 @@ import android.view.WindowManager
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.viewpager.widget.ViewPager
-import com.mozhimen.basick.utilk.android.os.UtilKBuildVersion
+import com.mozhimen.kotlin.utilk.android.os.UtilKBuildVersion
 import com.mozhimen.imagek.matisse.R
 import com.mozhimen.imagek.matisse.annors.AFormType
 import com.mozhimen.imagek.matisse.cons.CImageKMatisse

@@ -2,13 +2,13 @@ package com.mozhimen.imagek.matisse.uis.fragments
 
 import android.os.Bundle
 import android.util.Log
-import com.mozhimen.basick.utilk.android.util.UtilKLogWrapper
+import com.mozhimen.kotlin.utilk.android.util.UtilKLogWrapper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.mozhimen.basick.utilk.wrapper.UtilKScreen
+import com.mozhimen.kotlin.utilk.wrapper.UtilKScreen
 import com.mozhimen.imagek.matisse.R
 import com.mozhimen.imagek.matisse.bases.BaseBottomSheetDialogFragment
 import com.mozhimen.imagek.matisse.commons.IAlbumBottomSheetListener

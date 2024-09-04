@@ -5,7 +5,7 @@ package com.mozhimen.imagek.matisse.utils
 import android.app.Activity
 import android.content.Intent
 import android.net.Uri
-import com.mozhimen.basick.utilk.android.os.UtilKBuildVersion
+import com.mozhimen.kotlin.utilk.android.os.UtilKBuildVersion
 import com.mozhimen.imagek.matisse.cons.CImageKMatisse
 import com.mozhimen.imagek.matisse.mos.Media
 import com.mozhimen.imagek.matisse.mos.Selection

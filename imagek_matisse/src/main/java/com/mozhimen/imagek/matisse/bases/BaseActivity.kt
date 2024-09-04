@@ -4,14 +4,14 @@ import android.app.Activity
 import android.content.pm.ActivityInfo
 import android.os.Bundle
 import androidx.annotation.CallSuper
-import com.mozhimen.basick.elemk.androidx.appcompat.commons.IActivity
+import com.mozhimen.kotlin.elemk.androidx.appcompat.commons.IActivity
 import com.mozhimen.imagek.matisse.R
 import com.mozhimen.imagek.matisse.annors.AFormType
 import com.mozhimen.imagek.matisse.mos.IncapableCause
 import com.mozhimen.imagek.matisse.mos.Selection
 import com.mozhimen.imagek.matisse.utils.handleCause
 import com.mozhimen.imagek.matisse.utils.obtainAttrString
-import com.mozhimen.basick.elemk.androidx.appcompat.bases.BaseActivity
+import com.mozhimen.kotlin.elemk.androidx.appcompat.bases.BaseActivity
 
 abstract class BaseActivity : BaseActivity(), IActivity {
 

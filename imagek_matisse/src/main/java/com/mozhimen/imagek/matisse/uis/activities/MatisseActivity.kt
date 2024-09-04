@@ -30,11 +30,11 @@ import com.mozhimen.imagek.matisse.helpers.AlbumLoadProxy
 import com.mozhimen.imagek.matisse.uis.adapters.AlbumSelectionAdapter
 import com.mozhimen.imagek.matisse.uis.fragments.AlbumSelectionFragment
 import com.mozhimen.imagek.matisse.widgets.CheckRadioView
-import com.mozhimen.basick.elemk.android.provider.MediaStoreCaptureProxy
-import com.mozhimen.basick.lintk.optins.OApiCall_BindLifecycle
-import com.mozhimen.basick.lintk.optins.OApiInit_ByLazy
-import com.mozhimen.basick.lintk.optins.permission.OPermission_QUERY_ALL_PACKAGES
-import com.mozhimen.basick.utilk.kotlin.UtilKLazyJVM.lazy_ofNone
+import com.mozhimen.kotlin.elemk.android.provider.MediaStoreCaptureProxy
+import com.mozhimen.kotlin.lintk.optins.OApiCall_BindLifecycle
+import com.mozhimen.kotlin.lintk.optins.OApiInit_ByLazy
+import com.mozhimen.kotlin.lintk.optins.permission.OPermission_QUERY_ALL_PACKAGES
+import com.mozhimen.kotlin.utilk.kotlin.UtilKLazyJVM.lazy_ofNone
 import com.mozhimen.imagek.matisse.commons.IMediaCheckSelectSateListener
 import com.mozhimen.imagek.matisse.commons.IMediaClickListener
 import com.mozhimen.imagek.matisse.commons.IMediaPhotoCapture
